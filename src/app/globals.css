@@ -1,21 +1,45 @@
-:root {
-  background-color: #181818;
-  color: rgba(255, 255, 255, 0.87);
-  color-scheme: light dark;
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  font-synthesis: none;
-  font-weight: 400;
-  line-height: 1.5;
-  text-rendering: optimizeLegibility;
+@import "tailwindcss";
+@import url("https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Space+Grotesk:wght@300..700&display=swap");
+@import "tw-animate-css";
 
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-text-size-adjust: 100%;
+@layer base {
+  :root {
+    --text: #0e0514;
+    --background: #faf7fd;
+    --primary: #00095c;
+    --secondary: #b8dfff;
+    --accent: #578cff;
+    --gradient-primary: linear-gradient(135deg, #00095c 0%, #578cff 100%);
+    --gradient-secondary: linear-gradient(135deg, #b8dfff 0%, #faf7fd 100%);
+    --gradient-accent-soft: linear-gradient(120deg, #578cff 0%, #b8dfff 100%);
+    --gradient-sheen: linear-gradient(
+      90deg,
+      #faf7fd 0%,
+      #b8dfff 50%,
+      #578cff 100%
+    );
+  }
+
+  :root.dark {
+    --text: #f4ebfa;
+    --background: #050208;
+    --primary: #a3acff;
+    --secondary: #002747;
+    --accent:  #0035a8;
+    --gradient-primary: linear-gradient(135deg, #0035a8 0%, #a3acff 100%);
+    --gradient-secondary: linear-gradient(135deg, #002747 0%, #050208 100%);
+    --gradient-accent-soft: linear-gradient(120deg, #0035a8 0%, #002747 100%);
+    --gradient-sheen: linear-gradient(
+      90deg,
+      #050208 0%,
+      #002747 50%,
+      #a3acff 100%
+    );
+  }
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    background-color: #f8f8f8;
-    color: #181818;
-  }
+body {
+  padding: 0;
+  margin: 0;
+  background: var(--accent);
 }
