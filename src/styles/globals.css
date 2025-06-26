@@ -39,7 +39,7 @@
 }
 
 body {
-  padding: 0;
+  padding: 1rem;
   margin: 0;
-  background: var(--accent);
+  background: var(--background);
 }
