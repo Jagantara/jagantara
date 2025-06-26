@@ -5,8 +5,8 @@ import { type ReactNode, useState } from "react";
 import { Config, State, WagmiProvider } from "wagmi";
 
 import { darkTheme, XellarKitProvider } from "@xellar/kit";
-import { config } from "./lib/connector/xellar";
-import { ThemeProvider } from "./components/theme-provider";
+import { config } from "@/app/lib/connector/xellar";
+import { ThemeProvider } from "../components/theme-provider";
 export function Providers(props: { children: ReactNode }) {
   const [queryClient] = useState(() => new QueryClient());
   const [wagmiConfig] = useState<Config>(() => config);

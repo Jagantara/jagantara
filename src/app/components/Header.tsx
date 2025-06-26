@@ -12,11 +12,11 @@ import {
   MobileNavHeader,
   MobileNavToggle,
   MobileNavMenu,
-} from "./ui/resizable-navbar";
+} from "../../components/ui/resizable-navbar";
 import ConnectWallet from "./ConnectWallet";
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
-import { Button } from "./ui/button";
+import { Button } from "@/components/ui/button";
 export default function Header() {
   const navItems = [
     {
