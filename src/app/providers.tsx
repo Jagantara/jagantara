@@ -13,11 +13,11 @@ export function Providers(props: { children: ReactNode }) {
   return (
     <WagmiProvider config={wagmiConfig}>
       <QueryClientProvider client={queryClient}>
-        <XellarKitProvider theme={darkTheme} showConfirmationModal={true}>
-          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <XellarKitProvider theme={darkTheme} showConfirmationModal={true}>
             {props.children}
-          </ThemeProvider>
-        </XellarKitProvider>
+          </XellarKitProvider>
+        </ThemeProvider>
       </QueryClientProvider>
     </WagmiProvider>
   );

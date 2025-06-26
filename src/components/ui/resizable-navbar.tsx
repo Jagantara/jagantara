@@ -102,7 +102,7 @@ export const NavBody = ({ children, className, visible }: NavBodyProps) => {
         backgroundColor: "var(--background-300)",
       }}
       className={cn(
-        "relative z-[60] mx-auto hidden w-full max-w-7xl flex-row items-center justify-between self-start rounded-full px-10  py-3 lg:flex bg-transparent",
+        "relative z-[60] mx-auto hidden w-full max-w-11/12 flex-row items-center justify-between self-start rounded-full px-6   py-3 lg:flex bg-transparent",
 
         className
       )}
@@ -119,7 +119,7 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
     <motion.div
       onMouseLeave={() => setHovered(null)}
       className={cn(
-        "absolute inset-0 hidden flex-1 flex-row items-center justify-center space-x-2 text-sm font-medium text-zinc-600 transition duration-200 hover:text-zinc-800 lg:flex lg:space-x-2 ",
+        "absolute inset-0 hidden flex-1 flex-row items-center justify-center space-x-2 text-sm font-medium  transition duration-200  lg:flex lg:space-x-2 ",
         className
       )}
     >
@@ -127,14 +127,15 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
         <a
           onMouseEnter={() => setHovered(idx)}
           onClick={onItemClick}
-          className="relative px-4 py-2 text-neutral-300"
+          className="relative px-4 py-2 "
           key={`link-${idx}`}
           href={item.link}
         >
           {hovered === idx && (
             <motion.div
               layoutId="hovered"
-              className="absolute inset-0 h-full w-full rounded-full bg-neutral-800"
+              className="absolute inset-0 h-full w-full rounded-full "
+              style={{ backgroundColor: "var(--secondary)" }}
             />
           )}
           <span className="relative z-20 ">{item.name}</span>

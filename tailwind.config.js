@@ -1,13 +1,20 @@
-/** @type {import('tailwindcss').Config} */
+// tailwind.config.js
 module.exports = {
-  darkMode: "class",
-  content: [
-    "./app/**/*.{js,ts,jsx,tsx,mdx}",
-    "./pages/**/*.{js,ts,jsx,tsx}",
-    "./components/**/*.{js,ts,jsx,tsx}",
-  ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        text: "var(--text)",
+        background: "var(--background)",
+        primary: "var(--primary)",  
+        secondary: "var(--secondary)",
+        accent: "var(--accent)",
+      },
+      backgroundImage: {
+        "gradient-primary": "var(--gradient-primary)",
+        "gradient-secondary": "var(--gradient-secondary)",
+        "gradient-accent-soft": "var(--gradient-accent-soft)",
+        "gradient-sheen": "var(--gradient-sheen)",
+      },
+    },
   },
-  plugins: [],
 };

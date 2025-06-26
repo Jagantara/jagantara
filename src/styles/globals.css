@@ -1,4 +1,5 @@
 @import "tailwindcss";
+
 @import url("https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Space+Grotesk:wght@300..700&display=swap");
 @import "tw-animate-css";
 
@@ -16,16 +17,16 @@
       90deg,
       #faf7fd 0%,
       #b8dfff 50%,
-      #578cff 100%
+      #578cff 100%
     );
   }
 
   .dark {
     --text: #f4ebfa;
-    --background: #050208;
+    --background: #09050e;
     --primary: #a3acff;
     --secondary: #002747;
-    --accent:  #0035a8;
+    --accent: #0035a8;
     --gradient-primary: linear-gradient(135deg, #0035a8 0%, #a3acff 100%);
     --gradient-secondary: linear-gradient(135deg, #002747 0%, #050208 100%);
     --gradient-accent-soft: linear-gradient(120deg, #0035a8 0%, #002747 100%);
@@ -33,13 +34,125 @@
       90deg,
       #050208 0%,
       #002747 50%,
-      #a3acff 100%
+      #a3acff 100%
     );
+  }
+
+  /* Explicit font-face declarations for better weight support */
+  @font-face {
+    font-family: "Hanken Grotesk";
+    src: url("https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&display=swap");
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "Hanken Grotesk";
+    src: url("https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&display=swap");
+    font-weight: 100 900;
+    font-style: italic;
+    font-display: swap;
   }
 }
 
+@keyframes glow-blue {
+  0%,
+  100% {
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.3); /* Light blue */
+  }
+  50% {
+    box-shadow:
+      0 0 20px rgba(0, 123, 255, 0.6),
+      /* Brighter blue */ 0 0 30px rgba(0, 123, 255, 0.4); /* Mid glow */
+  }
+}
+
+.glow-blue {
+  animation: glow-blue 2s ease-in-out infinite;
+}
+
 body {
+  font-family:
+    "Hanken Grotesk",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    "Helvetica Neue",
+    Arial,
+    sans-serif;
+  font-variation-settings: "wght" 400; /* Explicit weight for variable font */
   padding: 1rem;
   margin: 0;
   background: var(--background);
+  color: var(--text);
+}
+
+/* Scrollbar width */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+/* Scrollbar thumb */
+::-webkit-scrollbar-thumb {
+  background-color: var(--primary);
+  border-radius: 3px;
+  transition: background-color 0.3s ease;
+}
+
+::-moz-selection {
+  color: var(--text);
+  background: var(--secondary);
+}
+
+::selection {
+  color: var(--text);
+  background: var(--secondary);
+}
+
+/* Font weight utilities - ensure they work with variable font */
+.font-thin {
+  font-weight: 100;
+  font-variation-settings: "wght" 100;
+}
+
+.font-extralight {
+  font-weight: 200;
+  font-variation-settings: "wght" 200;
+}
+
+.font-light {
+  font-weight: 300;
+  font-variation-settings: "wght" 300;
+}
+
+.font-normal {
+  font-weight: 400;
+  font-variation-settings: "wght" 400;
+}
+
+.font-medium {
+  font-weight: 500;
+  font-variation-settings: "wght" 500;
+}
+
+.font-semibold {
+  font-weight: 600;
+  font-variation-settings: "wght" 600;
+}
+
+.font-bold {
+  font-weight: 700;
+  font-variation-settings: "wght" 700;
+}
+
+.font-extrabold {
+  font-weight: 800;
+  font-variation-settings: "wght" 800;
+}
+
+.font-black {
+  font-weight: 900;
+  font-variation-settings: "wght" 900;
 }

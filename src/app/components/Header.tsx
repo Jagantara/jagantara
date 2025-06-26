@@ -20,7 +20,7 @@ import { Button } from "@/components/ui/button";
 export default function Header() {
   const navItems = [
     {
-      name: "Features",
+      name: "Coverages",
       link: "#features",
     },
     {
@@ -46,22 +46,21 @@ export default function Header() {
   return (
     <header className="sticky w-full top-0 z-50 ">
       <Navbar>
-        {/* Desktop Navigation */}
         <NavBody>
           {/* <NavbarLogo /> */}
           <a className="font-bold text-lg cursor-pointer z-100" href="/">
             Jagantara
           </a>
           <NavItems items={navItems} />
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2">
             <Button
               variant="outline"
               size="icon"
-              className="z-[100]"
+              className="z-[100] cursor-pointer rounded-full"
               onClick={toggleTheme}
             >
               {theme === "dark" ? (
-                <Moon className="h-[1.2rem] w-[1.2rem] transition-all" />
+                <Moon className="h-[1.2rem] w-[1.2rem] transition-all " />
               ) : (
                 <Sun className="h-[1.2rem] w-[1.2rem] transition-all" />
               )}
