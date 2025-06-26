@@ -20,12 +20,12 @@
     );
   }
 
-  :root.dark {
+  .dark {
     --text: #f4ebfa;
     --background: #050208;
     --primary: #a3acff;
     --secondary: #002747;
-    --accent:  #0035a8;
+    --accent:  #0035a8;
     --gradient-primary: linear-gradient(135deg, #0035a8 0%, #a3acff 100%);
     --gradient-secondary: linear-gradient(135deg, #002747 0%, #050208 100%);
     --gradient-accent-soft: linear-gradient(120deg, #0035a8 0%, #002747 100%);
