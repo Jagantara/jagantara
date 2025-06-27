@@ -7,6 +7,7 @@ import {
   useScroll,
   useMotionValueEvent,
 } from "motion/react";
+import Image from "next/image";
 
 import React, { useRef, useState } from "react";
 
@@ -86,7 +87,7 @@ export const NavBody = ({ children, className, visible }: NavBodyProps) => {
   return (
     <motion.div
       animate={{
-        backdropFilter: "blur(10px)",
+        backdropFilter: "blur(10px) ",
         boxShadow:
           "0 0 24px rgba(34, 42, 53, 0.06), 0 1px 1px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(34, 42, 53, 0.04), 0 0 4px rgba(34, 42, 53, 0.08), 0 16px 68px rgba(47, 48, 55, 0.05), 0 1px 0 rgba(255, 255, 255, 0.1) inset",
         width: visible ? "70%" : "100%",
@@ -99,11 +100,10 @@ export const NavBody = ({ children, className, visible }: NavBodyProps) => {
       }}
       style={{
         minWidth: "800px",
-        backgroundColor: "var(--background-300)",
       }}
       className={cn(
-        "relative z-[60] mx-auto hidden w-full max-w-11/12 flex-row items-center justify-between self-start rounded-full px-6   py-3 lg:flex bg-transparent",
-
+        "relative z-[60] mx-auto hidden w-full max-w-11/12 flex-row items-center justify-between self-start rounded-full px-6 py-3 lg:flex backdrop-blur-md",
+        "before:absolute before:inset-0 before:rounded-full before:bg-[image:var(--gradient-secondary)] before:opacity-50 before:-z-10",
         className
       )}
     >
@@ -234,15 +234,10 @@ export const NavbarLogo = () => {
   return (
     <a
       href="#"
-      className="relative z-20 mr-4 flex items-center space-x-2 px-2 py-1 text-sm font-normal text-black"
+      className="relative z-20  flex items-center  px-2 py-1 text-sm font-bold "
     >
-      <img
-        src="https://assets.aceternity.com/logo-dark.png"
-        alt="logo"
-        width={30}
-        height={30}
-      />
-      <span className="font-medium text-white">Startup</span>
+      <Image src="/jagantara_icon.png" alt="logo" width={50} height={50} />
+      <span className="font-bold text-lg cursor-pointer ">Jagantara</span>
     </a>
   );
 };

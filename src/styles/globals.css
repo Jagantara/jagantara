@@ -13,6 +13,12 @@
     --gradient-primary: linear-gradient(135deg, #00095c 0%, #578cff 100%);
     --gradient-secondary: linear-gradient(135deg, #b8dfff 0%, #faf7fd 100%);
     --gradient-accent-soft: linear-gradient(120deg, #578cff 0%, #b8dfff 100%);
+    --gradient-accent-hard: linear-gradient(
+      120deg,
+      #0035a8 0%,
+      #578cff 50%,
+      #b8dfff 100%
+    );
     --gradient-sheen: linear-gradient(
       90deg,
       #faf7fd 0%,
@@ -30,6 +36,12 @@
     --gradient-primary: linear-gradient(135deg, #0035a8 0%, #a3acff 100%);
     --gradient-secondary: linear-gradient(135deg, #002747 0%, #050208 100%);
     --gradient-accent-soft: linear-gradient(120deg, #0035a8 0%, #002747 100%);
+    --gradient-accent-hard: linear-gradient(
+      120deg,
+      #000c3d 0%,
+      #0035a8 50%,
+      #a3acff 100%
+    );
     --gradient-sheen: linear-gradient(
       90deg,
       #050208 0%,
@@ -72,6 +84,20 @@
   animation: glow-blue 2s ease-in-out infinite;
 }
 
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+.float-animation {
+  animation: float 3s ease-in-out infinite;
+}
+
 body {
   font-family:
     "Hanken Grotesk",
@@ -83,7 +109,7 @@ body {
     Arial,
     sans-serif;
   font-variation-settings: "wght" 400; /* Explicit weight for variable font */
-  padding: 1rem;
+  padding: 0;
   margin: 0;
   background: var(--background);
   color: var(--text);
@@ -96,7 +122,7 @@ body {
 
 /* Scrollbar thumb */
 ::-webkit-scrollbar-thumb {
-  background-color: var(--primary);
+  background-color: var(--secondary);
   border-radius: 3px;
   transition: background-color 0.3s ease;
 }
