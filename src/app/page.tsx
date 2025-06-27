@@ -10,12 +10,20 @@ import {
   CardDescription,
   CardContent,
 } from "@/components/ui/card";
-import { ArrowRight, Badge, CheckCircle, Shield } from "lucide-react";
+import {
+  ArrowRight,
+  ArrowUpRight,
+  Badge,
+  CheckCircle,
+  Shield,
+} from "lucide-react";
 import { useAccount, useConnect, useDisconnect } from "wagmi";
 import SplitText from "@/components/split-text";
 import FadeContent from "@/components/fade-content";
 import AnimatedContent from "@/components/animated-content";
 import Image from "next/image";
+import { StickyScrollFileClaim } from "./components/sticky-scroll-file";
+
 function App() {
   const account = useAccount();
   const { connectors, connect, status, error } = useConnect();
@@ -23,7 +31,7 @@ function App() {
 
   return (
     <>
-      <main className="flex-1 mx-auto max-w-11/12">
+      <main className="flex-1 mx-auto max-w-11/12 px-5">
         <section className="w-full pb-5">
           <div className=" md:px-6">
             <div className="grid gap-6 md:grid-cols-2 lg:gap-12 lg:grid-cols-2">
@@ -113,12 +121,17 @@ function App() {
                     <div className="flex flex-col gap-2 min-[400px]:flex-row">
                       <Button
                         size="lg"
-                        style={{ background: "var(--primary)", color: "white" }}
-                        className="hover:opacity-90 cursor-pointer"
+                        style={{
+                          background: "var(--gradient-primary)",
+                          color: "white",
+                        }}
+                        className="group hover:opacity-90 cursor-pointer glow-blue relative overflow-hidden pr-10"
                       >
-                        Get Coverage Now
-                        <ArrowRight className="ml-2 h-4 w-4" />
+                        Launch App
+                        <ArrowUpRight className="ml-2 h-4 w-4 arrow-animate-out transition-all duration-300 group-hover:arrow-out" />
+                        <ArrowUpRight className="h-4 w-4 absolute right-3 top-1/2 -translate-y-1/2 opacity-0 arrow-animate-in transition-all duration-300 group-hover:arrow-in" />
                       </Button>
+
                       <Button
                         variant="outline"
                         size="lg"
@@ -129,9 +142,10 @@ function App() {
                           borderColor: "var(--secondary)",
                         }}
                       >
-                        View Demo
+                        Get Coverage
                       </Button>
                     </div>
+
                     <div
                       className="flex items-center gap-4 text-sm"
                       style={{ color: "var(--text)", opacity: 0.8 }}
@@ -201,13 +215,25 @@ function App() {
                     easing="ease-out"
                     initialOpacity={0}
                   >
-                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none float-animation ">
+                    {/* Desktop Icon */}
+                    <div className="absolute inset-0 hidden md:flex items-center justify-center pointer-events-none float-animation">
                       <Image
-                        src="/jagantara_icon.png" // or use an <Icon /> component
-                        alt="Icon"
+                        src="/jagantara_icon.png"
+                        alt="Jagantara Icon"
                         loading="lazy"
                         width={400}
                         height={400}
+                      />
+                    </div>
+
+                    {/* Mobile Icon */}
+                    <div className="absolute inset-0 flex md:hidden items-center justify-center pointer-events-none float-animation">
+                      <Image
+                        src="/jagantara_icon.png"
+                        alt="Jagantara Icon"
+                        loading="lazy"
+                        width={250}
+                        height={250}
                       />
                     </div>
                   </FadeContent>
@@ -216,67 +242,9 @@ function App() {
             </div>
           </div>
         </section>
-
-        <p>
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-          Exercitationem voluptatum dolor rem sed dolorum at odio repellat
-          laboriosam dicta, obcaecati fugiat praesentium labore, ea a nihil
-          necessitatibus neque iste quasi.
-        </p>
-        <p>
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-          Exercitationem voluptatum dolor rem sed dolorum at odio repellat
-          laboriosam dicta, obcaecati fugiat praesentium labore, ea a nihil
-          necessitatibus neque iste quasi.
-        </p>
-        <p>
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-          Exercitationem voluptatum dolor rem sed dolorum at odio repellat
-          laboriosam dicta, obcaecati fugiat praesentium labore, ea a nihil
-          necessitatibus neque iste quasi.
-        </p>
-        <p>
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-          Exercitationem voluptatum dolor rem sed dolorum at odio repellat
-          laboriosam dicta, obcaecati fugiat praesentium labore, ea a nihil
-          necessitatibus neque iste quasi.
-        </p>
-        <p>
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-          Exercitationem voluptatum dolor rem sed dolorum at odio repellat
-          laboriosam dicta, obcaecati fugiat praesentium labore, ea a nihil
-          necessitatibus neque iste quasi.
-        </p>
-        <p>
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-          Exercitationem voluptatum dolor rem sed dolorum at odio repellat
-          laboriosam dicta, obcaecati fugiat praesentium labore, ea a nihil
-          necessitatibus neque iste quasi.
-        </p>
-        <p>
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-          Exercitationem voluptatum dolor rem sed dolorum at odio repellat
-          laboriosam dicta, obcaecati fugiat praesentium labore, ea a nihil
-          necessitatibus neque iste quasi.
-        </p>
-        <p>
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-          Exercitationem voluptatum dolor rem sed dolorum at odio repellat
-          laboriosam dicta, obcaecati fugiat praesentium labore, ea a nihil
-          necessitatibus neque iste quasi.
-        </p>
-        <p>
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-          Exercitationem voluptatum dolor rem sed dolorum at odio repellat
-          laboriosam dicta, obcaecati fugiat praesentium labore, ea a nihil
-          necessitatibus neque iste quasi.
-        </p>
-        <p>
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-          Exercitationem voluptatum dolor rem sed dolorum at odio repellat
-          laboriosam dicta, obcaecati fugiat praesentium labore, ea a nihil
-          necessitatibus neque iste quasi.
-        </p>
+        <section className="w-full pb-5 md:mx-6">
+          <StickyScrollFileClaim />
+        </section>
       </main>
     </>
   );

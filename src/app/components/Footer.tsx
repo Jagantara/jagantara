@@ -50,7 +50,7 @@ export default function Footer() {
   };
 
   return (
-    <footer className="w-full mt-5 bg-[image:var(--gradient-secondary)] text-text h-96">
+    <footer className="w-full mt-5 bg-[image:var(--gradient-secondary)] text-text h-fit">
       <div className=" mx-auto px-20 py-10 flex justify-between">
         {/* Logo Section */}
         <div className="mb-12">
@@ -78,6 +78,11 @@ export default function Footer() {
             </div>
           ))}
         </div>
+      </div>
+      <div className=" mx-auto px-20 py-10 flex justify-between mt-20">
+        <p className="text-slate-500">
+          © 2025 Jagantara. All Rights Reserved.
+        </p>
       </div>
     </footer>
   );

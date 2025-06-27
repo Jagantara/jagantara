@@ -33,7 +33,7 @@ export default function Header() {
       link: "#contact",
     },
     {
-      name: "Docs",
+      name: "Resources",
       link: "#contact",
     },
   ];
@@ -86,10 +86,25 @@ export default function Header() {
           <MobileNav>
             <MobileNavHeader>
               <NavbarLogo />
-              <MobileNavToggle
-                isOpen={isMobileMenuOpen}
-                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              />
+              <div className="flex items-center gap-2">
+                <Button
+                  variant="outline"
+                  size="icon"
+                  className="z-[100] cursor-pointer rounded-full"
+                  onClick={toggleTheme}
+                >
+                  {theme === "dark" ? (
+                    <Moon className="h-[1.2rem] w-[1.2rem] transition-all " />
+                  ) : (
+                    <Sun className="h-[1.2rem] w-[1.2rem] transition-all" />
+                  )}
+                  <span className="sr-only">Toggle theme</span>
+                </Button>
+                <MobileNavToggle
+                  isOpen={isMobileMenuOpen}
+                  onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                />
+              </div>
             </MobileNavHeader>
 
             <MobileNavMenu

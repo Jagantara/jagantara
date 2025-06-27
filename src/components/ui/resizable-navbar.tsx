@@ -156,7 +156,7 @@ export const MobileNav = ({ children, className, visible }: MobileNavProps) => {
         width: visible ? "90%" : "100%",
         paddingRight: visible ? "12px" : "0px",
         paddingLeft: visible ? "12px" : "0px",
-        borderRadius: visible ? "4px" : "2rem",
+        borderRadius: visible ? "100px" : "2rem",
         y: visible ? 20 : 0,
       }}
       transition={{
@@ -165,8 +165,9 @@ export const MobileNav = ({ children, className, visible }: MobileNavProps) => {
         damping: 50,
       }}
       className={cn(
-        "relative z-50 mx-auto flex w-full max-w-[calc(100vw-2rem)] flex-col items-center justify-between bg-transparent px-0 py-2 lg:hidden",
-        visible && "bg-neutral-950/80",
+        "relative z-50 mx-auto flex w-full max-w-[calc(100vw-2rem)] flex-col items-center justify-between bg-transparent px-0 py-2 lg:hidden ",
+        "before:absolute before:inset-0 before:rounded-full before:bg-[image:var(--gradient-secondary)] before:opacity-70 before:-z-10",
+
         className
       )}
     >
@@ -223,17 +224,13 @@ export const MobileNavToggle = ({
   isOpen: boolean;
   onClick: () => void;
 }) => {
-  return isOpen ? (
-    <IconX className="text-white" onClick={onClick} />
-  ) : (
-    <IconMenu2 className="text-white" onClick={onClick} />
-  );
+  return isOpen ? <IconX onClick={onClick} /> : <IconMenu2 onClick={onClick} />;
 };
 
 export const NavbarLogo = () => {
   return (
     <a
-      href="#"
+      href="/"
       className="relative z-20  flex items-center  px-2 py-1 text-sm font-bold "
     >
       <Image src="/jagantara_icon.png" alt="logo" width={50} height={50} />
