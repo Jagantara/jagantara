@@ -25,6 +25,8 @@
       #b8dfff 50%,
       #578cff 100%
     );
+    --third: #dbeafe; /* Light mode third (e.g., light blue-100) */
+    --gradient-third: linear-gradient(135deg, #dbeafe 0%, #93c5fd 100%);
   }
 
   .dark {
@@ -48,6 +50,8 @@
       #002747 50%,
       #a3acff 100%
     );
+    --third: #1e3a8a; /* Dark mode third (e.g., blue-900) */
+    --gradient-third: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
   }
 
   /* Explicit font-face declarations for better weight support */

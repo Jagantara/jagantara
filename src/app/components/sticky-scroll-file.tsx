@@ -4,7 +4,7 @@ import { StickyScroll } from "@/components/ui/sticky-scroll-reveal";
 
 const content = [
   {
-    title: "Collaborative Editing",
+    title: "1. Choose Coverages",
     description:
       "Work together in real time with your team, clients, and stakeholders. Collaborate on documents, share ideas, and make decisions quickly. With our platform, you can streamline your workflow and increase productivity.",
     content: (
@@ -14,7 +14,7 @@ const content = [
     ),
   },
   {
-    title: "Real time changes",
+    title: "2. Pick a Plan",
     description:
       "See changes as they happen. With our platform, you can track every modification in real time. No more confusion about the latest version of your project. Say goodbye to the chaos of version control and embrace the simplicity of real-time updates.",
     content: (
