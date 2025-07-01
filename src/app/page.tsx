@@ -260,6 +260,33 @@ function App() {
         >
           <FAQLanding />
         </section>
+
+        <section className="w-full md:mx-6 py-20 flex flex-col justify-center items-center gap-15">
+          <h1 className="text-4xl font-normal">
+            Backed by trusted names in finance
+          </h1>
+          <div className="flex gap-5 flex-row items-end">
+            <Image
+              src={"/backing_img/ojk_logo.png"}
+              width={200}
+              height={150}
+              alt="OJK Logo"
+            />
+            <Image
+              src={"/backing_img/BI_Logo.png"}
+              width={250}
+              height={150}
+              alt="BI Logo"
+            />
+            <Image
+              src={"/backing_img/indodax_logo.png"}
+              width={250}
+              height={150} 
+              className="pb-3"
+              alt="BI Logo"
+            />
+          </div>
+        </section>
       </main>
     </>
   );

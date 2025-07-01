@@ -96,8 +96,8 @@ export default function StakingDetail() {
                 onClick={() => setTimeFilter(period as TimeFilter)}
                 className={
                   timeFilter === period
-                    ? "bg-[var(--third)] cursor-pointer"
-                    : "cursor-pointer hover:bg-[var(--third)]"
+                    ? "bg-[var(--accent)] cursor-pointer"
+                    : "cursor-pointer hover:bg-[var(--accent)]"
                 }
               >
                 {period}

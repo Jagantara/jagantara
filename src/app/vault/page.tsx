@@ -1,8 +1,5 @@
 import { Metadata } from "next";
 import VaultVisualization from "./components/vault-canvas";
-import GradientText from "@/components/gradient-text";
-import { Button } from "@/components/ui/moving-border";
-
 export const metadata: Metadata = {
   title: "Jagantara | Vault",
   description: "Decentralized coverage",
