@@ -90,13 +90,13 @@ export default function Component() {
                         Deposit in Jagantara Vault
                       </h3>
                       {activeStep === 1 && (
-                        <p className=" leading-relaxed">
-                          Earn yield by depositing an asset into a vault curated
-                          by third-party risk experts. Each vault has a unique
-                          risk profile and strategy determined by the curator.
-                          Creating Morpho Vaults is permissionless, so users
-                          should assess a vault's curator and risk exposure
-                          before depositing.
+                        <p className="leading-relaxed">
+                          Earn yield by depositing <strong>$USDC</strong> into
+                          the Jagantara Vault. In return, you’ll receive{" "}
+                          <strong>$JAGA</strong> tokens, which grant governance
+                          rights within the JagaDAO. Stakers are entitled to 30%
+                          of platform revenue, aligning rewards with platform
+                          growth.
                         </p>
                       )}
                     </div>
@@ -119,15 +119,16 @@ export default function Component() {
                       <h3
                         className={`text-xl font-semibold mb-3 ${activeStep === 2 ? "" : "text-gray-400"}`}
                       >
-                        Assets are supplied to Morpho Markets
+                        Revenue Allocated via Insurance Manager
                       </h3>
                       {activeStep === 2 && (
-                        <p className=" leading-relaxed">
-                          A Morpho Vault can only allocate deposits to Morpho
-                          Markets whitelisted by the curator. Depositors in the
-                          vault are exposed to risks related to each market,
-                          including the collateral asset, liquidation LTV, and
-                          oracles.
+                        <p className="leading-relaxed">
+                          Premiums collected from policyholders are managed by
+                          the Insurance Manager, a smart contract that
+                          systematically allocates the funds across four key
+                          streams: 20% to the company, 30% to stakers, 25%
+                          reinvested into the vault, and 25% held in the main
+                          vault to maintain liquidity.
                         </p>
                       )}
                     </div>
@@ -150,14 +151,16 @@ export default function Component() {
                       <h3
                         className={`text-xl font-semibold mb-3 ${activeStep === 3 ? "" : "text-gray-400"}`}
                       >
-                        Earn yield from borrowers
+                        Earn yield from Policyholders
                       </h3>
                       {activeStep === 3 && (
-                        <p className=" leading-relaxed">
-                          The supplied assets are lent to borrowers who pay
-                          interest. This interest is distributed back to vault
-                          depositors as yield, minus any fees taken by the vault
-                          curator or protocol.
+                        <p className="leading-relaxed">
+                          To obtain coverage, users are required to purchase a
+                          premium using <strong>$USDC</strong>. The collected
+                          funds are managed by the Insurance Manager, a
+                          dedicated smart contract. As the number of
+                          policyholders increases, so does the potential yield
+                          for participants.
                         </p>
                       )}
                     </div>
@@ -222,6 +225,18 @@ function Step1Canvas() {
             <feMergeNode in="SourceGraphic" />
           </feMerge>
         </filter>
+        <linearGradient id="yieldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#34d399" />
+          <stop offset="50%" stopColor="#10b981" />
+          <stop offset="100%" stopColor="#059669" />
+        </linearGradient>
+        <filter id="yieldglow">
+          <feGaussianBlur stdDeviation="3" result="coloredBlur" />
+          <feMerge>
+            <feMergeNode in="coloredBlur" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
       </defs>
 
       <motion.g
@@ -253,45 +268,85 @@ function Step1Canvas() {
           fill="url(#lenderGradient2)"
           filter="url(#glow)"
         />
-
+        {/* DOWN ARROW - moved left to x=170 */}
         <line
-          x1="200"
+          x1="170"
           y1="130"
-          x2="200"
+          x2="170"
           y2="170"
           stroke="#60a5fa"
           strokeWidth="2"
           strokeDasharray="4,4"
         />
-        <polygon points="195,165 200,175 205,165" fill="#60a5fa" />
+        <polygon points="165,165 170,175 175,165" fill="#60a5fa" />
 
+        {/* UP ARROW - placed at x=230 and made green */}
+        <line
+          x1="230"
+          y1="170"
+          x2="230"
+          y2="130"
+          stroke="#34d399"
+          strokeWidth="2"
+          strokeDasharray="4,4"
+        />
+        <polygon points="225,135 230,125 235,135" fill="#34d399" />
+
+        {/* Token Circle */}
         <ellipse
-          cx="200"
+          cx="170"
           cy="200"
-          rx="40"
+          rx="25"
           ry="25"
           fill="url(#wethGradient)"
           filter="url(#glow)"
         />
         <text
-          x="200"
+          x="170"
           y="205"
           textAnchor="middle"
-          className="fill-[var(--text)]  text-xs font-bold"
+          className="fill-[var(--text)] text-xs font-bold"
         >
           USDC
         </text>
+        <ellipse
+          cx="230"
+          cy="200"
+          rx="25"
+          ry="25"
+          fill="url(#yieldGradient)"
+          filter="url(#yieldglow)"
+        />
+        <text
+          x="230"
+          y="205"
+          textAnchor="middle"
+          className="fill-[var(--text)] text-xs font-bold"
+        >
+          JAGA
+        </text>
 
+        {/* Bottom Arrow (centered under circle) */}
         <line
-          x1="200"
+          x1="170"
           y1="225"
-          x2="200"
+          x2="170"
           y2="280"
           stroke="#60a5fa"
           strokeWidth="2"
           strokeDasharray="4,4"
         />
-        <polygon points="195,275 200,285 205,275" fill="#60a5fa" />
+        <polygon points="165,275 170,285 175,275" fill="#60a5fa" />
+        <line
+          x1="230"
+          y1="235"
+          x2="230"
+          y2="285"
+          stroke="#34d399"
+          strokeWidth="2"
+          strokeDasharray="4,4"
+        />
+        <polygon points="225,230 230,220 235,230" fill="#34d399" />
 
         <text
           x="200"
@@ -302,7 +357,7 @@ function Step1Canvas() {
           Jagantara Vault
         </text>
 
-        <g transform="translate(200, 400)">
+        <g transform="translate(190, 400)">
           <path
             d="M -50 -50 L 50 -50 L 50 50 L -50 50 Z"
             fill="url(#vaultGradient)"
@@ -350,7 +405,7 @@ function Step1Canvas() {
 function Step2Canvas() {
   return (
     <svg
-      width="400"
+      width="500"
       height="600"
       viewBox="0 0 400 600"
       className="w-full max-w-md"
@@ -361,6 +416,11 @@ function Step2Canvas() {
           <stop offset="30%" stopColor="#60a5fa" />
           <stop offset="70%" stopColor="#3b82f6" />
           <stop offset="100%" stopColor="#1e40af" />
+        </linearGradient>
+        <linearGradient id="yieldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#34d399" />
+          <stop offset="50%" stopColor="#10b981" />
+          <stop offset="100%" stopColor="#059669" />
         </linearGradient>
         <linearGradient id="marketGradient" x1="0%" y1="0%" x2="100%" y2="100%">
           <stop offset="0%" stopColor="#60a5fa" />
@@ -388,7 +448,7 @@ function Step2Canvas() {
           textAnchor="middle"
           className="fill-[var(--text)] text-sm font-medium"
         >
-          Jagantara Vault
+          Insurance Manager (Smart Contract)
         </text>
         <g transform="translate(200, 80)">
           <path
@@ -398,11 +458,11 @@ function Step2Canvas() {
           />
           <path
             d="M 40 -40 L 55 -55 L 55 25 L 40 40 Z"
-            fill="url(#marketGradient)"
+            fill="url(#yieldGradient)"
           />
           <path
             d="M -40 -40 L -25 -55 L 55 -55 L 40 -40 Z"
-            fill="url(#marketGradient)"
+            fill="url(#yieldGradient)"
           />
           <motion.foreignObject
             x={-35}
@@ -444,9 +504,9 @@ function Step2Canvas() {
 
         {/* Dotted container for markets */}
         <rect
-          x="50"
-          y="200"
-          width="300"
+          x="15"
+          y="180"
+          width="400"
           height="200"
           fill="none"
           stroke="#60a5fa"
@@ -456,14 +516,14 @@ function Step2Canvas() {
           opacity="0.6"
         />
 
-        {/* Three market cylinders */}
+        {/* Four market cylinders */}
         <motion.g
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
-          {/* wstETH / WETH */}
-          <g transform="translate(120, 280)">
+          {/* wstETH / WETH - Adjusted Position */}
+          <g transform="translate(85, 280)">
             <ellipse
               cx="0"
               cy="-25"
@@ -486,12 +546,12 @@ function Step2Canvas() {
               textAnchor="middle"
               className="fill-white text-xs font-medium"
             >
-              wstETH / WETH
+              Company
             </text>
           </g>
 
-          {/* sDAI / WETH */}
-          <g transform="translate(200, 280)">
+          {/* sDAI / WETH - Adjusted Position */}
+          <g transform="translate(165, 280)">
             <ellipse
               cx="0"
               cy="-25"
@@ -514,12 +574,12 @@ function Step2Canvas() {
               textAnchor="middle"
               className="fill-white text-xs font-medium"
             >
-              sDAI / WETH
+              Liquidity
             </text>
           </g>
 
-          {/* sfrxETH / WETH */}
-          <g transform="translate(280, 280)">
+          {/* sfrxETH / WETH - Adjusted Position */}
+          <g transform="translate(245, 280)">
             <ellipse
               cx="0"
               cy="-25"
@@ -542,65 +602,167 @@ function Step2Canvas() {
               textAnchor="middle"
               className="fill-white text-xs font-medium"
             >
-              sfrxETH / WETH
+              Re-Invest
+            </text>
+          </g>
+
+          {/* cbETH / WETH - Adjusted Position */}
+          <g transform="translate(325, 280)">
+            <ellipse
+              cx="0"
+              cy="-25"
+              rx="35"
+              ry="8"
+              fill="url(#marketGradient)"
+            />
+            <rect
+              x="-35"
+              y="-25"
+              width="70"
+              height="50"
+              fill="url(#marketGradient)"
+              filter="url(#glow)"
+            />
+            <ellipse cx="0" cy="25" rx="35" ry="8" fill="#1e40af" />
+            <text
+              x="0"
+              y="45"
+              textAnchor="middle"
+              className="fill-white text-xs font-medium"
+            >
+              Stakers
             </text>
           </g>
         </motion.g>
-
         {/* Connecting arrows */}
         <motion.g
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.4 }}
         >
+          {/* To wstETH */}
           <line
             x1="200"
             y1="185"
-            x2="120"
+            x2="80"
             y2="230"
             stroke="#60a5fa"
             strokeWidth="2"
             strokeDasharray="4,4"
           />
-          <polygon points="115,225 125,235 120,240" fill="#60a5fa" />
+          <polygon points="75,235 80,245 85,235" fill="#60a5fa" />
 
+          {/* To sDAI */}
           <line
             x1="200"
             y1="185"
-            x2="200"
+            x2="160"
             y2="230"
             stroke="#60a5fa"
             strokeWidth="2"
             strokeDasharray="4,4"
           />
-          <polygon points="195,225 200,235 205,225" fill="#60a5fa" />
+          <polygon points="155,235 160,245 165,235" fill="#60a5fa" />
 
+          {/* To sfrxETH */}
           <line
             x1="200"
             y1="185"
-            x2="280"
+            x2="240"
             y2="230"
             stroke="#60a5fa"
             strokeWidth="2"
             strokeDasharray="4,4"
           />
-          <polygon points="275,225 285,235 280,240" fill="#60a5fa" />
+          <polygon points="235,235 240,245 245,235" fill="#60a5fa" />
+
+          {/* To cbETH */}
+          <line
+            x1="200"
+            y1="185"
+            x2="320"
+            y2="230"
+            stroke="#60a5fa"
+            strokeWidth="2"
+            strokeDasharray="4,4"
+          />
+          <polygon points="315,235 320,245 325,235" fill="#60a5fa" />
         </motion.g>
+        {/* Downward arrows to Jagantara Vault (from Re-Invest & Liquidity) */}
+        <g>
+          {/* From Re-Invest (sfrxETH) */}
+          <line
+            x1="240"
+            y1="330"
+            x2="240"
+            y2="410"
+            stroke="#60a5fa"
+            strokeWidth="2"
+            strokeDasharray="4,4"
+          />
+          <polygon points="235,415 240,425 245,415" fill="#60a5fa" />
 
-        {/* Bottom element (partially visible) */}
-        <motion.g
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 0.3, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.6 }}
+          {/* From Liquidity (cbETH) */}
+          <line
+            x1="165"
+            y1="330"
+            x2="165"
+            y2="410"
+            stroke="#60a5fa"
+            strokeWidth="2"
+            strokeDasharray="4,4"
+          />
+          <polygon points="160,415 165,425 170,415" fill="#60a5fa" />
+        </g>
+
+        {/* Jagantara Vault at bottom */}
+        <text
+          x="210"
+          y="440"
+          textAnchor="middle"
+          className="fill-[var(--text)] text-sm font-medium"
         >
-          <ellipse
-            cx="200"
-            cy="480"
-            rx="40"
-            ry="15"
+          Jagantara Vault
+        </text>
+        <g transform="translate(200, 510)">
+          <path
+            d="M -40 -40 L 40 -40 L 40 40 L -40 40 Z"
+            fill="url(#vaultGradient)"
+            filter="url(#glow)"
+          />
+          <path
+            d="M 40 -40 L 55 -55 L 55 25 L 40 40 Z"
             fill="url(#marketGradient)"
           />
-        </motion.g>
+          <path
+            d="M -40 -40 L -25 -55 L 55 -55 L 40 -40 Z"
+            fill="url(#marketGradient)"
+          />
+          <motion.foreignObject
+            x={-35}
+            y={-35}
+            width={80}
+            height={80}
+            animate={{ y: [0, -5, 0] }}
+            transition={{
+              duration: 2,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+          >
+            <img
+              src="/jagantara_icon.png"
+              alt="Jagantara Icon"
+              width="70"
+              height="70"
+              style={{
+                pointerEvents: "none",
+                borderRadius: "50%",
+                filter: "brightness(0.6)", // ⬅️ darkens the icon
+              }}
+            />
+          </motion.foreignObject>
+        </g>
       </motion.g>
     </svg>
   );
@@ -727,7 +889,7 @@ function Step3Canvas() {
             textAnchor="middle"
             className="fill-[var(--text)]  text-xs font-bold"
           >
-            $
+            USDC
           </text>
 
           <circle
@@ -743,7 +905,7 @@ function Step3Canvas() {
             textAnchor="middle"
             className="fill-[var(--text)]  text-xs font-bold"
           >
-            $
+            USDC
           </text>
 
           <circle
@@ -759,7 +921,7 @@ function Step3Canvas() {
             textAnchor="middle"
             className="fill-[var(--text)]  text-xs font-bold"
           >
-            $
+            USDC
           </text>
         </motion.g>
 
@@ -809,7 +971,7 @@ function Step3Canvas() {
           textAnchor="middle"
           className="fill-[var(--text)]  text-sm font-medium"
         >
-          Jagantara Vault
+          Insurance Manager (Smart Contract )
         </text>
         <g transform="translate(200, 150)">
           <path

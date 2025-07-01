@@ -11,6 +11,7 @@ import {
 import { cn } from "@/lib/utils";
 import { BentoGrid, BentoGridItem } from "@/components/ui/bento-grid";
 import Image from "next/image";
+import { Badge } from "@/components/ui/badge";
 
 export default function CampaignGrid() {
   return (
@@ -39,7 +40,8 @@ function Skeleton() {
 const items = [
   {
     title: "Binance Labs",
-    description: "Explore the birth of groundbreaking ideas and inventions.",
+    description:
+      "Accelerating the growth of blockchain projects through strategic investments and technical expertise by Binance.",
     header: (
       <Image
         src={"/campaign_logos/bnb_launchpad.png"}
@@ -49,11 +51,21 @@ const items = [
         alt="BNB Logo"
       />
     ),
-    icon: <IconClipboardCopy className="h-4 w-4 text-neutral-500" />,
+    icon: (
+      <div className="flex gap-1 flex-wrap">
+        <Badge className="bg-[image:var(--gradient-accent-soft)]">
+          200+ Projects Backed
+        </Badge>
+        <Badge className="bg-[image:var(--gradient-accent-soft)]">
+          $9B+ Raised
+        </Badge>
+      </div>
+    ),
   },
   {
-    title: "The Digital Revolution",
-    description: "Dive into the transformative power of technology.",
+    title: "Coinbase Ventures",
+    description:
+      "Backing early-stage crypto and Web3 startups with the support of one of the largest regulated exchanges in the world.",
     header: (
       <Image
         src={"/campaign_logos/coinbase_logo.png"}
@@ -63,11 +75,21 @@ const items = [
         alt="Coinbase Logo"
       />
     ),
-    icon: <IconFileBroken className="h-4 w-4 text-neutral-500" />,
+    icon: (
+      <div className="flex gap-1 flex-wrap">
+        <Badge className="bg-[image:var(--gradient-accent-soft)]">
+          350+ Projects Backed
+        </Badge>
+        <Badge className="bg-[image:var(--gradient-accent-soft)]">
+          $5B+ Raised
+        </Badge>
+      </div>
+    ),
   },
   {
-    title: "The Art of Design",
-    description: "Discover the beauty of thoughtful and functional design.",
+    title: "Blockchain Innovators (BI)",
+    description:
+      "Fueling decentralized innovation by connecting visionaries, developers, and investors through powerful ecosystem support.",
     header: (
       <Image
         src={"/campaign_logos/BI_logo.jpg"}
@@ -77,26 +99,45 @@ const items = [
         alt="BI Logo"
       />
     ),
-    icon: <IconSignature className="h-4 w-4 text-neutral-500" />,
+    icon: (
+      <div className="flex gap-1 flex-wrap">
+        <Badge className="bg-[image:var(--gradient-accent-soft)]">
+          80+ Projects Backed
+        </Badge>
+        <Badge className="bg-[image:var(--gradient-accent-soft)]">
+          $600M+ Raised
+        </Badge>
+      </div>
+    ),
   },
   {
-    title: "The Power of Communication",
+    title: "Seedify Launchpad",
     description:
-      "Understand the impact of effective communication in our lives.",
+      "A leading Web3 launchpad and incubator empowering blockchain gaming, metaverse, and NFT projects to thrive.",
     header: (
       <Image
         src={"/campaign_logos/seedify_logo.png"}
         width={600}
         height={250}
-        className="bg-neutral-200 dark:bg-neutral-800 h-32 rounded-xl "
+        className="bg-neutral-200 dark:bg-neutral-800 h-32 rounded-xl"
         alt="Seedify Logo"
       />
     ),
-    icon: <IconTableColumn className="h-4 w-4 text-neutral-500" />,
+    icon: (
+      <div className="flex gap-1 flex-wrap">
+        <Badge className="bg-[image:var(--gradient-accent-soft)]">
+          70+ Projects Backed
+        </Badge>
+        <Badge className="bg-[image:var(--gradient-accent-soft)]">
+          $50M+ Raised
+        </Badge>
+      </div>
+    ),
   },
   {
-    title: "The Pursuit of Knowledge",
-    description: "Join the quest for understanding and enlightenment.",
+    title: "DAO Maker",
+    description:
+      "Pioneering the retail venture capital model with decentralized fundraising for high-potential blockchain startups.",
     header: (
       <Image
         src={"/campaign_logos/daomaker_logo.webp"}
@@ -106,48 +147,87 @@ const items = [
         alt="DAO Maker Logo"
       />
     ),
-    icon: <IconArrowWaveRightUp className="h-4 w-4 text-neutral-500" />,
+    icon: (
+      <div className="flex gap-1 flex-wrap">
+        <Badge className="bg-[image:var(--gradient-accent-soft)]">
+          100+ Projects Backed
+        </Badge>
+        <Badge className="bg-[image:var(--gradient-accent-soft)]">
+          $80M+ Raised
+        </Badge>
+      </div>
+    ),
   },
   {
-    title: "The Joy of Creation",
-    description: "Experience the thrill of bringing ideas to life.",
+    title: "OpenSea",
+    description:
+      "The world’s largest NFT marketplace, enabling users to buy, sell, and create digital assets with ease and security.",
     header: (
       <Image
         src={"/campaign_logos/opensea_logo.png"}
         width={600}
         height={250}
         className="bg-neutral-200 dark:bg-neutral-800 h-32 rounded-xl object-cover"
-        alt="DAO Maker Logo"
+        alt="OpenSea Logo"
       />
     ),
-    icon: <IconBoxAlignTopLeft className="h-4 w-4 text-neutral-500" />,
+    icon: (
+      <div className="flex gap-1 flex-wrap">
+        <Badge className="bg-[image:var(--gradient-accent-soft)]">
+          1M+ Collections
+        </Badge>
+        <Badge className="bg-[image:var(--gradient-accent-soft)]">
+          $25B+ Traded
+        </Badge>
+      </div>
+    ),
   },
   {
-    title: "The Spirit of Adventure",
-    description: "Embark on exciting journeys and thrilling discoveries.",
+    title: "Uniswap",
+    description:
+      "A decentralized exchange protocol enabling permissionless trading and liquidity provision across the Ethereum ecosystem.",
     header: (
       <Image
         src={"/campaign_logos/uniswap_logo.jpg"}
         width={600}
         height={250}
-        className="bg-neutral-200 dark:bg-neutral-800 h-32 rounded-xl "
-        alt="Seedify Logo"
+        className="bg-neutral-200 dark:bg-neutral-800 h-32 rounded-xl"
+        alt="Uniswap Logo"
       />
     ),
-    icon: <IconBoxAlignRightFilled className="h-4 w-4 text-neutral-500" />,
+    icon: (
+      <div className="flex gap-1 flex-wrap">
+        <Badge className="bg-[image:var(--gradient-accent-soft)]">
+          500+ Tokens Listed
+        </Badge>
+        <Badge className="bg-[image:var(--gradient-accent-soft)]">
+          $2T+ Volume
+        </Badge>
+      </div>
+    ),
   },
   {
-    title: "The Spirit of Adventure",
-    description: "Embark on exciting journeys and thrilling discoveries.",
+    title: "Monad",
+    description:
+      "A high-performance Layer 1 blockchain optimized for parallel execution and scalability in decentralized applications.",
     header: (
       <Image
         src={"/campaign_logos/monad_logo.png"}
         width={600}
         height={250}
-        className="bg-neutral-200 dark:bg-neutral-800 h-32 rounded-xl "
-        alt="Seedify Logo"
+        className="bg-neutral-200 dark:bg-neutral-800 h-32 rounded-xl"
+        alt="Monad Logo"
       />
     ),
-    icon: <IconBoxAlignRightFilled className="h-4 w-4 text-neutral-500" />,
+    icon: (
+      <div className="flex gap-1 flex-wrap">
+        <Badge className="bg-[image:var(--gradient-accent-soft)]">
+          20+ Projects Building
+        </Badge>
+        <Badge className="bg-[image:var(--gradient-accent-soft)]">
+          $225M+ Raised
+        </Badge>
+      </div>
+    ),
   },
 ];

@@ -281,7 +281,7 @@ function App() {
             <Image
               src={"/backing_img/indodax_logo.png"}
               width={250}
-              height={150} 
+              height={150}
               className="pb-3"
               alt="BI Logo"
             />
