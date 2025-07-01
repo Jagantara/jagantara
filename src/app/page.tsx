@@ -16,22 +16,27 @@ import {
   Badge,
   CheckCircle,
   Shield,
+  Wallet,
 } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useAccount, useConnect, useDisconnect } from "wagmi";
 import SplitText from "@/components/split-text";
 import FadeContent from "@/components/fade-content";
 import AnimatedContent from "@/components/animated-content";
 import Image from "next/image";
 import { StickyScrollFileClaim } from "./components/sticky-scroll-file";
+import FAQLanding from "./components/FAQLanding";
+import { animatePageOut } from "@/lib/transition";
+import { FaWallet } from "react-icons/fa6";
 
 function App() {
   const account = useAccount();
   const { connectors, connect, status, error } = useConnect();
   const { disconnect } = useDisconnect();
-
+  const router = useRouter();
   return (
     <>
-      <main className="flex-1 mx-auto max-w-11/12 px-5">
+      <main className="flex-1 mx-auto max-w-11/12 px-5 pb-5 ">
         <section className="w-full pb-5">
           <div className=" md:px-6">
             <div className="grid gap-6 md:grid-cols-2 lg:gap-12 lg:grid-cols-2">
@@ -86,7 +91,7 @@ function App() {
                         className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none"
                         style={{ color: "var(--text)" }}
                       >
-                        <span className="bg-[image:var(--gradient-primary)] bg-clip-text text-transparent">
+                        <span className="bg-[image:var(--gradient-primary)] bg-clip-text text-transparent pr-5">
                           Digital Assets
                         </span>
                       </h1>
@@ -126,6 +131,7 @@ function App() {
                           color: "white",
                         }}
                         className="group hover:opacity-90 cursor-pointer glow-blue relative overflow-hidden pr-10"
+                        onClick={() => window.open("/dashboard", "_blank")} // 👈 open in new tab
                       >
                         Launch App
                         <ArrowUpRight className="ml-2 h-4 w-4 arrow-animate-out transition-all duration-300 group-hover:arrow-out" />
@@ -135,7 +141,7 @@ function App() {
                       <Button
                         variant="outline"
                         size="lg"
-                        className="hover:opacity-80 cursor-pointer"
+                        className="group hover:opacity-80 cursor-pointer relative overflow-hidden pr-10"
                         style={{
                           background: "var(--secondary)",
                           color: "var(--text)",
@@ -143,6 +149,8 @@ function App() {
                         }}
                       >
                         Get Coverage
+                        <ArrowUpRight className="ml-2 h-4 w-4 arrow-animate-out transition-all duration-300 group-hover:arrow-out" />
+                        <ArrowUpRight className="h-4 w-4 absolute right-3 top-1/2 -translate-y-1/2 opacity-0 arrow-animate-in transition-all duration-300 group-hover:arrow-in" />
                       </Button>
                     </div>
 
@@ -185,13 +193,13 @@ function App() {
                       {/* Policies Issued */}
                       <div className="flex flex-col justify-between p-4 rounded-2xl shadow-md bg-gradient-to-br from-[#002747] to-[#050208] text-white">
                         <p className="text-sm font-normal opacity-70">
-                          Total Claimed
+                          Total Wallet Protected
                         </p>
-                        <span className="text-4xl font-normal tracking-tight">
-                          $
+                        <span className="text-4xl font-normal tracking-tight flex gap-1 items-end">
+                          <Wallet size={30} />
                           <CountUp
                             from={0}
-                            to={10000000}
+                            to={100000}
                             separator=","
                             duration={1}
                           />
@@ -242,8 +250,15 @@ function App() {
             </div>
           </div>
         </section>
-        <section className="w-full pb-5 md:mx-6">
+        <section className="w-full py-20 md:mx-6">
           <StickyScrollFileClaim />
+        </section>
+
+        <section
+          id="FAQ"
+          className="scroll-mt-28 w-full md:mx-6 flex flex-col justify-center items-center"
+        >
+          <FAQLanding />
         </section>
       </main>
     </>

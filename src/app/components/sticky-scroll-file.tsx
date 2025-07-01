@@ -52,7 +52,7 @@ const content = [
 ];
 export function StickyScrollFileClaim() {
   return (
-    <div className="w-full py-4">
+    <div className="w-full py-4 ">
       <StickyScroll content={content} />
     </div>
   );

@@ -1,4 +1,5 @@
 "use client";
+import { animatePageOut } from "@/lib/transition";
 import { cn } from "../../lib/utils";
 import { IconMenu2, IconX } from "@tabler/icons-react";
 import {
@@ -8,6 +9,7 @@ import {
   useMotionValueEvent,
 } from "motion/react";
 import Image from "next/image";
+import { usePathname, useRouter } from "next/navigation";
 
 import React, { useRef, useState } from "react";
 
@@ -228,14 +230,29 @@ export const MobileNavToggle = ({
 };
 
 export const NavbarLogo = () => {
+  const router = useRouter();
+  const pathname = usePathname(); // get current path
+
+  const handleClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+
+    if (pathname === "/") {
+      // You're already on the homepage — optionally reset scroll or do nothing
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
+
+    animatePageOut("/", router); // Only animate if navigating
+  };
+
   return (
-    <a
-      href="/"
-      className="relative z-20  flex items-center  px-2 py-1 text-sm font-bold "
+    <button
+      onClick={handleClick}
+      className="relative z-20 flex items-center px-2 py-1 text-sm font-bold"
     >
       <Image src="/jagantara_icon.png" alt="logo" width={50} height={50} />
-      <span className="font-bold text-lg cursor-pointer ">Jagantara</span>
-    </a>
+      <span className="font-bold text-lg cursor-pointer">Jagantara</span>
+    </button>
   );
 };
 

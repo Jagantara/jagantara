@@ -30,7 +30,7 @@ export default function Header() {
     },
     {
       name: "FAQ",
-      link: "#contact",
+      link: "#FAQ",
     },
     {
       name: "Resources",
