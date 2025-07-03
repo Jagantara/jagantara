@@ -87,9 +87,9 @@ const items = [
     ),
   },
   {
-    title: "Blockchain Innovators (BI)",
+    title: "Bank Indonesia",
     description:
-      "Fueling decentralized innovation by connecting visionaries, developers, and investors through powerful ecosystem support.",
+      "Indonesia’s central bank exploring CBDCs, blockchain adoption, and financial innovation through regulatory sandboxes.",
     header: (
       <Image
         src={"/campaign_logos/BI_logo.jpg"}
@@ -102,10 +102,10 @@ const items = [
     icon: (
       <div className="flex gap-1 flex-wrap">
         <Badge className="bg-[image:var(--gradient-accent-soft)]">
-          80+ Projects Backed
+          Garuda Project
         </Badge>
         <Badge className="bg-[image:var(--gradient-accent-soft)]">
-          $600M+ Raised
+          $10M+ Raised
         </Badge>
       </div>
     ),

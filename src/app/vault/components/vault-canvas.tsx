@@ -7,10 +7,11 @@ import { Button } from "@/components/ui/button";
 import { ArrowUpRight } from "lucide-react";
 import CountUp from "@/components/countup";
 import GradientText from "@/components/gradient-text";
+import { useRouter } from "next/navigation";
 export default function Component() {
   const [activeStep, setActiveStep] = useState(1);
   const { scrollYProgress } = useScroll();
-
+  const router = useRouter();
   // Transform scroll progress to step changes
   const step = useTransform(scrollYProgress, [0, 0.33, 0.66, 1], [1, 2, 3, 3]);
 
@@ -62,7 +63,7 @@ export default function Component() {
                     color: "white",
                   }}
                   className="group hover:opacity-90 cursor-pointer glow-blue relative overflow-hidden pr-10"
-                  onClick={() => window.open("/dashboard", "_blank")} // 👈 open in new tab
+                  onClick={() => router.push("/earn")} // 👈 open in new tab
                 >
                   Deposit Now
                   <ArrowUpRight className="ml-2 h-4 w-4 arrow-animate-out transition-all duration-300 group-hover:arrow-out" />
@@ -506,7 +507,7 @@ function Step2Canvas() {
         <rect
           x="15"
           y="180"
-          width="400"
+          width="380"
           height="200"
           fill="none"
           stroke="#60a5fa"

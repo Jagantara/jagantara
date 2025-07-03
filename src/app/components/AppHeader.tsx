@@ -13,7 +13,7 @@ export default function Header() {
   const navItems = [
     "Dashboard",
     "Earn",
-    "Claim",
+    "Coverage",
     "Vault",
     "JagaDAO",
     "Campaign",

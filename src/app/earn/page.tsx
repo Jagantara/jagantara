@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import Image from "next/image";
+
 import StakingDetail from "./components/StakingDetail";
 export const metadata: Metadata = {
   title: "Jagantara | Earn",
