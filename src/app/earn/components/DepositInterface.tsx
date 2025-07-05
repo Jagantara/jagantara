@@ -1,27 +1,55 @@
-import { ArrowDown, TrendingUp, Zap } from "lucide-react";
+import { TOKENS } from "@/constants/abi";
+import { useStake } from "@/hooks/useJagaStake";
+import { useTokenBalance } from "@/hooks/useTokenBalance";
+import { formatTokenAmount } from "@/lib/formatters";
+import {
+  formatNextSessionDate,
+  formatTimeLeft,
+  formatUnixToDate,
+  getActiveFrom,
+} from "@/lib/utils";
+import { Token } from "@/types/stake";
+import { ArrowDown, TrendingUp } from "lucide-react";
 import { useState } from "react";
 
 export default function DepositInterface() {
+  const { stake, isStaking, timeLeft, nextSessionStart, currentSession } =
+    useStake();
   const [amountIn, setAmountIn] = useState<string>("");
-  const [isSwapping, setIsSwapping] = useState<boolean>(false);
+  const [tokenIn, setTokenIn] = useState<Token>(TOKENS.USDC);
+  const [tokenOut, setTokenOut] = useState<Token>(TOKENS.JAGA);
   const amountOut = amountIn || "0.0";
-
+  const tokenInBalance = useTokenBalance(tokenIn);
+  const tokenOutBalance = useTokenBalance(tokenOut);
+  console.log("NEXT SESISON START: ", nextSessionStart);
+  console.log("Current SESISON START: ", currentSession);
   const isInsufficientBalance = () => {
-    // Mock logic – replace with real balance check
-    const balance = 1000; // user USDC balance
+    const formatted = formatTokenAmount(
+      tokenInBalance.balance,
+      tokenIn.symbol as keyof typeof TOKENS // ✅ use tokenIn here
+    );
+
+    const balance = parseFloat(formatted.replace(/,/g, "")); // ✅ strip commas just in case
     return parseFloat(amountIn || "0") > balance;
   };
 
-  const handleSwap = () => {
-    if (isSwapping || isInsufficientBalance() || !amountIn) return;
+  const handleStake = async () => {
+    if (isStaking || isInsufficientBalance() || !amountIn) return;
 
-    setIsSwapping(true);
-    // Simulate swap delay
-    setTimeout(() => {
-      setIsSwapping(false);
-      alert(`Deposited ${amountIn} USDC got ${amountOut} JAGA token`);
-    }, 1500);
+    const success = await stake(amountIn);
+    if (success) {
+      setAmountIn("");
+      tokenInBalance.refetch();
+      tokenOutBalance.refetch();
+    }
   };
+
+  const handleMaxClick = () => {
+    const balance =
+      Number(tokenInBalance.balance) / Math.pow(10, tokenIn.decimals);
+    setAmountIn(balance.toString());
+  };
+
   return (
     <div className="w-full  mx-auto px-4 sm:px-0">
       <div className="glass rounded-2xl p-5 sm:p-6 lg:p-8 card-hover border border-white/10 shadow-2xl">
@@ -37,10 +65,10 @@ export default function DepositInterface() {
                 <span className="text-xs sm:text-sm opacity-70">USDC</span>
                 <span className="text-xs sm:text-sm truncate ml-2 opacity-70">
                   Balance:{" "}
-                  {/* {formatTokenAmount(
+                  {formatTokenAmount(
                     tokenInBalance.balance,
                     tokenIn.symbol as keyof typeof TOKENS
-                  )} */}
+                  )}
                 </span>
               </div>
               <div className="flex items-center gap-2 sm:gap-3 ">
@@ -53,7 +81,7 @@ export default function DepositInterface() {
                 />
                 <div className="flex items-center gap-2 flex-shrink-0">
                   <button
-                    onClick={() => setAmountIn("1000")}
+                    onClick={handleMaxClick}
                     className="px-2 py-1 text-xs rounded font-medium hover:bg-white/20 transition-colors whitespace-nowrap text-[var(--primary)] cursor-pointer"
                   >
                     MAX
@@ -85,10 +113,10 @@ export default function DepositInterface() {
               <span className="text-xs sm:text-sm opacity-70">JAGA</span>
               <span className="text-xs sm:text-sm truncate ml-2 opacity-70">
                 Balance:{" "}
-                {/* {formatTokenAmount(
-                    tokenOutBalance.balance,
-                    tokenOut.symbol as keyof typeof TOKENS
-                  )} */}
+                {formatTokenAmount(
+                  tokenOutBalance.balance,
+                  tokenOut.symbol as keyof typeof TOKENS
+                )}
               </span>
             </div>
             <div className="flex items-center gap-2 sm:gap-3">
@@ -112,31 +140,35 @@ export default function DepositInterface() {
         <div className="relative mt-5">
           <div className="p-3 sm:p-4 rounded-xl border border-slate-400 bg-[var(--secondary)]">
             <div className="flex justify-between">
-              <p className="opacity-70 font-light">⌛ Active from</p>
-              <p className="font-medium">1 July 2025</p>
+              <p className="opacity-70 font-light">📌 Active From</p>
+              <p className="font-medium">{getActiveFrom(timeLeft!)}</p>
+            </div>
+            <div className="flex justify-between">
+              <p className="opacity-70 font-light">⌛ Valid Until</p>
+              <p className="font-medium">{formatTimeLeft(timeLeft!)}</p>
+            </div>
+            <div className="flex justify-between">
+              <p className="opacity-70 font-light">🔑 Next Session</p>
+              <p className="font-medium">{formatNextSessionDate(timeLeft!)}</p>
             </div>
             <div className="flex justify-between">
               <p className="opacity-70 font-light">🕒 Batch Duration</p>
               <p className="font-medium">30 Days</p>
-            </div>
-            <div className="flex justify-between">
-              <p className="opacity-70 font-light">💸 Expected Reward</p>
-              <p className="font-medium text-green-600">$78.8</p>
             </div>
           </div>
         </div>
 
         {/* Swap Button */}
         <button
-          onClick={handleSwap}
-          disabled={!amountIn || isSwapping || isInsufficientBalance()}
+          onClick={handleStake}
+          disabled={!amountIn || isStaking || isInsufficientBalance()}
           className={`w-full mt-6 py-4 rounded-xl font-bold text-lg transition-all duration-300 flex items-center justify-center gap-2  ${
-            !amountIn || isSwapping || isInsufficientBalance()
+            !amountIn || isStaking || isInsufficientBalance()
               ? "bg-blue-300/30  cursor-not-allowed opacity-70"
               : "bg-[image:var(--gradient-accent-soft)]  hover:opacity-90 cursor-pointer"
           }`}
         >
-          {isSwapping ? (
+          {isStaking ? (
             <>
               <div className="spinner w-5 h-5 border-2 border-t-transparent border-white rounded-full animate-spin" />
               <span>Depositing...</span>

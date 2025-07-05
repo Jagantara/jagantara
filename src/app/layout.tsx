@@ -5,7 +5,7 @@ import { Providers } from "./providers";
 
 import TransitionClient from "@/app/components/TransitionClient";
 import AppShell from "./components/AppShell";
-
+import { Toaster } from "react-hot-toast";
 export const metadata: Metadata = {
   title: "Jagantara | Indonesian Insurance for Digital Assets",
   description: "Decentralized coverage",
@@ -24,6 +24,7 @@ export default function RootLayout({
         <TransitionClient />
         <Providers>
           <AppShell>{children}</AppShell>
+          <Toaster position="top-center" />
         </Providers>
       </body>
     </html>

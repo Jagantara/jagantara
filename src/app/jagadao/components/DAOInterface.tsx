@@ -159,7 +159,7 @@ export default function DAOInterface() {
   return (
     <div>
       {isConnected ? (
-        <div className=" shadow-lg bg-[var(--third)] rounded-2xl">
+        <div className=" shadow-lg  rounded-2xl">
           {/* Header */}
           {/* <header className=" shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -196,10 +196,10 @@ export default function DAOInterface() {
         </div>
       </header> */}
 
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <Tabs defaultValue="active" className="space-y-6">
+          <div className=" mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <Tabs defaultValue="active" className="space-y-6 ">
               <div className="flex justify-between items-center">
-                <TabsList className="grid w-full max-w-md grid-cols-3">
+                <TabsList className="grid w-full max-w-md grid-cols-3 border-slate-500">
                   <TabsTrigger value="active">Active</TabsTrigger>
                   <TabsTrigger value="completed">Completed</TabsTrigger>
                   <TabsTrigger value="analytics">Analytics</TabsTrigger>
@@ -249,7 +249,7 @@ export default function DAOInterface() {
                                   {proposal.title}
                                 </CardTitle>
                               </div>
-                              <div className="text-right text-sm text-gray-500">
+                              <div className="text-right text-sm ">
                                 <div className="flex items-center space-x-1">
                                   <Clock className="h-3 w-3" />
                                   <span>{proposal.timeLeft}</span>
@@ -264,10 +264,10 @@ export default function DAOInterface() {
                             <div className="space-y-3">
                               <div className="flex justify-between text-sm">
                                 <span>
-                                  For: {proposal.votesFor.toLocaleString()}
+                                  ✅ For: {proposal.votesFor.toLocaleString()}
                                 </span>
                                 <span>
-                                  Against:{" "}
+                                  ❌ Against:{" "}
                                   {proposal.votesAgainst.toLocaleString()}
                                 </span>
                               </div>
@@ -370,9 +370,9 @@ export default function DAOInterface() {
                         </CardContent>
                       </Card>
                     ) : (
-                      <Card className="bg-[var(--secondary)]">
+                      <Card className="bg-[var(--secondary)] ">
                         <CardContent className="py-6">
-                          <div className="text-center text-gray-500">
+                          <div className="text-center ">
                             <Vote className="h-12 w-12 mx-auto mb-3 opacity-50" />
                             <p>Select a proposal to vote</p>
                           </div>
@@ -384,24 +384,24 @@ export default function DAOInterface() {
                     <Card className="bg-[var(--secondary)]">
                       <CardHeader>
                         <CardTitle className="text-lg">
-                          Governance Stats
+                          🏛️Governance Stats
                         </CardTitle>
                       </CardHeader>
                       <CardContent className="space-y-4">
                         <div className="flex justify-between">
-                          <span className="text-sm ">Total Proposals</span>
+                          <span className="text-sm ">🗝️ Total Proposals</span>
                           <span className="font-medium">47</span>
                         </div>
                         <div className="flex justify-between">
-                          <span className="text-sm ">Passed</span>
+                          <span className="text-sm ">✅ Passed</span>
                           <span className="font-medium text-green-600">32</span>
                         </div>
                         <div className="flex justify-between">
-                          <span className="text-sm ">Rejected</span>
+                          <span className="text-sm ">❌ Rejected</span>
                           <span className="font-medium text-red-600">13</span>
                         </div>
                         <div className="flex justify-between">
-                          <span className="text-sm ">Active</span>
+                          <span className="text-sm ">⌛ Active</span>
                           <span className="font-medium text-blue-600">2</span>
                         </div>
                         <Separator />
@@ -562,7 +562,7 @@ export default function DAOInterface() {
             Connect Your Wallet
           </h1>
           <p className="text-sm text-muted-foreground max-w-md">
-            To access your staking dashboard, please connect your wallet
+            To access your JagaDAO and Vote, please connect your wallet
             securely.
           </p>
           <ConnectWallet />

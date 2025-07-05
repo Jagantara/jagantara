@@ -24,9 +24,12 @@ import {
 } from "@/components/ui/chart";
 import { useState } from "react";
 import { FaClock } from "react-icons/fa6";
+import { useStake } from "@/hooks/useJagaStake";
+import { formatTokenAmount } from "@/lib/formatters";
 type TimeFilter = "7D" | "30D" | "12M";
 type StakingData = { date: string; rewards: number; deposits: number };
 export default function AnalyticInterface() {
+  const { currentStake, refetchCurrentStake } = useStake();
   const [timeFilter, setTimeFilter] = useState<TimeFilter>("12M");
   const stakingDataSets: Record<TimeFilter, StakingData[]> = {
     "7D": [
@@ -116,7 +119,9 @@ export default function AnalyticInterface() {
             </CardTitle>
             <div className="flex items-center gap-2">
               <Wallet className="h-5 w-5 opacity-80" />
-              <span className="text-2xl font-bold">$74,500</span>
+              <span className="text-2xl font-bold">
+                {formatTokenAmount(currentStake, "USDC")}
+              </span>
             </div>
           </CardHeader>
           <CardContent className="pt-0">

@@ -28,8 +28,10 @@ import { StickyScrollFileClaim } from "./components/sticky-scroll-file";
 import FAQLanding from "./components/FAQLanding";
 import { animatePageOut } from "@/lib/transition";
 import { FaWallet } from "react-icons/fa6";
+import { useClaimManager } from "@/hooks/useClaimManager";
 
 function App() {
+  const { formattedVaultBalance } = useClaimManager();
   const account = useAccount();
   const { connectors, connect, status, error } = useConnect();
   const { disconnect } = useDisconnect();
@@ -110,104 +112,93 @@ function App() {
                     blockchain technology for transparent, trustless protection.
                   </p>
                 </div>
-                <AnimatedContent
-                  distance={100}
-                  direction="vertical"
-                  reverse={false}
-                  duration={1.2}
-                  ease="power3.out"
-                  initialOpacity={0}
-                  animateOpacity
-                  scale={1}
-                  threshold={0.1}
-                  delay={0}
-                >
-                  <div className="flex flex-col gap-3">
-                    <div className="flex flex-col gap-2 min-[400px]:flex-row">
-                      <Button
-                        size="lg"
-                        style={{
-                          background: "var(--gradient-primary)",
-                          color: "white",
-                        }}
-                        className="group hover:opacity-90 cursor-pointer glow-blue relative overflow-hidden pr-10"
-                        onClick={() => window.open("/dashboard", "_blank")} // 👈 open in new tab
-                      >
-                        Launch App
-                        <ArrowUpRight className="ml-2 h-4 w-4 arrow-animate-out transition-all duration-300 group-hover:arrow-out" />
-                        <ArrowUpRight className="h-4 w-4 absolute right-3 top-1/2 -translate-y-1/2 opacity-0 arrow-animate-in transition-all duration-300 group-hover:arrow-in" />
-                      </Button>
 
-                      <Button
-                        variant="outline"
-                        size="lg"
-                        className="group hover:opacity-80 cursor-pointer relative overflow-hidden pr-10"
-                        style={{
-                          background: "var(--secondary)",
-                          color: "var(--text)",
-                          borderColor: "var(--secondary)",
-                        }}
-                      >
-                        Get Coverage
-                        <ArrowUpRight className="ml-2 h-4 w-4 arrow-animate-out transition-all duration-300 group-hover:arrow-out" />
-                        <ArrowUpRight className="h-4 w-4 absolute right-3 top-1/2 -translate-y-1/2 opacity-0 arrow-animate-in transition-all duration-300 group-hover:arrow-in" />
-                      </Button>
-                    </div>
-
-                    <div
-                      className="flex items-center gap-4 text-sm"
-                      style={{ color: "var(--text)", opacity: 0.8 }}
+                <div className="flex flex-col gap-3">
+                  <div className="flex flex-col gap-2 min-[400px]:flex-row">
+                    <Button
+                      size="lg"
+                      style={{
+                        background: "var(--gradient-primary)",
+                        color: "white",
+                      }}
+                      className="group hover:opacity-90 cursor-pointer glow-blue relative overflow-hidden pr-10"
+                      onClick={() => window.open("/earn", "_blank")} // 👈 open in new tab
                     >
-                      <div className="flex items-center gap-1">
-                        <CheckCircle
-                          className="h-4 w-4"
-                          style={{ color: "var(--primary)" }}
-                        />
-                        <span>$50M+ Assets Protected</span>
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <CheckCircle
-                          className="h-4 w-4"
-                          style={{ color: "var(--primary)" }}
-                        />
-                        <span>24/7 Coverage</span>
-                      </div>
-                    </div>
-                    <div className="grid gap-6 md:grid-cols-2 lg:gap-6 ">
-                      {/* Total Deposits */}
-                      <div className="flex flex-col justify-between p-4 rounded-2xl shadow-md  bg-[image:var(--gradient-primary)] text-white">
-                        <p className="text-sm font-normal opacity-70">
-                          Total Deposits
-                        </p>
-                        <span className="text-4xl font-normal tracking-tight">
-                          $
-                          <CountUp
-                            from={0}
-                            to={10000000}
-                            separator=","
-                            duration={1}
-                          />
-                        </span>
-                      </div>
+                      Launch App
+                      <ArrowUpRight className="ml-2 h-4 w-4 arrow-animate-out transition-all duration-300 group-hover:arrow-out" />
+                      <ArrowUpRight className="h-4 w-4 absolute right-3 top-1/2 -translate-y-1/2 opacity-0 arrow-animate-in transition-all duration-300 group-hover:arrow-in" />
+                    </Button>
 
-                      {/* Policies Issued */}
-                      <div className="flex flex-col justify-between p-4 rounded-2xl shadow-md bg-gradient-to-br from-[#002747] to-[#050208] text-white">
-                        <p className="text-sm font-normal opacity-70">
-                          Total Wallet Protected
-                        </p>
-                        <span className="text-4xl font-normal tracking-tight flex gap-1 items-end">
-                          <Wallet size={30} />
-                          <CountUp
-                            from={0}
-                            to={100000}
-                            separator=","
-                            duration={1}
-                          />
-                        </span>
-                      </div>
+                    <Button
+                      variant="outline"
+                      size="lg"
+                      className="group hover:opacity-80 cursor-pointer relative overflow-hidden pr-10"
+                      style={{
+                        background: "var(--secondary)",
+                        color: "var(--text)",
+                        borderColor: "var(--secondary)",
+                      }}
+                      onClick={() => window.open("/coverage", "_blank")} // 👈 open in new tab
+                    >
+                      Get Coverage
+                      <ArrowUpRight className="ml-2 h-4 w-4 arrow-animate-out transition-all duration-300 group-hover:arrow-out" />
+                      <ArrowUpRight className="h-4 w-4 absolute right-3 top-1/2 -translate-y-1/2 opacity-0 arrow-animate-in transition-all duration-300 group-hover:arrow-in" />
+                    </Button>
+                  </div>
+
+                  <div
+                    className="flex items-center gap-4 text-sm"
+                    style={{ color: "var(--text)", opacity: 0.8 }}
+                  >
+                    <div className="flex items-center gap-1">
+                      <CheckCircle
+                        className="h-4 w-4"
+                        style={{ color: "var(--primary)" }}
+                      />
+                      <span>$50M+ Assets Protected</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <CheckCircle
+                        className="h-4 w-4"
+                        style={{ color: "var(--primary)" }}
+                      />
+                      <span>24/7 Coverage</span>
                     </div>
                   </div>
-                </AnimatedContent>
+                  <div className="grid gap-6 md:grid-cols-2 lg:gap-6 ">
+                    {/* Total Deposits */}
+                    <div className="flex flex-col justify-between p-4 rounded-2xl shadow-md  bg-[image:var(--gradient-primary)] text-white">
+                      <p className="text-sm font-normal opacity-70">
+                        Total Value Locked
+                      </p>
+                      <span className="text-4xl font-normal tracking-tight">
+                        $
+                        <CountUp
+                          from={0}
+                          to={Number(formattedVaultBalance)}
+                          separator=","
+                          duration={1}
+                        />
+                      </span>
+                    </div>
+
+                    {/* Policies Issued */}
+                    <div className="flex flex-col justify-between p-4 rounded-2xl shadow-md bg-gradient-to-br from-[#002747] to-[#050208] text-white">
+                      <p className="text-sm font-normal opacity-70">
+                        Total Wallet Protected
+                      </p>
+                      <span className="text-4xl font-normal tracking-tight flex gap-1 items-end">
+                        <Wallet size={30} />
+                        <CountUp
+                          from={0}
+                          to={100000}
+                          separator=","
+                          duration={1}
+                        />
+                      </span>
+                    </div>
+                  </div>
+                </div>
               </div>
               <div className="flex items-center justify-center ">
                 <div className="relative w-full h-[600px] cursor-grab">

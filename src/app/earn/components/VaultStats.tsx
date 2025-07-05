@@ -1,7 +1,13 @@
 import GradientText from "@/components/gradient-text";
 import { Activity, DollarSign, Droplets, TrendingUp } from "lucide-react";
 import Image from "next/image";
+import { useClaimManager } from "@/hooks/useClaimManager";
+import { formatNextSessionDate } from "@/lib/utils";
+import { useStake } from "@/hooks/useJagaStake";
+import { formatTokenAmount } from "@/lib/calculations";
 export default function VaultStats() {
+  const { formattedVaultBalance } = useClaimManager();
+  const { timeLeft, nextSession } = useStake();
   const StatCard = ({
     icon,
     title,
@@ -84,8 +90,8 @@ export default function VaultStats() {
                 <DollarSign className="w-5 h-5" style={{ color: "#10B981" }} />
               }
               title="Total Value Locked"
-              value={`0`}
-              subtitle="Real pool reserves"
+              value={formattedVaultBalance + " USDC"}
+              subtitle="Real vault reserves"
               color="#10B981"
               // isLoading={isLoading}
             />
@@ -94,9 +100,9 @@ export default function VaultStats() {
               icon={
                 <Activity className="w-5 h-5" style={{ color: "#836EF9" }} />
               }
-              title="24h Volume"
-              value={`0`}
-              subtitle="Estimated trading"
+              title="Next Session"
+              value={`${formatNextSessionDate(timeLeft!)}`}
+              subtitle="Next staking batch"
               color="#836EF9"
               // isLoading={isLoading}
             />
@@ -108,20 +114,22 @@ export default function VaultStats() {
               icon={
                 <TrendingUp className="w-5 h-5" style={{ color: "#A0055D" }} />
               }
-              title="CAMP Price"
-              value={`0`}
-              subtitle="USDC per CAMP"
+              title="Total Staked"
+              value={`${formatTokenAmount(
+                (nextSession.totalStaked as bigint) || BigInt(0),
+                6
+              )} USDC`}
+              subtitle="Total staked this session"
               color="#A0055D"
               // isLoading={isLoading}
             />
-
             <StatCard
               icon={
                 <Droplets className="w-5 h-5" style={{ color: "#F59E0B" }} />
               }
-              title="APR"
-              value={`0%`}
-              subtitle="Based on trading fees"
+              title="APY"
+              value={`15,6%`}
+              subtitle="Based on company revenue"
               color="#F59E0B"
               // isLoading={isLoading}
             />
@@ -132,37 +140,21 @@ export default function VaultStats() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-10">
         <div className="glass rounded-xl p-6 border border-white/10 bg-[var(--secondary)]">
           <div className="text-center">
-            <div className="text-3xl mb-2">⚡</div>
-            <div className="font-semibold mb-1" style={{ color: "#FBFAF9" }}>
-              Trading Fee
-            </div>
-            <div className="text-2xl font-bold" style={{ color: "#836EF9" }}>
-              0.3%
-            </div>
-            <div
-              className="text-sm"
-              style={{ color: "rgba(251, 250, 249, 0.7)" }}
-            >
-              Per transaction
-            </div>
+            <div className="text-3xl mb-2">⏳</div>
+            <div className="font-semibold mb-1">Batch Duration</div>
+            <div className="text-2xl font-bold">30 Days</div>
+            <div className="text-sm opacity-70">Per staking session</div>
           </div>
         </div>
 
         <div className="glass rounded-xl p-6 border border-white/10 bg-[var(--secondary)]">
           <div className="text-center">
             <div className="text-3xl mb-2">🏦</div>
-            <div className="font-semibold mb-1" style={{ color: "#FBFAF9" }}>
-              Protocol
+            <div className="font-semibold mb-1">Governance</div>
+            <div className="text-2xl font-bold text-[var(--accent)]">
+              JagaDAO
             </div>
-            <div className="text-2xl font-bold" style={{ color: "#A0055D" }}>
-              NadTrade
-            </div>
-            <div
-              className="text-sm"
-              style={{ color: "rgba(251, 250, 249, 0.7)" }}
-            >
-              AMM Protocol
-            </div>
+            <div className="text-sm opacity-70">Community Staking</div>
           </div>
         </div>
 

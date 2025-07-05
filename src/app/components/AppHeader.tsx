@@ -11,18 +11,18 @@ import { usePathname, useRouter } from "next/navigation";
 
 export default function Header() {
   const navItems = [
-    "Dashboard",
+    // "Dashboard",
     "Earn",
     "Coverage",
-    "Vault",
     "JagaDAO",
+    "Vault",
     "Campaign",
   ];
   const pathname = usePathname();
   const active =
     navItems.find(
       (item) => pathname === `/${item.toLowerCase().replace(/\s+/g, "-")}`
-    ) || "Dashboard";
+    ) || "Earn";
   const router = useRouter();
   const { theme, setTheme } = useTheme();
 

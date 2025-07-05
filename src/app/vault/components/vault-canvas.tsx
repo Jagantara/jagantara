@@ -4,11 +4,13 @@ import { useState, useEffect } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Wallet } from "lucide-react";
 import CountUp from "@/components/countup";
 import GradientText from "@/components/gradient-text";
 import { useRouter } from "next/navigation";
+import { useClaimManager } from "@/hooks/useClaimManager";
 export default function Component() {
+  const { formattedVaultBalance } = useClaimManager();
   const [activeStep, setActiveStep] = useState(1);
   const { scrollYProgress } = useScroll();
   const router = useRouter();
@@ -168,12 +170,30 @@ export default function Component() {
                   </div>
                 </motion.div>
               </div>
-              <div className="flex flex-col justify-between p-4 rounded-2xl shadow-md  bg-[image:var(--gradient-primary)] text-white">
-                <p className="text-sm font-normal opacity-70">Total Deposits</p>
-                <span className="text-4xl font-normal tracking-tight">
-                  $
-                  <CountUp from={0} to={10000000} separator="," duration={1} />
-                </span>
+              <div className="grid gap-6 md:grid-cols-2 lg:gap-6 ">
+                <div className="flex flex-col justify-between p-4 rounded-2xl shadow-md  bg-[image:var(--gradient-primary)] text-white">
+                  <p className="text-sm font-normal opacity-70">
+                    Total Value Locked
+                  </p>
+                  <span className="text-4xl font-normal tracking-tight">
+                    $
+                    <CountUp
+                      from={0}
+                      to={Number(formattedVaultBalance)}
+                      separator=","
+                      duration={1}
+                    />
+                  </span>
+                </div>
+                <div className="flex flex-col justify-between p-4 rounded-2xl shadow-md bg-gradient-to-br from-[#002747] to-[#050208] text-white">
+                  <p className="text-sm font-normal opacity-70">
+                    Total Wallet Protected
+                  </p>
+                  <span className="text-4xl font-normal tracking-tight flex gap-1 items-end">
+                    <Wallet size={30} />
+                    <CountUp from={0} to={100000} separator="," duration={1} />
+                  </span>
+                </div>
               </div>
             </div>
           </div>
