@@ -147,6 +147,34 @@
     "type": "function"
   },
   {
+    "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "name": "claims",
+    "outputs": [
+      { "internalType": "address", "name": "claimant", "type": "address" },
+      {
+        "internalType": "address",
+        "name": "coveredAddress",
+        "type": "address"
+      },
+      { "internalType": "uint256", "name": "tier", "type": "uint256" },
+      { "internalType": "string", "name": "title", "type": "string" },
+      { "internalType": "string", "name": "reason", "type": "string" },
+      { "internalType": "string", "name": "claimType", "type": "string" },
+      { "internalType": "uint256", "name": "amount", "type": "uint256" },
+      { "internalType": "uint256", "name": "createdAt", "type": "uint256" },
+      { "internalType": "uint256", "name": "yesVotes", "type": "uint256" },
+      { "internalType": "uint256", "name": "noVotes", "type": "uint256" },
+      {
+        "internalType": "enum DAOGovernance.ClaimStatus",
+        "name": "status",
+        "type": "uint8"
+      },
+      { "internalType": "uint256", "name": "approvedAt", "type": "uint256" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [
       { "internalType": "uint256", "name": "claimId", "type": "uint256" }
     ],

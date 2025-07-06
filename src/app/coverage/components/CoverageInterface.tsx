@@ -41,6 +41,7 @@ import { useInsuranceManager } from "@/hooks/useInsuranceManager";
 import PremiumsPage from "./PremiumCards";
 import { useDAOGovernance } from "@/hooks/useDAOGovernance";
 import { parseTokenAmount } from "@/lib/formatters";
+import { useRouter } from "next/navigation";
 
 interface ClaimSubmissionData {
   claimant: string; // address
@@ -59,10 +60,11 @@ interface ClaimSubmissionData {
 export default function CoverageInterface() {
   const { submitClaim, isSubmitting } = useDAOGovernance();
   const { isConnected, address } = useAccount();
-  const { isActive, policy } = useInsuranceManager();
+  const { isActive, policy, isActiveLoading } = useInsuranceManager();
   const [userAddress, setUserAddress] = useState("");
   const [submissionSuccess, setSubmissionSuccess] = useState(false);
   const [claimId, setClaimId] = useState<number | null>(null);
+  const router = useRouter();
   console.log("POLICY: ", policy);
   const [formData, setFormData] = useState<ClaimSubmissionData>({
     claimant: "",
@@ -123,15 +125,6 @@ export default function CoverageInterface() {
     setFormData((prev) => ({ ...prev, acknowledgments: newAcknowledgments }));
   };
 
-  const formatAmountForContract = (amount: string, currency: string) => {
-    // Convert to wei-like format (multiply by 10^18 for precision)
-    const numAmount = Number.parseFloat(amount);
-    if (currency === "USD") {
-      return BigInt(Math.floor(numAmount * 1e18)).toString();
-    }
-    return BigInt(Math.floor(numAmount * 1e18)).toString();
-  };
-
   const handleClaim = async () => {
     await submitClaim(
       formData.reason,
@@ -139,7 +132,7 @@ export default function CoverageInterface() {
       formData.claimType,
       parseTokenAmount(formData.amount, 6)
     );
-    window.location.reload();
+    router.push("/jagadao");
   };
 
   const isFormValid = () => {
@@ -171,86 +164,13 @@ export default function CoverageInterface() {
       updateFormData("tier", tier);
     }
   }, [policy]);
-  if (submissionSuccess) {
+  if (isActiveLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-gray-100 flex items-center justify-center">
-        <Card className="max-w-2xl mx-auto">
-          <CardHeader className="text-center">
-            <div className="bg-green-100 p-3 rounded-full w-16 h-16 mx-auto mb-4">
-              <CheckCircle className="h-10 w-10 text-green-600" />
-            </div>
-            <CardTitle className="text-2xl text-green-800">
-              Claim Submitted Successfully!
-            </CardTitle>
-            <CardDescription>
-              Your claim has been submitted to the DAO for voting
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="bg-gray-50 p-4 rounded-lg">
-              <div className="grid gap-2 text-sm">
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Claim ID:</span>
-                  <span className="font-mono font-medium">#{claimId}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Amount:</span>
-                  <span className="font-medium">
-                    {Number.parseFloat(formData.amount).toLocaleString()}{" "}
-                    {formData.currency}
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Claimant:</span>
-                  <span className="font-mono text-xs">{formData.claimant}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Status:</span>
-                  <Badge className="bg-yellow-100 text-yellow-800">
-                    <Clock className="h-3 w-3 mr-1" />
-                    Pending DAO Vote
-                  </Badge>
-                </div>
-              </div>
-            </div>
-
-            <Alert>
-              <Info className="h-4 w-4" />
-              <AlertDescription>
-                Your claim is now live for DAO voting. Members will review your
-                submission and vote to approve or reject the claim. You'll be
-                notified of the outcome via email and on-chain events.
-              </AlertDescription>
-            </Alert>
-
-            <div className="flex gap-3">
-              <Button
-                onClick={() => {
-                  setSubmissionSuccess(false);
-                  setFormData({
-                    claimant: userAddress,
-                    coveredAddress: "",
-                    tier: "",
-                    reason: "",
-                    amount: "",
-                    currency: "USD",
-                    claimType: "",
-                    title: "",
-                    supportingEvidence: "",
-                    acknowledgments: [false, false, false, false],
-                  });
-                }}
-                variant="outline"
-                className="flex-1 bg-transparent"
-              >
-                Submit Another Claim
-              </Button>
-              <Button className="flex-1 bg-purple-600 hover:bg-purple-700">
-                View Claim Status
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-center space-y-4">
+          <Clock className="h-6 w-6 animate-spin mx-auto text-blue-500" />
+          <p className="text-muted-foreground">Checking policy status...</p>
+        </div>
       </div>
     );
   }
@@ -311,9 +231,9 @@ export default function CoverageInterface() {
                               </span>
                             </div>
                             <div className="flex justify-between">
-                              <span className="">Reason Length:</span>
-                              <span className="font-medium ">
-                                {formData.reason.length} characters
+                              <span className="">Cover Wallet Address:</span>
+                              <span className="font-mono ">
+                                {formData.coveredAddress}
                               </span>
                             </div>
                           </div>

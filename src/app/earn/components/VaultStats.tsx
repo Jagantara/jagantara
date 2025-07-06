@@ -128,7 +128,7 @@ export default function VaultStats() {
                 <Droplets className="w-5 h-5" style={{ color: "#F59E0B" }} />
               }
               title="APY"
-              value={`15,6%`}
+              value={`12,4%`}
               subtitle="Based on company revenue"
               color="#F59E0B"
               // isLoading={isLoading}

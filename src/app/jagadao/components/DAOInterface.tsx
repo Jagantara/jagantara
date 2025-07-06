@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -12,7 +12,6 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-// import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import {
   Shield,
@@ -28,12 +27,20 @@ import {
 } from "lucide-react";
 import { useAccount } from "wagmi";
 import ConnectWallet from "@/app/components/ConnectWallet";
+import { useDAOGovernance, ClaimStatus } from "@/hooks/useDAOGovernance";
+import toast from "react-hot-toast";
+import { Token } from "@/types/stake";
+import { TOKENS } from "@/constants/abi";
+import { useTokenBalance } from "@/hooks/useTokenBalance";
+import { formatBigInt, formatTokenAmount } from "@/lib/formatters";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface Proposal {
   id: string;
   title: string;
   description: string;
   proposer: string;
+  amount: bigint;
   status: "active" | "passed" | "rejected" | "pending";
   votesFor: number;
   votesAgainst: number;
@@ -41,85 +48,101 @@ interface Proposal {
   quorum: number;
   timeLeft: string;
   category: string;
+  canExecute: boolean;
 }
 
 export default function DAOInterface() {
   const [selectedProposal, setSelectedProposal] = useState<string | null>(null);
-  const [userVotingPower] = useState(1250); // Mock user voting power
-  const [userTokens] = useState(5000); // Mock user token balance
+  const [proposals, setProposals] = useState<Proposal[]>([]);
+  const [loadingProposals, setLoadingProposals] = useState(true);
+  const [tokenOut, setTokenOut] = useState<Token>(TOKENS.JAGA);
+  const tokenOutBalance = useTokenBalance(tokenOut);
   const { isConnected } = useAccount();
-  const proposals: Proposal[] = [
-    {
-      id: "1",
-      title: "Expand Coverage to NFT Collections",
-      description:
-        "Proposal to extend insurance coverage to include blue-chip NFT collections with floor prices above 5 ETH. This would include coverage for smart contract risks, marketplace hacks, and metadata corruption.",
-      proposer: "0x742d...8f3a",
-      status: "active",
-      votesFor: 15420,
-      votesAgainst: 3280,
-      totalVotes: 18700,
-      quorum: 20000,
-      timeLeft: "2 days, 14 hours",
-      category: "Coverage Expansion",
-    },
-    {
-      id: "2",
-      title: "Reduce Premium Rates for DeFi Protocols",
-      description:
-        "Adjust premium calculation algorithm to reduce rates for established DeFi protocols with 12+ months of operation and TVL above $100M.",
-      proposer: "0x1a2b...9c4d",
-      status: "active",
-      votesFor: 22100,
-      votesAgainst: 8900,
-      totalVotes: 31000,
-      quorum: 20000,
-      timeLeft: "5 days, 8 hours",
-      category: "Premium Adjustment",
-    },
-    {
-      id: "2",
-      title: "Reduce Premium Rates for DeFi Protocols",
-      description:
-        "Adjust premium calculation algorithm to reduce rates for established DeFi protocols with 12+ months of operation and TVL above $100M.",
-      proposer: "0x1a2b...9c4d",
-      status: "active",
-      votesFor: 22100,
-      votesAgainst: 8900,
-      totalVotes: 31000,
-      quorum: 20000,
-      timeLeft: "5 days, 8 hours",
-      category: "Premium Adjustment",
-    },
-    {
-      id: "2",
-      title: "Reduce Premium Rates for DeFi Protocols",
-      description:
-        "Adjust premium calculation algorithm to reduce rates for established DeFi protocols with 12+ months of operation and TVL above $100M.",
-      proposer: "0x1a2b...9c4d",
-      status: "active",
-      votesFor: 22100,
-      votesAgainst: 8900,
-      totalVotes: 31000,
-      quorum: 20000,
-      timeLeft: "5 days, 8 hours",
-      category: "Premium Adjustment",
-    },
-    {
-      id: "3",
-      title: "Treasury Diversification Strategy",
-      description:
-        "Allocate 30% of treasury funds to stablecoins and traditional assets to reduce volatility and ensure claim payment capability during market downturns.",
-      proposer: "0x9f8e...2b1c",
-      status: "passed",
-      votesFor: 28500,
-      votesAgainst: 12300,
-      totalVotes: 40800,
-      quorum: 20000,
-      timeLeft: "Ended",
-      category: "Treasury Management",
-    },
-  ];
+  const {
+    getClaimData,
+    getClaimStatus,
+    voteOnClaim,
+    getClaimCounter,
+    executeVote,
+    getMinimumVotingPeriod,
+  } = useDAOGovernance();
+
+  useEffect(() => {
+    const fetchProposals = async () => {
+      setLoadingProposals(true);
+      try {
+        const count = await getClaimCounter();
+        const result: Proposal[] = [];
+        const claimIds = Array.from({ length: count }, (_, i) => i); // Replace with real dynamic claim count
+
+        for (const id of claimIds) {
+          try {
+            const claim = await getClaimData(id);
+            const statusEnum = await getClaimStatus(id);
+            if (!claim || statusEnum === null) continue;
+            const now = Date.now();
+
+            const minimumVotingPeriod = await getMinimumVotingPeriod(); // ✅ await here
+            const minVotingMs = Number(minimumVotingPeriod) * 1000;
+            const proposalCreationTime = Number(claim.createdAt) * 1000;
+
+            const canExecute = now > proposalCreationTime + minVotingMs;
+            const end =
+              Number(claim.createdAt) * 1000 + 7 * 24 * 60 * 60 * 1000;
+            const timeLeft =
+              statusEnum === ClaimStatus.Approved ||
+              statusEnum === ClaimStatus.Rejected
+                ? "Ended"
+                : now > end
+                  ? "Ended"
+                  : `${Math.floor((end - now) / (1000 * 60 * 60 * 24))} days`;
+
+            result.push({
+              id: id.toString(),
+              title: claim.title,
+              description: claim.reason,
+              proposer: claim.claimant,
+              amount: BigInt(claim.amount),
+              status:
+                statusEnum === ClaimStatus.Pending
+                  ? "active"
+                  : statusEnum === ClaimStatus.Approved
+                    ? "passed"
+                    : "rejected",
+              votesFor: Number(claim.yesVotes),
+              votesAgainst: Number(claim.noVotes),
+              totalVotes: Number(claim.yesVotes + claim.noVotes),
+              quorum: 20000, // static or replace with config/quorum fetching
+              timeLeft,
+              category: claim.claimType,
+              canExecute,
+            });
+          } catch (err) {
+            console.warn("Failed to fetch claim", id, err);
+          }
+        }
+
+        setProposals(result);
+      } catch (err) {
+        console.error("Failed to fetch proposals", err);
+      } finally {
+        setLoadingProposals(false);
+      }
+    };
+
+    fetchProposals();
+  }, []);
+
+  const handleVote = async (proposalId: string, vote: "for" | "against") => {
+    const approve = vote === "for";
+    try {
+      await voteOnClaim(Number(proposalId), approve);
+      toast.success(`Voted ${vote} on proposal ${proposalId}`);
+    } catch (err) {
+      toast.error("Vote failed");
+      console.error("Vote error:", err);
+    }
+  };
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -151,53 +174,12 @@ export default function DAOInterface() {
     }
   };
 
-  const handleVote = (proposalId: string, vote: "for" | "against") => {
-    // Mock voting logic
-    console.log(`Voted ${vote} on proposal ${proposalId}`);
-  };
-
   return (
     <div>
       {isConnected ? (
-        <div className=" shadow-lg  rounded-2xl">
-          {/* Header */}
-          {/* <header className=" shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-6">
-            <div className="flex items-center space-x-3">
-              <div className="bg-gradient-to-r from-purple-600 to-indigo-600 p-2 rounded-lg">
-                <Shield className="h-8 w-8 text-white" />
-              </div>
-              <div>
-                <h1 className="text-2xl font-bold text-gray-900">
-                  Jagantara DAO
-                </h1>
-                <p className="text-sm text-gray-600">
-                  Digital Assets Insurance Governance
-                </p>
-              </div>
-            </div>
-            <div className="flex items-center space-x-4">
-              <Card className="p-3">
-                <div className="flex items-center space-x-2">
-                  <Wallet className="h-4 w-4 text-purple-600" />
-                  <div className="text-right">
-                    <p className="text-sm font-medium">
-                      {userTokens.toLocaleString()} JAG
-                    </p>
-                    <p className="text-xs text-gray-500">
-                      Voting Power: {userVotingPower}
-                    </p>
-                  </div>
-                </div>
-              </Card>
-            </div>
-          </div>
-        </div>
-      </header> */}
-
-          <div className=" mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <Tabs defaultValue="active" className="space-y-6 ">
+        <div className="shadow-lg rounded-2xl">
+          <div className="mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <Tabs defaultValue="active" className="space-y-6">
               <div className="flex justify-between items-center">
                 <TabsList className="grid w-full max-w-md grid-cols-3 border-slate-500">
                   <TabsTrigger value="active">Active</TabsTrigger>
@@ -205,14 +187,20 @@ export default function DAOInterface() {
                   <TabsTrigger value="analytics">Analytics</TabsTrigger>
                 </TabsList>
 
-                <div className="flex items-center space-x-4 text-sm ">
+                <div className="flex items-center space-x-4 text-sm">
                   <div className="flex items-center space-x-1">
                     <Users className="h-4 w-4" />
                     <span>12,847 Members</span>
                   </div>
                   <div className="flex items-center space-x-1">
-                    <BarChart3 className="h-4 w-4" />
-                    <span>68% Participation</span>
+                    🛡️
+                    <span>
+                      {" "}
+                      {formatTokenAmount(
+                        tokenOutBalance.balance,
+                        tokenOut.symbol as keyof typeof TOKENS // ✅ use tokenIn here
+                      )}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -221,82 +209,156 @@ export default function DAOInterface() {
                 <div className="grid gap-6 lg:grid-cols-3">
                   {/* Proposals List */}
                   <div className="lg:col-span-2 space-y-4">
-                    {proposals
-                      .filter((p) => p.status === "active")
-                      .map((proposal) => (
-                        <Card
-                          key={proposal.id}
-                          className="hover:shadow-md transition-shadow cursor-pointer bg-[var(--secondary)]"
-                          onClick={() => setSelectedProposal(proposal.id)}
-                        >
-                          <CardHeader>
-                            <div className="flex justify-between items-start">
-                              <div className="space-y-2">
-                                <div className="flex items-center space-x-2">
-                                  <Badge
-                                    className={getStatusColor(proposal.status)}
-                                  >
-                                    {getStatusIcon(proposal.status)}
-                                    <span className="ml-1 capitalize">
-                                      {proposal.status}
-                                    </span>
-                                  </Badge>
-                                  <Badge variant="outline">
-                                    {proposal.category}
-                                  </Badge>
+                    {loadingProposals ? (
+                      <div className="space-y-4">
+                        {[...Array(3)].map((_, i) => (
+                          <div
+                            key={i}
+                            className="p-4 rounded-lg bg-[#031e35] border border-[#093552]"
+                          >
+                            <Skeleton className="h-6 w-32 mb-2" />
+                            <Skeleton className="h-4 w-full mb-2" />
+                            <Skeleton className="h-4 w-3/4 mb-4" />
+                            <Skeleton className="h-3 w-full" />
+                          </div>
+                        ))}
+                      </div>
+                    ) : proposals.filter((p) => p.status === "active")
+                        .length === 0 ? (
+                      <div className="flex flex-col items-center justify-center mt-24 text-white opacity-75">
+                        <div className="bg-blue-900/30 p-6 rounded-full mb-4">
+                          <div className="text-5xl">🗳️</div>
+                        </div>
+                        <h3 className="text-xl font-semibold mb-1">
+                          No Active Proposals
+                        </h3>
+                        <p className="text-sm text-white/60 max-w-sm text-center">
+                          It looks like there are currently no proposals open
+                          for voting. Please check back later or create a new
+                          one.
+                        </p>
+                      </div>
+                    ) : (
+                      proposals
+                        .filter((p) => p.status === "active")
+                        .map((proposal) => (
+                          <Card
+                            key={proposal.id}
+                            className="hover:shadow-md transition-shadow cursor-pointer bg-[var(--secondary)]"
+                            onClick={() => setSelectedProposal(proposal.id)}
+                          >
+                            <CardHeader>
+                              <div className="flex justify-between items-start">
+                                <div className="space-y-2">
+                                  <div className="flex items-center space-x-2">
+                                    <Badge
+                                      className={getStatusColor(
+                                        proposal.status
+                                      )}
+                                    >
+                                      {getStatusIcon(proposal.status)}
+                                      <span className="ml-1 capitalize">
+                                        {proposal.status}
+                                      </span>
+                                    </Badge>
+                                    <Badge variant="outline">
+                                      {proposal.category}
+                                    </Badge>
+                                  </div>
+                                  <CardTitle className="text-lg">
+                                    {proposal.title}
+                                  </CardTitle>
                                 </div>
-                                <CardTitle className="text-lg">
-                                  {proposal.title}
-                                </CardTitle>
-                              </div>
-                              <div className="text-right text-sm ">
-                                <div className="flex items-center space-x-1">
-                                  <Clock className="h-3 w-3" />
-                                  <span>{proposal.timeLeft}</span>
+                                <div className="text-right text-sm">
+                                  <div className="flex items-center space-x-1">
+                                    <Clock className="h-3 w-3" />
+                                    <span>{proposal.timeLeft}</span>
+                                  </div>
                                 </div>
                               </div>
-                            </div>
-                            <CardDescription className="line-clamp-2">
-                              {proposal.description}
-                            </CardDescription>
-                          </CardHeader>
-                          <CardContent>
-                            <div className="space-y-3">
-                              <div className="flex justify-between text-sm">
-                                <span>
-                                  ✅ For: {proposal.votesFor.toLocaleString()}
-                                </span>
-                                <span>
-                                  ❌ Against:{" "}
-                                  {proposal.votesAgainst.toLocaleString()}
-                                </span>
-                              </div>
-                              <Progress
-                                value={
-                                  (proposal.votesFor /
-                                    (proposal.votesFor +
-                                      proposal.votesAgainst)) *
-                                  100
-                                }
-                                className="h-2 bg-white/40"
-                              />
-                              <div className="flex justify-between text-xs text-gray-500">
-                                <span>
-                                  Quorum: {proposal.totalVotes.toLocaleString()}
-                                  /{proposal.quorum.toLocaleString()}
-                                </span>
-                                <span>
-                                  {(
-                                    (proposal.totalVotes / proposal.quorum) *
+                              <CardDescription className="line-clamp-2">
+                                {proposal.description}
+                              </CardDescription>
+                            </CardHeader>
+                            <CardContent>
+                              <div className="space-y-3">
+                                <div className="flex justify-between text-sm">
+                                  <span>
+                                    ✅ For:{" "}
+                                    {formatBigInt(
+                                      BigInt(proposal.votesFor),
+                                      6
+                                    ).toLocaleString()}
+                                  </span>
+                                  <span>
+                                    ❌ Against:{" "}
+                                    {formatBigInt(
+                                      BigInt(proposal.votesAgainst),
+                                      6
+                                    ).toLocaleString()}
+                                  </span>
+                                </div>
+                                <Progress
+                                  value={
+                                    (Number(
+                                      formatBigInt(BigInt(proposal.votesFor), 6)
+                                    ) /
+                                      (Number(
+                                        formatBigInt(
+                                          BigInt(proposal.votesFor),
+                                          6
+                                        )
+                                      ) +
+                                        Number(
+                                          formatBigInt(
+                                            BigInt(proposal.votesAgainst),
+                                            6
+                                          )
+                                        ) || 1)) *
                                     100
-                                  ).toFixed(1)}
-                                  %
-                                </span>
+                                  }
+                                  className="h-2 bg-white/40"
+                                />
+                                <div className="flex justify-between text-xs">
+                                  {proposal.canExecute && (
+                                    <Button
+                                      className="bg-blue-600 hover:bg-blue-700 cursor-pointer"
+                                      onClick={async () => {
+                                        try {
+                                          await executeVote(
+                                            Number(proposal.id)
+                                          );
+                                          toast.success(
+                                            `Proposal ${proposal.id} executed`
+                                          );
+                                        } catch (err) {
+                                          toast.error("Execution failed");
+                                          console.error(
+                                            "Execute vote error:",
+                                            err
+                                          );
+                                        }
+                                      }}
+                                    >
+                                      <CheckCircle className="h-4 w-4" />
+                                      Execute Vote
+                                    </Button>
+                                  )}
+
+                                  <span className="">
+                                    Amount to cover: {""}
+                                    {formatBigInt(
+                                      BigInt(proposal.amount),
+                                      6
+                                    ).toString()}{" "}
+                                    USDC
+                                  </span>
+                                </div>
                               </div>
-                            </div>
-                          </CardContent>
-                        </Card>
-                      ))}
+                            </CardContent>
+                          </Card>
+                        ))
+                    )}
                   </div>
 
                   {/* Voting Panel */}
@@ -322,7 +384,7 @@ export default function DAOInterface() {
                                   <h4 className="font-medium text-sm mb-1">
                                     {proposal.title}
                                   </h4>
-                                  <p className="text-xs  line-clamp-3">
+                                  <p className="text-xs line-clamp-3">
                                     {proposal.description}
                                   </p>
                                 </div>
@@ -331,7 +393,10 @@ export default function DAOInterface() {
                                   <div className="flex justify-between text-sm">
                                     <span>Your Voting Power:</span>
                                     <span className="font-medium">
-                                      {userVotingPower}
+                                      {formatTokenAmount(
+                                        tokenOutBalance.balance,
+                                        tokenOut.symbol as keyof typeof TOKENS // ✅ use tokenIn here
+                                      )}
                                     </span>
                                   </div>
                                   <div className="flex justify-between text-sm">
@@ -360,7 +425,7 @@ export default function DAOInterface() {
                                       handleVote(proposal.id, "against")
                                     }
                                   >
-                                    <XCircle className="h-4 w-4 " />
+                                    <XCircle className="h-4 w-4" />
                                     Vote Against
                                   </Button>
                                 </div>
@@ -370,16 +435,15 @@ export default function DAOInterface() {
                         </CardContent>
                       </Card>
                     ) : (
-                      <Card className="bg-[var(--secondary)] ">
+                      <Card className="bg-[var(--secondary)]">
                         <CardContent className="py-6">
-                          <div className="text-center ">
+                          <div className="text-center">
                             <Vote className="h-12 w-12 mx-auto mb-3 opacity-50" />
                             <p>Select a proposal to vote</p>
                           </div>
                         </CardContent>
                       </Card>
                     )}
-
                     {/* Governance Stats */}
                     <Card className="bg-[var(--secondary)]">
                       <CardHeader>
@@ -389,22 +453,44 @@ export default function DAOInterface() {
                       </CardHeader>
                       <CardContent className="space-y-4">
                         <div className="flex justify-between">
-                          <span className="text-sm ">🗝️ Total Proposals</span>
-                          <span className="font-medium">47</span>
+                          <span className="text-sm">🗝️ Total Proposals</span>
+                          <span className="font-medium">
+                            {proposals.length}
+                          </span>
                         </div>
+
                         <div className="flex justify-between">
-                          <span className="text-sm ">✅ Passed</span>
-                          <span className="font-medium text-green-600">32</span>
+                          <span className="text-sm">✅ Passed</span>
+                          <span className="font-medium text-green-600">
+                            {
+                              proposals.filter((p) => p.status === "passed")
+                                .length
+                            }
+                          </span>
                         </div>
+
                         <div className="flex justify-between">
-                          <span className="text-sm ">❌ Rejected</span>
-                          <span className="font-medium text-red-600">13</span>
+                          <span className="text-sm">❌ Rejected</span>
+                          <span className="font-medium text-red-600">
+                            {
+                              proposals.filter((p) => p.status === "rejected")
+                                .length
+                            }
+                          </span>
                         </div>
+
                         <div className="flex justify-between">
-                          <span className="text-sm ">⌛ Active</span>
-                          <span className="font-medium text-blue-600">2</span>
+                          <span className="text-sm">⌛ Active</span>
+                          <span className="font-medium text-blue-600">
+                            {
+                              proposals.filter((p) => p.status === "active")
+                                .length
+                            }
+                          </span>
                         </div>
+
                         <Separator />
+
                         <div className="flex justify-between">
                           <span className="text-sm ">Avg. Participation</span>
                           <span className="font-medium">68.2%</span>
@@ -416,57 +502,68 @@ export default function DAOInterface() {
               </TabsContent>
 
               <TabsContent value="completed" className="space-y-4">
-                {proposals
-                  .filter((p) => p.status !== "active")
-                  .map((proposal) => (
-                    <Card key={proposal.id} className="bg-[var(--secondary)]">
-                      <CardHeader>
-                        <div className="flex justify-between items-start">
-                          <div className="space-y-2">
-                            <div className="flex items-center space-x-2">
-                              <Badge
-                                className={getStatusColor(proposal.status)}
-                              >
-                                {getStatusIcon(proposal.status)}
-                                <span className="ml-1 capitalize">
-                                  {proposal.status}
-                                </span>
-                              </Badge>
-                              <Badge variant="outline">
-                                {proposal.category}
-                              </Badge>
+                {proposals.filter((p) => p.status !== "active").length === 0 ? (
+                  <div className="text-center mt-32 ">
+                    <div className="text-6xl mb-4">📊</div>
+                    <h3 className="text-lg sm:text-xl font-semibold mb-2 text-white">
+                      No Completed Proposal found
+                    </h3>
+                  </div>
+                ) : (
+                  proposals
+                    .filter((p) => p.status !== "active")
+                    .map((proposal) => (
+                      <Card key={proposal.id} className="bg-[var(--secondary)]">
+                        <CardHeader>
+                          <div className="flex justify-between items-start">
+                            <div className="space-y-2">
+                              <div className="flex items-center space-x-2">
+                                <Badge
+                                  className={getStatusColor(proposal.status)}
+                                >
+                                  {getStatusIcon(proposal.status)}
+                                  <span className="ml-1 capitalize">
+                                    {proposal.status}
+                                  </span>
+                                </Badge>
+                                <Badge variant="outline">
+                                  {proposal.category}
+                                </Badge>
+                              </div>
+                              <CardTitle className="text-lg">
+                                {proposal.title}
+                              </CardTitle>
                             </div>
-                            <CardTitle className="text-lg">
-                              {proposal.title}
-                            </CardTitle>
                           </div>
-                        </div>
-                        <CardDescription>
-                          {proposal.description}
-                        </CardDescription>
-                      </CardHeader>
-                      <CardContent>
-                        <div className="space-y-3">
-                          <div className="flex justify-between text-sm">
-                            <span>
-                              For: {proposal.votesFor.toLocaleString()}
-                            </span>
-                            <span>
-                              Against: {proposal.votesAgainst.toLocaleString()}
-                            </span>
+                          <CardDescription>
+                            {proposal.description}
+                          </CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="space-y-3">
+                            <div className="flex justify-between text-sm">
+                              <span>
+                                For: {proposal.votesFor.toLocaleString()}
+                              </span>
+                              <span>
+                                Against:{" "}
+                                {proposal.votesAgainst.toLocaleString()}
+                              </span>
+                            </div>
+                            <Progress
+                              value={
+                                (proposal.votesFor /
+                                  (proposal.votesFor + proposal.votesAgainst ||
+                                    1)) *
+                                100
+                              }
+                              className="h-2 bg-white/40"
+                            />
                           </div>
-                          <Progress
-                            value={
-                              (proposal.votesFor /
-                                (proposal.votesFor + proposal.votesAgainst)) *
-                              100
-                            }
-                            className="h-2 bg-white/40"
-                          />
-                        </div>
-                      </CardContent>
-                    </Card>
-                  ))}
+                        </CardContent>
+                      </Card>
+                    ))
+                )}
               </TabsContent>
 
               <TabsContent value="analytics">
@@ -485,62 +582,6 @@ export default function DAOInterface() {
                       </p>
                       <div className="mt-2 text-sm text-green-600">
                         +5.3% from last month
-                      </div>
-                    </CardContent>
-                  </Card>
-
-                  <Card className="bg-[var(--secondary)]">
-                    <CardHeader>
-                      <CardTitle>Token Distribution</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="space-y-2">
-                        <div className="flex justify-between text-sm">
-                          <span>Community</span>
-                          <span>45%</span>
-                        </div>
-                        <div className="flex justify-between text-sm">
-                          <span>Treasury</span>
-                          <span>30%</span>
-                        </div>
-                        <div className="flex justify-between text-sm">
-                          <span>Team</span>
-                          <span>15%</span>
-                        </div>
-                        <div className="flex justify-between text-sm">
-                          <span>Advisors</span>
-                          <span>10%</span>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-
-                  <Card className="bg-[var(--secondary)]">
-                    <CardHeader>
-                      <CardTitle>Top Voters</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="space-y-3">
-                        {/* {[
-                      { address: "0x742d...8f3a", votes: 15 },
-                      { address: "0x1a2b...9c4d", votes: 12 },
-                      { address: "0x9f8e...2b1c", votes: 11 },
-                    ].map((voter, index) => (
-                      <div
-                        key={voter.address}
-                        className="flex items-center space-x-3"
-                      >
-                        <Avatar className="h-8 w-8">
-                          <AvatarFallback>{index + 1}</AvatarFallback>
-                        </Avatar>
-                        <div className="flex-1">
-                          <p className="text-sm font-medium">{voter.address}</p>
-                          <p className="text-xs text-gray-500">
-                            {voter.votes} votes cast
-                          </p>
-                        </div>
-                      </div>
-                    ))} */}
                       </div>
                     </CardContent>
                   </Card>

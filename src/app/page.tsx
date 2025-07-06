@@ -29,6 +29,7 @@ import FAQLanding from "./components/FAQLanding";
 import { animatePageOut } from "@/lib/transition";
 import { FaWallet } from "react-icons/fa6";
 import { useClaimManager } from "@/hooks/useClaimManager";
+import InfiniteLogoLoop from "./components/InfiniteLogoLoop.tsx";
 
 function App() {
   const { formattedVaultBalance } = useClaimManager();
@@ -200,6 +201,7 @@ function App() {
                   </div>
                 </div>
               </div>
+
               <div className="flex items-center justify-center ">
                 <div className="relative w-full h-[600px] cursor-grab">
                   <Orb
@@ -241,6 +243,7 @@ function App() {
             </div>
           </div>
         </section>
+        <InfiniteLogoLoop />
         <section className="w-full py-20 md:mx-6">
           <StickyScrollFileClaim />
         </section>

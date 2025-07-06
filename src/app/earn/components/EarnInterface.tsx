@@ -14,6 +14,8 @@ export default function EarnInterface() {
     refetchCurrentStake,
     timeLeft,
     pendingReward,
+    nextSession,
+    claim,
   } = useStake();
   const [amountIn, setAmountIn] = useState<string>("");
   const [isClaiming, setIsClaiming] = useState<boolean>(false);
@@ -27,18 +29,26 @@ export default function EarnInterface() {
     const balance = Number(currentStake) / Math.pow(10, 6);
     return parseFloat(amountIn || "0") > balance;
   };
-  const rewardAmount = 78.8; // mock reward value from UI
+  console.log("REWARD = ", nextSession.totalReward);
+  const rewardAmount = Number(nextSession.totalReward) / 1e6;
   const hasReward = rewardAmount > 0;
-  const handleClaim = () => {
-    if (isClaiming || isInsufficientBalance() || !amountIn) return;
+  const handleClaim = async () => {
+    if (isClaiming || !hasReward) return;
 
     setIsClaiming(true);
-    // Simulate swap delay
-    setTimeout(() => {
+    try {
+      const success = await claim();
+      if (success) {
+        alert(`Successfully claimed $${rewardAmount.toFixed(2)} USDC`);
+      }
+    } catch (error) {
+      console.error("Claim error:", error);
+      alert("Claim failed. Please try again.");
+    } finally {
       setIsClaiming(false);
-      alert(`Claming $${rewardAmount}`);
-    }, 1500);
+    }
   };
+
   const handleRemove = async () => {
     if (isUnstaking || isInsufficientBalance() || !amountIn) return;
 
@@ -97,12 +107,13 @@ export default function EarnInterface() {
                 <div className="flex justify-between items-center mb-2">
                   <span className="text-xs sm:text-sm opacity-70">USDC</span>
                   <span className="text-xs sm:text-sm truncate ml-2 opacity-70">
-                    Available: {formatTokenAmount(pendingReward, "USDC")}
+                    Available:{" "}
+                    {formatTokenAmount(nextSession.totalReward, "USDC")}
                   </span>
                 </div>
                 <div className="flex items-center gap-2 sm:gap-3">
                   <div className="flex-1 text-lg sm:text-2xl font-bold min-w-0 truncate">
-                    {amountOut || "0.0"}
+                    {formatTokenAmount(nextSession.totalReward, "USDC")}
                   </div>
                   <div
                     className="flex items-center gap-1 sm:gap-2 p-2 rounded-xl border"
@@ -122,15 +133,11 @@ export default function EarnInterface() {
               <div className="p-3 sm:p-4 rounded-xl border border-slate-400 bg-[var(--secondary)]">
                 <div className="flex justify-between">
                   <p className="opacity-70 font-light">⌛ Active from</p>
-                  <p className="font-medium">1 July 2025</p>
+                  <p className="font-medium">{getActiveFrom(timeLeft!)}</p>
                 </div>
                 <div className="flex justify-between">
                   <p className="opacity-70 font-light">🕒 Batch Duration</p>
                   <p className="font-medium">30 Days</p>
-                </div>
-                <div className="flex justify-between">
-                  <p className="opacity-70 font-light">💸 Expected Reward</p>
-                  <p className="font-medium text-green-600">$78.8</p>
                 </div>
               </div>
             </div>
@@ -138,12 +145,8 @@ export default function EarnInterface() {
             {/* Claim Button */}
             <button
               onClick={handleClaim}
-              disabled={isClaiming || isInsufficientBalance() || !hasReward}
-              className={`w-full mt-6 py-4 rounded-xl font-bold text-lg transition-all duration-300 flex items-center justify-center gap-2  ${
-                !amountIn || isClaiming || isInsufficientBalance()
-                  ? "bg-blue-300/30  cursor-not-allowed opacity-70"
-                  : "bg-[image:var(--gradient-accent-soft)]  hover:opacity-90 cursor-pointer"
-              }`}
+              disabled={!hasReward}
+              className={`w-full mt-6 py-4 rounded-xl font-bold text-lg transition-all duration-300 flex items-center justify-center gap-2 bg-[image:var(--gradient-accent-soft)]  hover:opacity-90 cursor-pointer `}
             >
               {isClaiming ? (
                 <>

@@ -1,5 +1,11 @@
 import { RefreshCw, Search } from "lucide-react";
 import { useState, useMemo } from "react";
+import { formatDistanceToNow } from "date-fns";
+import {
+  useStakesByUser,
+  useUnstakesByUser,
+  useRewardClaimsByUser,
+} from "@/hooks/useIndexerData";
 import {
   Card,
   CardHeader,
@@ -16,120 +22,78 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import { useAccount } from "wagmi";
+
+const formatDateFromTimestamp = (timestamp: string) => {
+  const seconds = parseInt(timestamp);
+  const date = new Date(seconds * 1000);
+  return formatDistanceToNow(date, { addSuffix: true });
+};
 
 export default function TransactionHistory() {
+  const { address } = useAccount();
+
   const [searchTerm, setSearchTerm] = useState("");
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const ITEMS_PER_PAGE = 5;
 
-  // ✅ Mock transaction data
-  const combinedTransactions = [
-    {
-      type: "Reward",
-      amount: "+$45.20",
-      date: "2 hours ago",
-      status: "completed",
-      hash: "0xabc123",
-      address: "0xUserWallet1",
-    },
-    {
-      type: "Deposit",
-      amount: "+$1,000",
-      date: "1 day ago",
-      status: "completed",
-      hash: "0xdef456",
-      address: "0xUserWallet2",
-    },
-    {
-      type: "Reward",
-      amount: "+$42.80",
-      date: "1 day ago",
-      status: "completed",
-      hash: "0xghi789",
-      address: "0xUserWallet3",
-    },
-    {
-      type: "Reward",
-      amount: "+$41.50",
-      date: "2 days ago",
-      status: "completed",
-      hash: "0xjkl012",
-      address: "0xUserWallet4",
-    },
-    {
-      type: "Reward",
-      amount: "+$41.50",
-      date: "2 days ago",
-      status: "completed",
-      hash: "0xjkl012",
-      address: "0xUserWallet4",
-    },
-    {
-      type: "Reward",
-      amount: "+$41.50",
-      date: "2 days ago",
-      status: "completed",
-      hash: "0xjkl012",
-      address: "0xUserWallet4",
-    },
-    {
-      type: "Reward",
-      amount: "+$41.50",
-      date: "2 days ago",
-      status: "completed",
-      hash: "0xjkl012",
-      address: "0xUserWallet4",
-    },
-    {
-      type: "Reward",
-      amount: "+$41.50",
-      date: "2 days ago",
-      status: "completed",
-      hash: "0xjkl012",
-      address: "0xUserWallet4",
-    },
-    {
-      type: "Reward",
-      amount: "+$41.50",
-      date: "2 days ago",
-      status: "completed",
-      hash: "0xjkl012",
-      address: "0xUserWallet4",
-    },
-    {
-      type: "Reward",
-      amount: "+$41.50",
-      date: "2 days ago",
-      status: "completed",
-      hash: "0xjkl012",
-      address: "0xUserWallet4",
-    },
-    {
-      type: "Reward",
-      amount: "+$41.50",
-      date: "2 days ago",
-      status: "completed",
-      hash: "0xjkl012",
-      address: "0xUserWallet4",
-    },
-    {
-      type: "Reward",
-      amount: "+$41.50",
-      date: "2 days ago",
-      status: "completed",
-      hash: "0xjkl012",
-      address: "0xUserWallet4",
-    },
-    {
-      type: "Reward",
-      amount: "+$41.50",
-      date: "2 days ago",
-      status: "completed",
-      hash: "0xjkl012",
-      address: "0xUserWallet4",
-    },
-  ];
+  const {
+    data: stakes,
+    isLoading: loadingStakes,
+    refetch: refetchStakes,
+  } = useStakesByUser(address);
 
-  // ✅ Filter logic
+  const {
+    data: unstakes,
+    isLoading: loadingUnstakes,
+    refetch: refetchUnstakes,
+  } = useUnstakesByUser(address);
+
+  const {
+    data: rewards,
+    isLoading: loadingRewards,
+    refetch: refetchRewards,
+  } = useRewardClaimsByUser(address);
+
+  const isLoading = loadingStakes || loadingUnstakes || loadingRewards;
+
+  const combinedTransactions = useMemo(() => {
+    const stakeTxs = (stakes || []).map((tx) => ({
+      type: "Stake",
+      amount: `+${(BigInt(tx.amount) / BigInt(1e6)).toString()} USDC`,
+      date: formatDateFromTimestamp(tx.timestamp),
+      status: "completed",
+      hash: tx.transactionHash,
+      address: tx.user,
+    }));
+
+    const unstakeTxs = (unstakes || []).map((tx) => ({
+      type: "Unstake",
+      amount: `-${(BigInt(tx.amount) / BigInt(1e6)).toString()} USDC`,
+      date: formatDateFromTimestamp(tx.timestamp),
+      status: "completed",
+      hash: tx.transactionHash,
+      address: tx.user,
+    }));
+
+    const rewardTxs = (rewards || []).map((tx) => ({
+      type: "Reward",
+      amount: `+${(BigInt(tx.reward) / BigInt(1e6)).toString()} USDC`,
+      date: formatDateFromTimestamp(tx.timestamp),
+      status: "completed",
+      hash: tx.transactionHash,
+      address: tx.user,
+    }));
+
+    const all = [...stakeTxs, ...unstakeTxs, ...rewardTxs];
+    return all.sort((a, b) => {
+      const aTime = new Date(a.date).getTime();
+      const bTime = new Date(b.date).getTime();
+      return bTime - aTime;
+    });
+  }, [stakes, unstakes, rewards]);
+
   const filteredTransactions = useMemo(() => {
     if (!searchTerm) return combinedTransactions;
     return combinedTransactions.filter((tx) =>
@@ -139,48 +103,23 @@ export default function TransactionHistory() {
     );
   }, [searchTerm, combinedTransactions]);
 
-  // ✅ Manual Refresh Handler
+  const paginatedData = useMemo(() => {
+    const start = (currentPage - 1) * ITEMS_PER_PAGE;
+    return filteredTransactions.slice(start, start + ITEMS_PER_PAGE);
+  }, [filteredTransactions, currentPage]);
+
+  const totalPages = Math.ceil(filteredTransactions.length / ITEMS_PER_PAGE);
+
   const handleRefresh = async () => {
     setIsRefreshing(true);
     try {
-      // await refreshAll();
-    } catch (error) {
-      console.error("Failed to refresh data:", error);
+      await Promise.all([refetchStakes(), refetchUnstakes(), refetchRewards()]);
+    } catch (e) {
+      console.error("Failed to refresh", e);
     } finally {
       setIsRefreshing(false);
     }
   };
-  const ITEMS_PER_PAGE = 5;
-  const [currentPage, setCurrentPage] = useState(1);
-
-  const totalPages = Math.ceil(filteredTransactions.length / ITEMS_PER_PAGE);
-
-  const paginatedData = useMemo(() => {
-    const start = (currentPage - 1) * ITEMS_PER_PAGE;
-    const end = start + ITEMS_PER_PAGE;
-    return filteredTransactions.slice(start, end);
-  }, [filteredTransactions, currentPage]);
-
-  //   if (isLoading) {
-  //     return (
-  //       <div className="w-full max-w-6xl mx-auto px-4 sm:px-0">
-  //         <div className="glass rounded-2xl p-4 sm:p-6 lg:p-8 border border-white/10 shadow-2xl">
-  //           <div className="text-center py-12">
-  //             <div className="spinner w-8 h-8 mx-auto mb-4"></div>
-  //             <div
-  //               className="text-lg font-semibold mb-2"
-  //               style={{ color: "#FBFAF9" }}
-  //             >
-  //               Loading indexed data...
-  //             </div>
-  //             <div style={{ color: "rgba(251, 250, 249, 0.7)" }}>
-  //               Fetching from Ponder indexer
-  //             </div>
-  //           </div>
-  //         </div>
-  //       </div>
-  //     );
-  //   }
 
   return (
     <div className="w-full max-w-6xl mx-auto px-4 sm:px-0">
@@ -204,7 +143,6 @@ export default function TransactionHistory() {
           </div>
 
           <div className="flex flex-col sm:flex-row sm:items-center gap-3">
-            {/* Refresh Button */}
             <button
               onClick={handleRefresh}
               disabled={isRefreshing}
@@ -219,7 +157,6 @@ export default function TransactionHistory() {
               </span>
             </button>
 
-            {/* Search */}
             <div className="relative">
               <input
                 type="text"
@@ -236,16 +173,18 @@ export default function TransactionHistory() {
 
         {/* Transaction List */}
         <div className="space-y-3 sm:space-y-4">
-          {filteredTransactions.length === 0 ? (
+          {isLoading ? (
+            <div className="text-center py-12 text-white/80">
+              Loading indexed data...
+            </div>
+          ) : filteredTransactions.length === 0 ? (
             <div className="text-center py-12">
               <div className="text-6xl mb-4">📊</div>
               <h3 className="text-lg sm:text-xl font-semibold mb-2 text-white">
                 No transactions found
               </h3>
               <p className="text-sm sm:text-base text-white/70">
-                {paginatedData.length === 0
-                  ? "No transactions have been indexed yet. Try to stake or claim!"
-                  : "Try adjusting your filters or search terms."}
+                Try adjusting your filters or search terms.
               </p>
             </div>
           ) : (
@@ -267,7 +206,13 @@ export default function TransactionHistory() {
                     >
                       <div className="flex items-center gap-3">
                         <div
-                          className={`w-2 h-2 rounded-full ${activity.type === "Reward" ? "bg-green-500" : "bg-blue-500"}`}
+                          className={`w-2 h-2 rounded-full ${
+                            activity.type === "Reward"
+                              ? "bg-green-500"
+                              : activity.type === "Stake"
+                                ? "bg-blue-500"
+                                : "bg-red-500"
+                          }`}
                         />
                         <div>
                           <p className="font-medium">{activity.type}</p>
@@ -276,7 +221,13 @@ export default function TransactionHistory() {
                       </div>
                       <div className="text-right">
                         <p
-                          className={`font-semibold ${activity.type === "Reward" ? "text-green-600" : "text-blue-600"}`}
+                          className={`font-semibold ${
+                            activity.type === "Reward"
+                              ? "text-green-600"
+                              : activity.type === "Stake"
+                                ? "text-blue-600"
+                                : "text-red-600"
+                          }`}
                         >
                           {activity.amount}
                         </p>
@@ -289,6 +240,8 @@ export default function TransactionHistory() {
             </Card>
           )}
         </div>
+
+        {/* Pagination */}
         {filteredTransactions.length > ITEMS_PER_PAGE && (
           <div className="mt-6 flex justify-center">
             <Pagination>

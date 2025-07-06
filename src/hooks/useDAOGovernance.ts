@@ -39,7 +39,6 @@ export const useDAOGovernance = () => {
       });
       await waitForTransactionReceipt(config, { hash });
       toast.success("Claim submitted successfully");
-      // Cannot return claim ID directly, would need to extract from event logs or track manually
       return null;
     } catch (err) {
       console.error("submitClaim error", err);
@@ -86,7 +85,7 @@ export const useDAOGovernance = () => {
       });
       const receipt = await waitForTransactionReceipt(config, { hash });
       toast.success("Vote executed");
-      return null; // Ratio can be read from the event if needed
+      return null;
     } catch (err) {
       console.error("executeVote error", err);
       toast.error("Vote execution failed");
@@ -96,7 +95,7 @@ export const useDAOGovernance = () => {
     }
   };
 
-  // 🔹 Read claim status
+  // 🔹 Get claim status
   const getClaimStatus = async (
     claimId: number
   ): Promise<ClaimStatus | null> => {
@@ -114,26 +113,125 @@ export const useDAOGovernance = () => {
     }
   };
 
-  // 🔹 Read claim data
+  // 🔹 Get full claim proposal
   const getClaimData = async (
     claimId: number
   ): Promise<{
     claimant: string;
+    coveredAddress: string;
+    tier: bigint;
+    title: string;
+    reason: string;
+    claimType: string;
     amount: bigint;
+    createdAt: bigint;
+    yesVotes: bigint;
+    noVotes: bigint;
+    status: ClaimStatus;
     approvedAt: bigint;
   } | null> => {
     try {
-      const [claimant, amount, approvedAt] = (await readContract(config, {
+      const result = await readContract(config, {
         address: CONTRACTS.DAO_GOVERNANCE,
         abi: DAO_GOVERNANCE_ABI,
-        functionName: "getClaimData",
+        functionName: "claims",
         args: [claimId],
-      })) as [string, bigint, bigint];
+      });
 
-      return { claimant, amount, approvedAt };
+      const [
+        claimant,
+        coveredAddress,
+        tier,
+        title,
+        reason,
+        claimType,
+        amount,
+        createdAt,
+        yesVotes,
+        noVotes,
+        status,
+        approvedAt,
+      ] = result as [
+        string,
+        string,
+        bigint,
+        string,
+        string,
+        string,
+        bigint,
+        bigint,
+        bigint,
+        bigint,
+        ClaimStatus,
+        bigint,
+      ];
+
+      return {
+        claimant,
+        coveredAddress,
+        tier,
+        title,
+        reason,
+        claimType,
+        amount,
+        createdAt,
+        yesVotes,
+        noVotes,
+        status,
+        approvedAt,
+      };
     } catch (err) {
       console.error("getClaimData error", err);
       return null;
+    }
+  };
+
+  // 🔹 Get total number of proposals
+  const getClaimCounter = async (): Promise<number> => {
+    try {
+      const result = await readContract(config, {
+        address: CONTRACTS.DAO_GOVERNANCE,
+        abi: DAO_GOVERNANCE_ABI,
+        functionName: "claimCounter",
+      });
+
+      return Number(result);
+    } catch (err) {
+      console.error("getClaimCounter error", err);
+      return 0;
+    }
+  };
+
+  // 🔹 Get minimum voting period
+  const getMinimumVotingPeriod = async (): Promise<number> => {
+    try {
+      const result = await readContract(config, {
+        address: CONTRACTS.DAO_GOVERNANCE,
+        abi: DAO_GOVERNANCE_ABI,
+        functionName: "minimumVotingPeriod",
+      });
+
+      return Number(result);
+    } catch (err) {
+      console.error("getMinimumVotingPeriod error", err);
+      return 0;
+    }
+  };
+
+  // 🔹 Check if a claim is approved
+  const isClaimApproved = async (claimId: number): Promise<boolean> => {
+    try {
+      const result = await readContract(config, {
+        address: CONTRACTS.DAO_GOVERNANCE,
+        abi: DAO_GOVERNANCE_ABI,
+        functionName: "isClaimApproved",
+        args: [claimId],
+      });
+
+      return Boolean(result);
+    } catch (err) {
+      console.error("isClaimApproved error", err);
+      return false;
     }
   };
 
@@ -143,6 +241,9 @@ export const useDAOGovernance = () => {
     executeVote,
     getClaimStatus,
     getClaimData,
+    getClaimCounter,
+    getMinimumVotingPeriod,
+    isClaimApproved,
     isSubmitting,
     isVoting,
     isExecuting,

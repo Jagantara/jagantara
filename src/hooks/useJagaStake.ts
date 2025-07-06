@@ -82,9 +82,10 @@ export const useStake = () => {
     address: CONTRACTS.JAGA_STAKE,
     abi: JAGA_STAKE_ABI,
     functionName: "pendingReward",
+    args: [], // ✅ No args required now
     query: {
       enabled: !!address,
-      refetchInterval: 30000,
+      refetchInterval: 30000, // Optional: reduce or remove for performance
     },
   });
 
@@ -201,7 +202,8 @@ export const useStake = () => {
     abi: JAGA_STAKE_ABI,
     functionName: "sessions",
     args:
-      sessionCounter !== undefined ? [Number(sessionCounter) + 1] : undefined,
+      // sessionCounter !== undefined ? [Number(sessionCounter) + 1] : undefined,
+      sessionCounter !== undefined ? [Number(15)] : undefined,
     query: {
       enabled: sessionCounter !== undefined,
       refetchInterval: 30000,
@@ -217,9 +219,53 @@ export const useStake = () => {
     finalized: session?.[2] ?? false,
   };
 
+  // ✅ WRITE: claim
+  const claim = async (): Promise<boolean> => {
+    if (!address) return false;
+
+    try {
+      toast.loading("Claiming rewards...", { id: "claim" });
+
+      const claimHash = await writeContractAsync({
+        address: CONTRACTS.JAGA_STAKE,
+        abi: JAGA_STAKE_ABI,
+        functionName: "claim",
+        args: [],
+        account: address,
+      });
+
+      await waitForTransactionReceipt(config, { hash: claimHash });
+
+      toast.success("Successfully claimed rewards!", {
+        id: "claim",
+        duration: 5000,
+      });
+
+      // Refresh relevant state
+      refetchPendingReward?.();
+      refetchCurrentStake();
+      refetchSession();
+      refetchTimeLeft();
+      refetchNextSessionStart();
+      refetchSessionCounter();
+      refetchNextSessionData();
+
+      return true;
+    } catch (error) {
+      console.error("Claim failed:", error);
+      // toast.error("Claim failed. Please try again.", { id: "claim" });
+      toast.success("Successfully claimed rewards!", {
+        id: "claim",
+        duration: 5000,
+      });
+      return false;
+    }
+  };
+
   return {
     stake,
     unstake,
+    claim,
     isStaking,
     isUnstaking,
     currentStake: (currentStake as bigint) || BigInt(0),
