@@ -565,7 +565,7 @@ function Step2Canvas() {
               x="0"
               y="45"
               textAnchor="middle"
-              className="fill-white text-xs font-medium"
+              className="fill-[var(--text)] text-xs font-medium"
             >
               Company
             </text>
@@ -593,7 +593,7 @@ function Step2Canvas() {
               x="0"
               y="45"
               textAnchor="middle"
-              className="fill-white text-xs font-medium"
+              className=" text-xs font-medium fill-[var(--text)]"
             >
               Liquidity
             </text>
@@ -608,6 +608,7 @@ function Step2Canvas() {
               ry="8"
               fill="url(#marketGradient)"
             />
+
             <rect
               x="-35"
               y="-25"
@@ -616,14 +617,24 @@ function Step2Canvas() {
               fill="url(#marketGradient)"
               filter="url(#glow)"
             />
+
+            <image
+              href="/morpho_logo.png"
+              x="-16"
+              y="-20"
+              width="32"
+              height="32"
+            />
+
             <ellipse cx="0" cy="25" rx="35" ry="8" fill="#1e40af" />
+
             <text
               x="0"
               y="45"
-              textAnchor="middle"
-              className="fill-white text-xs font-medium"
+              text-anchor="middle"
+              className="text-xs font-medium fill-[var(--text)]"
             >
-              Re-Invest
+              Morpho
             </text>
           </g>
 
@@ -649,7 +660,7 @@ function Step2Canvas() {
               x="0"
               y="45"
               textAnchor="middle"
-              className="fill-white text-xs font-medium"
+              className="text-xs font-medium fill-[var(--text)]"
             >
               Stakers
             </text>

@@ -52,7 +52,7 @@ export default function StakingDetail() {
   return (
     <div className="">
       {isConnected ? (
-        <div className="container mx-auto px-6 max-w-7xl">
+        <div className="container mx-auto px-6 w-full md:max-w-7xl">
           {/* Navigation Tabs */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
             <TabButton

@@ -92,7 +92,31 @@
 .glow-blue {
   animation: glow-blue 2s ease-in-out infinite;
 }
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
 
+@keyframes marquee-reverse {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 150s linear infinite;
+}
+
+.animate-marquee-reverse {
+  animation: marquee-reverse 150s linear infinite;
+}
 @keyframes float {
   0%,
   100% {

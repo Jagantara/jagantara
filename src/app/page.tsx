@@ -34,6 +34,7 @@ import PricingCard from "./components/PricingCard";
 import GradientText from "@/components/gradient-text";
 import HoverMenuEarn from "./components/hover-menu-earn";
 import HoverMenuCoverage from "./components/hover-menu-coverage";
+import PromotionalCards from "./components/promotional-card";
 
 function App() {
   const { formattedVaultBalance } = useClaimManager();
@@ -41,7 +42,7 @@ function App() {
   return (
     <>
       <main className="flex-1 mx-auto max-w-11/12 px-5 pb-5 ">
-        <section className="w-full pb-5">
+        <section className="w-full pb-20">
           <div className=" md:px-6">
             <div className="grid gap-6 md:grid-cols-2 lg:gap-12 lg:grid-cols-2">
               <div className="flex flex-col justify-center space-y-4">
@@ -244,19 +245,29 @@ function App() {
             </div>
           </div>
         </section>
-        {/* <InfiniteLogoLoop /> */}
+        <InfiniteLogoLoop />
 
-        <section className="md:mx-6 lg:mx-20  scroll-mt-32" id="features">
+        <section className="md:mx-6 lg:mx-20 mt-40">
+          {/* Header */}
+          <div className="text-center mb-16">
+            <h1 className="text-5xl font-bold  mb-4">
+              Next-Gen DeFi Solutions
+            </h1>
+            <p className="text-xl text-[var(--text)]/70 max-w-2xl mx-auto">
+              Discover powerful tools to protect, insure, and maximize your
+              crypto assets with cutting-edge protocols
+            </p>
+          </div>
+          <PromotionalCards />
+        </section>
+
+        <section className="md:mx-6 lg:mx-20  scroll-mt-32 mt-40" id="features">
           <HoverMenuEarn />
         </section>
 
         <section className="md:mx-6 lg:mx-20 mt-40 pb-40">
           <HoverMenuCoverage />
         </section>
-
-        {/* <section className="w-full py-20 md:mx-6">
-          <StickyScrollFileClaim />
-        </section> */}
 
         <section className="scroll-mt-32" id="pricing">
           <div className="text-center  ">
@@ -286,36 +297,9 @@ function App() {
 
         <section
           id="FAQ"
-          className="scroll-mt-28 w-full md:mx-6 flex flex-col justify-center items-center pt-10"
+          className="scroll-mt-28 w-full md:mx-6 flex flex-col justify-center items-center pt-10 mb-20"
         >
           <FAQLanding />
-        </section>
-
-        <section className="w-full md:mx-6 py-20 flex flex-col justify-center items-center gap-15">
-          <h1 className="text-4xl font-normal">
-            Backed by trusted names in finance
-          </h1>
-          <div className="flex gap-5 flex-row items-end">
-            <Image
-              src={"/backing_img/ojk_logo.png"}
-              width={200}
-              height={150}
-              alt="OJK Logo"
-            />
-            <Image
-              src={"/backing_img/BI_Logo.png"}
-              width={250}
-              height={150}
-              alt="BI Logo"
-            />
-            <Image
-              src={"/backing_img/indodax_logo.png"}
-              width={250}
-              height={150}
-              className="pb-3"
-              alt="BI Logo"
-            />
-          </div>
         </section>
       </main>
     </>

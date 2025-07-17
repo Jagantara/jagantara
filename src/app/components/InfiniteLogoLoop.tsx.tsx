@@ -1,172 +1,206 @@
-// components/InfiniteLogoLoop.tsx
-import Image from "next/image"; // Make sure to import Image from next/image
+"use client";
+import Image from "next/image";
+import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
+import GradientText from "@/components/gradient-text";
+import clsx from "clsx";
+
+const companies = [
+  {
+    name: "Binance",
+    logo: "/campaign_logos/bnb_launchpad.png",
+  },
+  {
+    name: "Coinbase",
+    logo: "/landing_logo/coinbase.png",
+  },
+  {
+    name: "Bank Indonesia",
+    logo: "/landing_logo/bankindonesia.png",
+  },
+  {
+    name: "Lisk",
+    logo: "/landing_logo/lisk.png",
+  },
+  {
+    name: "DAO Maker",
+    logo: "/landing_logo/daomaker.png",
+  },
+  {
+    name: "OpenSea", // This one will be dynamic
+    logo: "", // Leave empty; override later based on theme
+  },
+  {
+    name: "UniSwap",
+    logo: "/landing_logo/uniswap.png",
+  },
+];
+
+const companies2 = [
+  {
+    name: "Indodax",
+    logo: "/backing_img/indodax-logo.png",
+  },
+  {
+    name: "Bitget",
+    logo: "/landing_logo/bittget.png",
+  },
+  {
+    name: "Bank Indonesia",
+    logo: "/landing_logo/bankindonesia.png",
+  },
+  {
+    name: "Lisk",
+    logo: "/landing_logo/lisk.png",
+  },
+  {
+    name: "DAO Maker",
+    logo: "/landing_logo/daomaker.png",
+  },
+  {
+    name: "OpenSea", // This one will be dynamic
+    logo: "", // Leave empty; override later based on theme
+  },
+  {
+    name: "UniSwap",
+    logo: "/landing_logo/uniswap.png",
+  },
+];
 
 export default function InfiniteLogoLoop() {
-  const logos = [
-    {
-      src: "/backing_img/ojk_logo.png",
-      alt: "OJK Logo",
-      width: 200,
-      height: 150,
-    },
-    {
-      src: "/backing_img/BI_Logo.png",
-      alt: "BI Logo",
-      width: 250,
-      height: 150,
-    },
-    {
-      src: "/backing_img/bappebti-logo-png.png",
-      alt: "Bappebti Logo",
-      width: 200,
-      height: 150,
-    },
-    {
-      src: "/backing_img/indodax_logo.png",
-      alt: "Indodax Logo",
-      width: 250,
-      height: 150,
-      className: "pb-3",
-    },
+  const { theme } = useTheme();
+  const [mounted, setMounted] = useState(false);
 
-    {
-      src: "/backing_img/Logo-xellar.png",
-      alt: "Xellar Logo",
-      width: 150,
-      height: 150,
-    },
+  useEffect(() => setMounted(true), []);
 
-    {
-      src: "/backing_img/Web3auth-Logo.png",
-      alt: "Web3Auth Logo",
-      width: 150,
-      height: 150,
-    },
-    {
-      src: "/backing_img/transak-logo.png",
-      alt: "Transak Logo",
-      width: 200,
-      height: 150,
-    },
-    {
-      src: "/backing_img/metamask-logo.png",
-      alt: "MetaMask Logo",
-      width: 150,
-      height: 150,
-    },
-    {
-      src: "/backing_img/blockdev-logo.png",
-      alt: "BlockDev Logo",
-      width: 200,
-      height: 150,
-    },
-    {
-      src: "/backing_img/logo-binance-indonesia.png",
-      alt: "Binance Indonesia Logo",
-      width: 200,
-      height: 150,
-    },
-    {
-      src: "/backing_img/etherscan-logo.svg",
-      alt: "EtherScan Logo",
-      width: 200,
-      height: 150,
-    },
-    {
-      src: "/backing_img/etherscan-logo.svg",
-      alt: "EtherScan Logo",
-      width: 200,
-      height: 150,
-    },
-    {
-      src: "/backing_img/coinbase-logo.png",
-      alt: "Coinbase Logo",
-      width: 200,
-      height: 150,
-    },
-    {
-      src: "/backing_img/coinmarketcap-logo.png",
-      alt: "CoinMarketCap Logo",
-      width: 200,
-      height: 150,
-    },
-    {
-      src: "/backing_img/cointelegraph-logo.png",
-      alt: "CoinTelegraph Logo",
-      width: 200,
-      height: 150,
-    },
-    {
-      src: "/backing_img/kucoin-logo.png",
-      alt: "KuCoin Logo",
-      width: 200,
-      height: 150,
-    },
-    {
-      src: "/backing_img/hotbit-logo.png",
-      alt: "Hotbit Logo",
-      width: 200,
-      height: 150,
-    },
-  ];
+  const getLogo = (company: { name: any; logo: any }) => {
+    if (company.name === "OpenSea") {
+      return theme === "dark"
+        ? "/landing_logo/opensea_white.svg"
+        : "/landing_logo/opensea.svg";
+    }
+    return company.logo || "/placeholder.svg";
+  };
+
+  if (!mounted) return null; // Prevent hydration mismatch
 
   return (
-    <section className="w-full pb-20 flex flex-col justify-center items-center gap-15 overflow-hidden">
-      <h1 className="text-5xl font-normal text-center mb-10 pt-32">
-        Trusted By
-      </h1>
-      <div className="relative w-full flex items-center justify-center flex-col">
-        <div className="flex animate-loop-scroll space-x-10 py-4">
-          {/* Duplicate logos to create a seamless loop */}
-          {[...logos, ...logos].map((logo, index) => (
-            <div
-              key={index}
-              className={`flex-shrink-0 flex items-center ${logo.className || ""}`}
-            >
-              <Image
-                src={logo.src}
-                width={logo.width}
-                height={logo.height}
-                alt={logo.alt}
-                style={{ objectFit: "contain" }}
-              />
-            </div>
-          ))}
-        </div>
-        <div className="flex animate-loop-scroll space-x-10 py-4">
-          {/* Duplicate logos to create a seamless loop */}
-          {[...logos, ...logos].map((logo, index) => (
-            <div
-              key={index}
-              className={`flex-shrink-0 flex items-center ${logo.className || ""}`}
-            >
-              <Image
-                src={logo.src}
-                width={logo.width}
-                height={logo.height}
-                alt={logo.alt}
-                style={{ objectFit: "contain" }}
-              />
-            </div>
-          ))}
-        </div>
+    <section className="relative w-full py-20 lg:py-28 overflow-hidden">
+      {/* Background Elements */}
+      <div className="absolute inset-0 pointer-events-none flex items-center justify-center">
+        <div
+          className={clsx(
+            "w-[800px] h-[800px] rounded-full",
+            theme === "dark"
+              ? "bg-[radial-gradient(circle,_rgba(147,197,253,0.3)_0%,_transparent_60%)]"
+              : "bg-[radial-gradient(circle,_rgba(59,130,246,0.5)_0%,_transparent_50%)]"
+          )}
+        />
       </div>
 
-      <style jsx>{`
-        @keyframes loop-scroll {
-          from {
-            transform: translateX(0);
-          }
-          to {
-            transform: translateX(
-              -50%
-            ); /* Move half the total width of duplicated logos */
-          }
-        }
-        .animate-loop-scroll {
-          animation: loop-scroll 30s linear infinite; /* Adjust duration as needed */
-        }
-      `}</style>
+      <div className="relative mx-auto  px-6 lg:px-8">
+        {/* Enhanced Header Section */}
+        <div className="mx-auto  text-center mb-5">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-border/50 bg-background/50 backdrop-blur-sm mb-6">
+            <div className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
+            <span className="text-sm font-medium text-muted-foreground">
+              Protecting Innovation Worldwide
+            </span>
+          </div>
+
+          <div className="space-y-4">
+            <GradientText
+              colors={[
+                "var(--primary)",
+                "var(--accent)",
+                "var(--primary)",
+                "var(--accent)",
+              ]}
+              animationSpeed={6}
+              showBorder={false}
+              className="font-bold !px-0 text-4xl lg:text-5xl"
+            >
+              Trusted By Industry Leaders
+            </GradientText>
+
+            <p className="mt-6 text-xl leading-8 text-muted-foreground max-w-3xl mx-auto">
+              Join the world's most innovative financial technology companies
+              and institutions who trust our platform to power their
+              next-generation solutions
+            </p>
+          </div>
+
+          {/* Stats or additional info */}
+          <div className="flex items-center justify-center gap-8 mt-8 text-sm text-muted-foreground">
+            <div className="flex items-center gap-2">
+              <div className="w-1.5 h-1.5 rounded-full bg-primary" />
+              <span>🏢 500+ Companies</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-1.5 h-1.5 rounded-full bg-primary" />
+              <span>🌍 50+ Countries</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-1.5 h-1.5 rounded-full bg-primary" />
+              <span>⚡ 99.9% Uptime</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Logo Marquee Sections */}
+        <div className="relative">
+          {/* First Row */}
+          <div className="overflow-hidden rounded-lg bg-gradient-to-r from-background via-muted/20 to-background p-1">
+            <div className="overflow-hidden rounded-md bg-background/80 backdrop-blur-sm">
+              <div className="flex animate-marquee space-x-16 py-8 min-w-fit will-change-transform">
+                {[...companies, ...companies].map((company, index) => (
+                  <div
+                    key={`${company.name}-${index}`}
+                    className="flex-shrink-0 flex items-center justify-center h-16 w-56 grayscale hover:grayscale-0 transition-all duration-500 opacity-60 hover:opacity-100 group"
+                  >
+                    <div className="relative p-4 rounded-lg transition-all duration-300 group-hover:scale-105">
+                      <Image
+                        src={getLogo(company) || "/placeholder.svg"}
+                        alt={`${company.name} logo`}
+                        width={120}
+                        height={40}
+                        className="h-20 w-full object-contain cursor-pointer"
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Second Row with reverse animation */}
+          <div className="overflow-hidden rounded-lg bg-gradient-to-r from-background via-muted/20 to-background p-1">
+            <div className="overflow-hidden rounded-md bg-background/80 backdrop-blur-sm">
+              <div className="flex animate-marquee-reverse space-x-16 py-8 w-max will-change-transform">
+                {[
+                  ...companies2.slice().reverse(),
+                  ...companies2.slice().reverse(),
+                ].map((company, index) => (
+                  <div
+                    key={`reverse-${company.name}-${index}`}
+                    className="flex-shrink-0 flex items-center justify-center h-20 w-56 grayscale hover:grayscale-0 transition-all duration-500 opacity-60 hover:opacity-100 group"
+                  >
+                    <div className="relative p-4 rounded-lg  transition-all duration-300  group-hover:scale-105">
+                      <Image
+                        src={getLogo(company) || "/placeholder.svg"}
+                        alt={`${company.name} logo`}
+                        width={120}
+                        height={40}
+                        className="h-20 w-full object-contain cursor-pointer"
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
   );
 }

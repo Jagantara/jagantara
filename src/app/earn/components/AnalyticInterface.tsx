@@ -247,7 +247,8 @@ export default function AnalyticInterface() {
             <div className="flex items-center gap-2">
               <Wallet className="h-5 w-5 opacity-80" />
               <span className="text-2xl font-bold">
-                {formatTokenAmount(currentStake, 6)}
+                {Math.round(Number(currentStake) / 1e6).toLocaleString() +
+                  " USDC"}
               </span>
             </div>
           </CardHeader>

@@ -6,9 +6,11 @@ import { formatNextSessionDate } from "@/lib/utils";
 import { useStake } from "@/hooks/useJagaStake";
 import { formatTokenAmount } from "@/lib/calculations";
 import { useTheme } from "next-themes";
+import { useMorphoReinvest } from "@/hooks/useMorphoReinvest";
 export default function VaultStats() {
   const { formattedVaultBalance } = useClaimManager();
-  const { timeLeft, nextSession } = useStake();
+  const { timeLeft, currentStake, totalSupply } = useStake();
+  const { totalReinvested, isReinvestedLoading } = useMorphoReinvest();
   const { theme } = useTheme();
   const StatCard = ({
     icon,
@@ -92,7 +94,10 @@ export default function VaultStats() {
                 <DollarSign className="w-5 h-5" style={{ color: "#10B981" }} />
               }
               title="Total Value Locked"
-              value={formattedVaultBalance + " USDC"}
+              value={
+                Math.round(Number(formattedVaultBalance)).toLocaleString() +
+                " USDC"
+              }
               subtitle="Real vault reserves"
               color="#10B981"
               // isLoading={isLoading}
@@ -117,11 +122,10 @@ export default function VaultStats() {
                 <TrendingUp className="w-5 h-5" style={{ color: "#A0055D" }} />
               }
               title="Total Staked"
-              value={`${formatTokenAmount(
-                (nextSession.totalStaked as bigint) || BigInt(0),
-                6
-              )} USDC`}
-              subtitle="Total staked this session"
+              value={
+                Math.round(Number(totalSupply) / 1e6).toLocaleString() + " USDC"
+              }
+              subtitle="Total staked in Vault"
               color="#A0055D"
               // isLoading={isLoading}
             />
@@ -138,8 +142,58 @@ export default function VaultStats() {
           </div>
         </div>
       </div>
+      <div className="glass rounded-xl p-6 border border-white/10 bg-[var(--secondary)] mt-5 flex items-center justify-between gap-6">
+        {/* Left: Logo + Name */}
+        <div className="flex items-center gap-3">
+          <div className="relative">
+            <div className="absolute inset-0 bg-[var(--background)]/20 rounded-full blur-sm" />
+            <div className="relative bg-[var(--background)]/10 rounded-full p-2 backdrop-blur-sm">
+              <Image
+                src="/morpho_logo.png"
+                alt="Morpho"
+                width={20}
+                height={20}
+                className="relative z-10"
+              />
+            </div>
+          </div>
+          <div>
+            <p className="font-semibold ">Morpho Vault</p>
+            <p className="text-[var(--text)]/50 text-xs">DeFi Protocol</p>
+          </div>
+        </div>
+
+        {/* Middle: Total Deposits */}
+        <div className="text-center">
+          <p className="text-[var(--text)]/50 text-xs font-medium uppercase tracking-wider">
+            Total Deposits
+          </p>
+          <p className=" font-bold text-lg">
+            {Math.round(Number(totalReinvested) / 1e6).toLocaleString() +
+              " USDC"}
+          </p>
+        </div>
+        <div className="text-center">
+          <p className="text-[var(--text)]/50 text-xs font-medium uppercase tracking-wider">
+            Collateral
+          </p>
+          <p className="font-bold text-lg">💵USDC</p>
+        </div>
+
+        {/* Right: APY + Collateral */}
+        <div className="text-right">
+          <p className="text-[var(--text)]/50 text-xs font-medium uppercase tracking-wider">
+            APY
+          </p>
+          <div className="flex items-baseline justify-end gap-1">
+            <span className="text-emerald-600 text-xl font-bold">4.45</span>
+            <span className=" text-sm">%</span>
+          </div>
+        </div>
+      </div>
+
       {/* Additional Metrics */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-10">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-5">
         <div className="glass rounded-xl p-6 border border-white/10 bg-[var(--secondary)]">
           <div className="text-center flex flex-col justify-center items-center">
             <div className="mb-1 flex justify-center">

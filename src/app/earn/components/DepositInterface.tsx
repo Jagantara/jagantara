@@ -13,16 +13,13 @@ import { ArrowDown, TrendingUp } from "lucide-react";
 import { useState } from "react";
 
 export default function DepositInterface() {
-  const { stake, isStaking, timeLeft, nextSessionStart, currentSession } =
-    useStake();
+  const { stake, isStaking, timeLeft } = useStake();
   const [amountIn, setAmountIn] = useState<string>("");
   const [tokenIn, setTokenIn] = useState<Token>(TOKENS.USDC);
   const [tokenOut, setTokenOut] = useState<Token>(TOKENS.JAGA);
   const amountOut = amountIn || "0.0";
   const tokenInBalance = useTokenBalance(tokenIn);
   const tokenOutBalance = useTokenBalance(tokenOut);
-  console.log("NEXT SESISON START: ", nextSessionStart);
-  console.log("Current SESISON START: ", currentSession);
   const isInsufficientBalance = () => {
     const formatted = formatTokenAmount(
       tokenInBalance.balance,
@@ -65,10 +62,18 @@ export default function DepositInterface() {
                 <span className="text-xs sm:text-sm opacity-70">USDC</span>
                 <span className="text-xs sm:text-sm truncate ml-2 opacity-70">
                   Balance:{" "}
-                  {formatTokenAmount(
-                    tokenInBalance.balance,
-                    tokenIn.symbol as keyof typeof TOKENS
-                  )}
+                  {(() => {
+                    const raw = formatTokenAmount(
+                      tokenInBalance.balance,
+                      tokenIn.symbol as keyof typeof TOKENS
+                    );
+
+                    // Remove commas and strip token symbol
+                    const numericPart = raw.replace(/,/g, "").split(" ")[0];
+
+                    const num = Number(numericPart);
+                    return isNaN(num) ? "0" : Math.floor(num).toLocaleString();
+                  })()}
                 </span>
               </div>
               <div className="flex items-center gap-2 sm:gap-3 ">
@@ -77,8 +82,9 @@ export default function DepositInterface() {
                   value={amountIn}
                   onChange={(e) => setAmountIn(e.target.value)}
                   placeholder="0.0"
-                  className="flex-1 bg-transparent text-lg sm:text-2xl font-bold outline-none input-primary min-w-0 border px-2 py-1 rounded-md border-slate-400"
+                  className="flex-1 bg-transparent text-lg sm:text-2xl font-bold outline-none input-primary min-w-0 border px-2 py-1 rounded-md border-slate-400 appearance-none [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                 />
+
                 <div className="flex items-center gap-2 flex-shrink-0">
                   <button
                     onClick={handleMaxClick}
@@ -87,7 +93,7 @@ export default function DepositInterface() {
                     MAX
                   </button>
                   <div
-                    className="flex items-center gap-1 sm:gap-2 p-2 rounded-xl border"
+                    className="flex items-center gap-1 p-2 rounded-xl border "
                     style={{
                       backgroundColor: "rgba(131, 110, 249, 0.1)",
                       borderColor: "rgba(131, 110, 249, 0.3)",
@@ -124,7 +130,7 @@ export default function DepositInterface() {
                 {amountOut || "0.0"}
               </div>
               <div
-                className="flex items-center gap-1 sm:gap-2 p-2 rounded-xl border"
+                className="flex items-center gap-1 p-2 rounded-xl border"
                 style={{
                   backgroundColor: "rgba(131, 110, 249, 0.1)",
                   borderColor: "rgba(131, 110, 249, 0.3)",
@@ -144,12 +150,12 @@ export default function DepositInterface() {
               <p className="font-medium">{getActiveFrom(timeLeft!)}</p>
             </div>
             <div className="flex justify-between">
-              <p className="opacity-70 font-light">⌛ Valid Until</p>
-              <p className="font-medium">{formatTimeLeft(timeLeft!)}</p>
+              <p className="opacity-70 font-light">🔑 Next Batch</p>
+              <p className="font-medium">{formatNextSessionDate(timeLeft!)}</p>
             </div>
             <div className="flex justify-between">
-              <p className="opacity-70 font-light">🔑 Next Session</p>
-              <p className="font-medium">{formatNextSessionDate(timeLeft!)}</p>
+              <p className="opacity-70 font-light">⌛ Valid Until</p>
+              <p className="font-medium">{formatTimeLeft(timeLeft!)}</p>
             </div>
             <div className="flex justify-between">
               <p className="opacity-70 font-light">🕒 Batch Duration</p>

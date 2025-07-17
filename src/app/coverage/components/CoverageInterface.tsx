@@ -166,7 +166,7 @@ export default function CoverageInterface() {
   }, [policy]);
   if (isActiveLoading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
+      <div className="flex items-center justify-center h-[80vh]">
         <div className="text-center space-y-4">
           <Clock className="h-6 w-6 animate-spin mx-auto text-blue-500" />
           <p className="text-muted-foreground">Checking policy status...</p>

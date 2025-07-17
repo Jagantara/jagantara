@@ -350,7 +350,7 @@ export default function HoverMenuEarn() {
             {/* Info line */}
             <div className="flex items-center gap-1 mt-4 text-sm text-[var(--text)]/70">
               <Info className="w-4 h-4 text-blue-400" />
-              <span>Withdraw anytime unless actively staked. No lock-in.</span>
+              <span>Withdraw anytime. No lock-in.</span>
             </div>
           </div>
         </div>

@@ -1,18 +1,20 @@
 import { useAccount, useWriteContract, useReadContract } from "wagmi";
 import { useState } from "react";
 import { waitForTransactionReceipt } from "@wagmi/core";
-import { CONTRACTS, ERC20_ABI, JAGA_STAKE_ABI } from "@/constants/abi";
 import toast from "react-hot-toast";
+import { CONTRACTS, ERC20_ABI, JAGA_STAKE_ABI } from "@/constants/abi";
 import { config } from "@/app/lib/connector/xellar";
 import { parseTokenAmount } from "@/lib/calculations";
 
 export const useStake = () => {
   const { address } = useAccount();
   const { writeContractAsync } = useWriteContract();
+
   const [isStaking, setIsStaking] = useState(false);
   const [isUnstaking, setIsUnstaking] = useState(false);
+  const [isClaiming, setIsClaiming] = useState(false);
 
-  // 🧠 READ: currentStake
+  // ✅ READ: User's staked balance
   const {
     data: currentStake,
     isLoading: isStakeLoading,
@@ -20,7 +22,7 @@ export const useStake = () => {
   } = useReadContract({
     address: CONTRACTS.JAGA_STAKE,
     abi: JAGA_STAKE_ABI,
-    functionName: "currentStake",
+    functionName: "balanceOf",
     args: address ? [address] : undefined,
     query: {
       enabled: !!address,
@@ -28,22 +30,38 @@ export const useStake = () => {
     },
   });
 
-  // 🧠 READ: currentSession
+  // ✅ READ: Total USDC staked in the vault
   const {
-    data: currentSession,
-    isLoading: isSessionLoading,
-    refetch: refetchSession,
+    data: totalSupply,
+    isLoading: isTotalSupplyLoading,
+    refetch: refetchTotalSupply,
   } = useReadContract({
     address: CONTRACTS.JAGA_STAKE,
     abi: JAGA_STAKE_ABI,
-    functionName: "currentSession",
+    functionName: "totalSupply",
     query: {
       enabled: true,
       refetchInterval: 30000,
     },
   });
 
-  // 🧠 READ: timeLeft
+  // ✅ READ: Pending reward for user
+  const {
+    data: pendingReward,
+    isLoading: isPendingLoading,
+    refetch: refetchPendingReward,
+  } = useReadContract({
+    address: CONTRACTS.JAGA_STAKE,
+    abi: JAGA_STAKE_ABI,
+    functionName: "earned",
+    args: address ? [address] : undefined,
+    query: {
+      enabled: !!address,
+      refetchInterval: 30000,
+    },
+  });
+
+  // ✅ READ: Time left in current reward period
   const {
     data: timeLeft,
     isLoading: isTimeLeftLoading,
@@ -58,45 +76,14 @@ export const useStake = () => {
     },
   });
 
-  // 🧠 READ: nextSessionStart
-  const {
-    data: nextSessionStart,
-    isLoading: isNextSessionStartLoading,
-    refetch: refetchNextSessionStart,
-  } = useReadContract({
-    address: CONTRACTS.JAGA_STAKE,
-    abi: JAGA_STAKE_ABI,
-    functionName: "nextSessionStart",
-    query: {
-      enabled: true,
-      refetchInterval: 30000,
-    },
-  });
-
-  // 🧠 READ: pendingReward
-  const {
-    data: pendingReward,
-    isLoading: isPendingLoading,
-    refetch: refetchPendingReward,
-  } = useReadContract({
-    address: CONTRACTS.JAGA_STAKE,
-    abi: JAGA_STAKE_ABI,
-    functionName: "pendingReward",
-    args: [], // ✅ No args required now
-    query: {
-      enabled: !!address,
-      refetchInterval: 30000, // Optional: reduce or remove for performance
-    },
-  });
-
-  // ✅ WRITE: stake
+  // ✅ WRITE: Stake
   const stake = async (amount: string): Promise<boolean> => {
     if (!address || !amount) return false;
     setIsStaking(true);
 
     try {
       const parsedAmount = parseTokenAmount(amount, 6);
-      console.log("PARSEDAMOUNT: ", parsedAmount);
+
       // 1. Approve USDC
       const approveHash = await writeContractAsync({
         address: CONTRACTS.USDC,
@@ -109,7 +96,7 @@ export const useStake = () => {
       await waitForTransactionReceipt(config, { hash: approveHash });
 
       // 2. Stake
-      toast.loading("Staking in progress...", { id: "stake" });
+      toast.loading("Staking...", { id: "stake" });
       const stakeHash = await writeContractAsync({
         address: CONTRACTS.JAGA_STAKE,
         abi: JAGA_STAKE_ABI,
@@ -117,29 +104,24 @@ export const useStake = () => {
         args: [parsedAmount],
         account: address,
       });
-
       await waitForTransactionReceipt(config, { hash: stakeHash });
-      toast.success(`Successfully staked $${amount} USDC`, {
-        id: "stake",
-        duration: 5000,
-      });
+
+      toast.success(`Staked ${amount} USDC`, { id: "stake" });
 
       refetchCurrentStake();
-      refetchPendingReward?.();
-      refetchSession();
+      refetchPendingReward();
       refetchTimeLeft();
-      refetchNextSessionStart();
       return true;
-    } catch (error) {
-      console.error("Stake failed:", error);
-      toast.error("Stake failed. Please try again.", { id: "stake" });
+    } catch (err) {
+      console.error(err);
+      toast.error("Stake failed", { id: "stake" });
       return false;
     } finally {
       setIsStaking(false);
     }
   };
 
-  // ✅ WRITE: unstake
+  // ✅ WRITE: Unstake
   const unstake = async (amount: string): Promise<boolean> => {
     if (!address || !amount) return false;
     setIsUnstaking(true);
@@ -147,7 +129,7 @@ export const useStake = () => {
     try {
       const parsedAmount = parseTokenAmount(amount, 6);
 
-      toast.loading("Unstaking in progress...", { id: "unstake" });
+      toast.loading("Unstaking...", { id: "unstake" });
       const hash = await writeContractAsync({
         address: CONTRACTS.JAGA_STAKE,
         abi: JAGA_STAKE_ABI,
@@ -157,76 +139,29 @@ export const useStake = () => {
       });
 
       await waitForTransactionReceipt(config, { hash });
-      toast.success(`Successfully unstaked $${amount} USDC`, {
-        id: "unstake",
-        duration: 5000,
-      });
+      toast.success(`Unstaked ${amount} USDC`, { id: "unstake" });
 
       refetchCurrentStake();
-      refetchPendingReward?.();
-      refetchSession();
+      refetchPendingReward();
       refetchTimeLeft();
-      refetchNextSessionStart();
       return true;
-    } catch (error) {
-      console.error("Unstake failed:", error);
-      toast.error("Unstake failed. Please try again.", { id: "unstake" });
+    } catch (err) {
+      console.error(err);
+      toast.error("Unstake failed", { id: "unstake" });
       return false;
     } finally {
       setIsUnstaking(false);
     }
   };
 
-  // 🧠 READ: sessionCounter
-  const {
-    data: sessionCounter,
-    isLoading: isSessionCounterLoading,
-    refetch: refetchSessionCounter,
-  } = useReadContract({
-    address: CONTRACTS.JAGA_STAKE,
-    abi: JAGA_STAKE_ABI,
-    functionName: "sessionCounter",
-    query: {
-      enabled: true,
-      refetchInterval: 30000,
-    },
-  });
-
-  // 🧠 READ: next session data
-  const {
-    data: nextSessionData,
-    isLoading: isNextSessionDataLoading,
-    refetch: refetchNextSessionData,
-  } = useReadContract({
-    address: CONTRACTS.JAGA_STAKE,
-    abi: JAGA_STAKE_ABI,
-    functionName: "sessions",
-    args:
-      // sessionCounter !== undefined ? [Number(sessionCounter) + 1] : undefined,
-      sessionCounter !== undefined ? [Number(15)] : undefined,
-    query: {
-      enabled: sessionCounter !== undefined,
-      refetchInterval: 30000,
-    },
-  });
-
-  type Session = [bigint, bigint, boolean];
-  const session = nextSessionData as Session;
-
-  const nextSession = {
-    totalStaked: session?.[0] ?? BigInt(0),
-    totalReward: session?.[1] ?? BigInt(0),
-    finalized: session?.[2] ?? false,
-  };
-
-  // ✅ WRITE: claim
+  // ✅ WRITE: Claim
   const claim = async (): Promise<boolean> => {
     if (!address) return false;
+    setIsClaiming(true);
 
     try {
       toast.loading("Claiming rewards...", { id: "claim" });
-
-      const claimHash = await writeContractAsync({
+      const hash = await writeContractAsync({
         address: CONTRACTS.JAGA_STAKE,
         abi: JAGA_STAKE_ABI,
         functionName: "claim",
@@ -234,31 +169,19 @@ export const useStake = () => {
         account: address,
       });
 
-      await waitForTransactionReceipt(config, { hash: claimHash });
+      await waitForTransactionReceipt(config, { hash });
+      toast.success("Claim successful!", { id: "claim" });
 
-      toast.success("Successfully claimed rewards!", {
-        id: "claim",
-        duration: 5000,
-      });
-
-      // Refresh relevant state
-      refetchPendingReward?.();
+      refetchPendingReward();
       refetchCurrentStake();
-      refetchSession();
       refetchTimeLeft();
-      refetchNextSessionStart();
-      refetchSessionCounter();
-      refetchNextSessionData();
-
       return true;
-    } catch (error) {
-      console.error("Claim failed:", error);
-      // toast.error("Claim failed. Please try again.", { id: "claim" });
-      toast.success("Successfully claimed rewards!", {
-        id: "claim",
-        duration: 5000,
-      });
+    } catch (err) {
+      console.error(err);
+      toast.error("Claim failed", { id: "claim" });
       return false;
+    } finally {
+      setIsClaiming(false);
     }
   };
 
@@ -268,29 +191,18 @@ export const useStake = () => {
     claim,
     isStaking,
     isUnstaking,
+    isClaiming,
     currentStake: (currentStake as bigint) || BigInt(0),
     pendingReward: (pendingReward as bigint) || BigInt(0),
-    currentSession: currentSession as number | undefined,
     timeLeft: timeLeft as number | undefined,
-    nextSessionStart: nextSessionStart as number | undefined,
-
     isStakeLoading,
     isPendingLoading,
-    isSessionLoading,
     isTimeLeftLoading,
-    isNextSessionStartLoading,
-
     refetchCurrentStake,
     refetchPendingReward,
-    refetchSession,
     refetchTimeLeft,
-    refetchNextSessionStart,
-
-    nextSession,
-    isNextSessionDataLoading,
-    refetchNextSessionData,
-    sessionCounter: sessionCounter as number | undefined,
-    isSessionCounterLoading,
-    refetchSessionCounter,
+    totalSupply: (totalSupply as bigint) || BigInt(0),
+    isTotalSupplyLoading,
+    refetchTotalSupply,
   };
 };

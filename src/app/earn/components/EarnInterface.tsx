@@ -14,7 +14,6 @@ export default function EarnInterface() {
     refetchCurrentStake,
     timeLeft,
     pendingReward,
-    nextSession,
     claim,
   } = useStake();
   const [amountIn, setAmountIn] = useState<string>("");
@@ -29,8 +28,7 @@ export default function EarnInterface() {
     const balance = Number(currentStake) / Math.pow(10, 6);
     return parseFloat(amountIn || "0") > balance;
   };
-  console.log("REWARD = ", nextSession.totalReward);
-  const rewardAmount = Number(nextSession.totalReward) / 1e6;
+  const rewardAmount = Number(pendingReward) / 1e6;
   const hasReward = rewardAmount > 0;
   const handleClaim = async () => {
     if (isClaiming || !hasReward) return;
@@ -107,16 +105,15 @@ export default function EarnInterface() {
                 <div className="flex justify-between items-center mb-2">
                   <span className="text-xs sm:text-sm opacity-70">USDC</span>
                   <span className="text-xs sm:text-sm truncate ml-2 opacity-70">
-                    Available:{" "}
-                    {formatTokenAmount(nextSession.totalReward, "USDC")}
+                    Available: {formatTokenAmount(pendingReward, "USDC")}
                   </span>
                 </div>
                 <div className="flex items-center gap-2 sm:gap-3">
                   <div className="flex-1 text-lg sm:text-2xl font-bold min-w-0 truncate">
-                    {formatTokenAmount(nextSession.totalReward, "USDC")}
+                    {formatTokenAmount(pendingReward, "USDC")}
                   </div>
                   <div
-                    className="flex items-center gap-1 sm:gap-2 p-2 rounded-xl border"
+                    className="flex items-center gap-1 p-2 rounded-xl border"
                     style={{
                       backgroundColor: "rgba(131, 110, 249, 0.1)",
                       borderColor: "rgba(131, 110, 249, 0.3)",
@@ -203,7 +200,7 @@ export default function EarnInterface() {
                       value={amountIn}
                       onChange={(e) => setAmountIn(e.target.value)}
                       placeholder="0.0"
-                      className="flex-1 bg-transparent text-lg sm:text-2xl font-bold outline-none input-primary min-w-0 border px-2 py-1 rounded-md border-slate-400"
+                      className="flex-1 bg-transparent text-lg sm:text-2xl font-bold outline-none input-primary min-w-0 border px-2 py-1 rounded-md border-slate-400 appearance-none [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                     />
                     <div className="flex items-center gap-2 flex-shrink-0">
                       <button
@@ -231,9 +228,7 @@ export default function EarnInterface() {
             {/* Remove Button */}
             <button
               onClick={handleRemove}
-              disabled={
-                isUnstaking || isInsufficientBalanceRemove() || !hasReward
-              }
+              disabled={isUnstaking || isInsufficientBalanceRemove()}
               className={`w-full mt-6 py-4 rounded-xl font-bold text-lg transition-all duration-300 flex items-center justify-center gap-2  ${
                 !amountIn || isUnstaking || isInsufficientBalanceRemove()
                   ? "bg-blue-300/30  cursor-not-allowed opacity-70"
@@ -247,8 +242,6 @@ export default function EarnInterface() {
                 </>
               ) : isInsufficientBalanceRemove() ? (
                 "Insufficient Balance"
-              ) : !hasReward ? (
-                "No Reward Available"
               ) : (
                 <>
                   <Droplet className="w-5 h-5" />
