@@ -21,7 +21,7 @@ import AnimatedContent from "@/components/animated-content";
 export default function Header() {
   const navItems = [
     {
-      name: "Coverages",
+      name: "Features",
       link: "#features",
     },
     {

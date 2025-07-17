@@ -194,7 +194,7 @@ export default function CoverageInterface() {
                     showBorder={false}
                     className="font-normal"
                   >
-                    Get Coverage
+                    File a Claim
                   </GradientText>
                   {/* Claim Form */}
                   <Card className="bg-[var(--secondary)] border-none">
@@ -203,10 +203,16 @@ export default function CoverageInterface() {
                         <FileText className="h-5 w-5" />
                         <span>Claim Details</span>
                       </CardTitle>
-                      <CardDescription>
-                        Provide the essential information for your insurance
-                        claim. This data will be stored on-chain and voted on by
-                        DAO members.
+                      <CardDescription className="flex justify-between">
+                        <p>
+                          Provide the essential information for your insurance
+                          claim. This data will be stored on-chain and voted on
+                          by DAO members.
+                        </p>
+                        <p>
+                          {formData.tier} -{" "}
+                          {policy[1].toString() + " " + "Months"}
+                        </p>
                       </CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-6">
@@ -223,6 +229,12 @@ export default function CoverageInterface() {
                               <span className="font-mono">{address}</span>
                             </div>
                             <div className="flex justify-between">
+                              <span className="">Cover Wallet Address:</span>
+                              <span className="font-mono ">
+                                {formData.coveredAddress}
+                              </span>
+                            </div>
+                            <div className="flex justify-between">
                               <span className="">Claim Amount:</span>
                               <span className="font-medium text-green-500">
                                 {formData.amount
@@ -230,16 +242,10 @@ export default function CoverageInterface() {
                                   : "Not set"}
                               </span>
                             </div>
-                            <div className="flex justify-between">
-                              <span className="">Cover Wallet Address:</span>
-                              <span className="font-mono ">
-                                {formData.coveredAddress}
-                              </span>
-                            </div>
                           </div>
                         </div>
 
-                        <div className="grid gap-4 md:grid-cols-2">
+                        <div className="grid gap-4 md:grid-cols-1">
                           <div className="space-y-2">
                             <Label htmlFor="title">Claim Title *</Label>
                             <Input
@@ -253,47 +259,8 @@ export default function CoverageInterface() {
                               }
                             />
                           </div>
-                          <div className="space-y-2 cursor-not-allowed">
-                            <Label htmlFor="title">
-                              Cover Wallet Address *
-                            </Label>
-                            <Input
-                              id="covered-address"
-                              type="text"
-                              placeholder="Provide a wallet address that you want to cover"
-                              value={policy[2]}
-                              className="w-full bg-[var(--third)]/40 border-none"
-                              disabled
-                              readOnly
-                            />
-                          </div>
                         </div>
-                        <div className="grid gap-4 md:grid-cols-2">
-                          <div className="space-y-2 cursor-not-allowed">
-                            <Label htmlFor="claim-type">Premium Tier *</Label>
-                            <Input
-                              id="premium"
-                              type="text"
-                              placeholder="How long do you want to be covered (in months)..."
-                              value={premiumTypes[Number(policy[3]) - 1].label}
-                              className="w-full bg-[var(--third)]/40 border-none"
-                              disabled
-                            />
-                          </div>
-                          <div className="space-y-2 cursor-not-allowed">
-                            <Label htmlFor="duration">
-                              Duration (in months) *
-                            </Label>
-                            <Input
-                              id="duration"
-                              type="text"
-                              placeholder="How long do you want to be covered (in months)..."
-                              value={policy[1].toString()}
-                              className="w-full bg-[var(--third)]/40 border-none"
-                              disabled
-                            />
-                          </div>
-                        </div>
+
                         <div className="grid gap-4 md:grid-cols-2">
                           <div className="space-y-2 cursor-not-allowed">
                             <Label htmlFor="claim-type">Claim Type *</Label>
@@ -324,16 +291,21 @@ export default function CoverageInterface() {
                           </div>
                           <div className="space-y-2 cursor-not-allowed">
                             <Label htmlFor="amount">Amount *</Label>
-                            <Input
-                              id="amount"
-                              type="number"
-                              placeholder="How much you want to recover"
-                              value={formData.amount}
-                              className="w-full bg-[var(--third)]/40 border-none"
-                              onChange={(e) =>
-                                updateFormData("amount", e.target.value)
-                              }
-                            />
+                            <div className="flex flex-row gap-1">
+                              <div className="w-24 bg-[var(--third)]/40 border-none text-center flex items-center px-2 rounded-md">
+                                💵USDC
+                              </div>
+                              <Input
+                                id="amount"
+                                type="number"
+                                placeholder="How much you want to recover"
+                                value={formData.amount}
+                                className="w-full bg-[var(--third)]/40 border-none"
+                                onChange={(e) =>
+                                  updateFormData("amount", e.target.value)
+                                }
+                              />
+                            </div>
                           </div>
                         </div>
 
@@ -392,7 +364,7 @@ export default function CoverageInterface() {
                         </div>
                       </div>
 
-                      <Alert className="bg-yellow-300/70 text-black">
+                      <Alert className="bg-yellow-300/70 text-black border-none">
                         <AlertTriangle className="h-4 w-4" />
                         <AlertDescription>
                           <strong>Important:</strong> Once submitted, your claim
@@ -426,7 +398,7 @@ export default function CoverageInterface() {
                           <p>Please complete all required fields:</p>
                           <ul className="list-disc list-inside mt-1 space-y-1">
                             {!formData.claimType && <li>Select claim type</li>}
-                            {!formData.title && <li>Set incident date</li>}
+                            {!formData.title && <li>Set claim title</li>}
                             {!formData.amount && <li>Enter claim amount</li>}
                             {formData.reason.length < 50 && (
                               <li>
@@ -514,7 +486,7 @@ export default function CoverageInterface() {
           </div>
         )
       ) : (
-        <div className="flex flex-col justify-center items-center text-center py-20 px-4 space-y-6 pb-20">
+        <div className="flex flex-col justify-center items-center text-center h-[60vh] space-y-6 pt-10">
           <Image
             src="/jagantara_icon.png"
             alt="Jagantara Icon"

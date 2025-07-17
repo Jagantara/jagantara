@@ -30,12 +30,13 @@ import { animatePageOut } from "@/lib/transition";
 import { FaWallet } from "react-icons/fa6";
 import { useClaimManager } from "@/hooks/useClaimManager";
 import InfiniteLogoLoop from "./components/InfiniteLogoLoop.tsx";
+import PricingCard from "./components/PricingCard";
+import GradientText from "@/components/gradient-text";
+import HoverMenuEarn from "./components/hover-menu-earn";
+import HoverMenuCoverage from "./components/hover-menu-coverage";
 
 function App() {
   const { formattedVaultBalance } = useClaimManager();
-  const account = useAccount();
-  const { connectors, connect, status, error } = useConnect();
-  const { disconnect } = useDisconnect();
   const router = useRouter();
   return (
     <>
@@ -243,14 +244,49 @@ function App() {
             </div>
           </div>
         </section>
-        <InfiniteLogoLoop />
-        <section className="w-full py-20 md:mx-6">
+        {/* <InfiniteLogoLoop /> */}
+
+        <section className="md:mx-6 lg:mx-20  scroll-mt-32" id="features">
+          <HoverMenuEarn />
+        </section>
+
+        <section className="md:mx-6 lg:mx-20 mt-40 pb-40">
+          <HoverMenuCoverage />
+        </section>
+
+        {/* <section className="w-full py-20 md:mx-6">
           <StickyScrollFileClaim />
+        </section> */}
+
+        <section className="scroll-mt-32" id="pricing">
+          <div className="text-center  ">
+            <h2 className="text-2xl font-bold tracking-tight sm:text-3xl md:text-5xl mb-4 space-y-1">
+              <GradientText
+                colors={[
+                  "var(--primary)",
+                  "var(--accent)",
+                  "var(--primary)",
+                  "var(--accent)",
+                ]}
+                animationSpeed={6}
+                showBorder={false}
+                className="font-bold"
+              >
+                Premium Prices
+              </GradientText>
+            </h2>
+            <p className="text-[var(--text)]/70 text-base sm:text-lg max-w-3xl mx-auto">
+              Choose the right coverage for your digital assets with our
+              flexible premium plans. Whether you're an individual or a
+              business, we have a plan that fits your needs.
+            </p>
+          </div>
+          <PricingCard />
         </section>
 
         <section
           id="FAQ"
-          className="scroll-mt-28 w-full md:mx-6 flex flex-col justify-center items-center"
+          className="scroll-mt-28 w-full md:mx-6 flex flex-col justify-center items-center pt-10"
         >
           <FAQLanding />
         </section>

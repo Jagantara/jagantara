@@ -111,11 +111,28 @@ export default function InfiniteLogoLoop() {
   ];
 
   return (
-    <section className="w-full md:mx-6 py-20 flex flex-col justify-center items-center gap-15 overflow-hidden">
-      <h1 className="text-4xl font-normal text-center mb-10 pt-32">
-        Backed by trusted names in finance
+    <section className="w-full pb-20 flex flex-col justify-center items-center gap-15 overflow-hidden">
+      <h1 className="text-5xl font-normal text-center mb-10 pt-32">
+        Trusted By
       </h1>
-      <div className="relative w-full flex items-center justify-center">
+      <div className="relative w-full flex items-center justify-center flex-col">
+        <div className="flex animate-loop-scroll space-x-10 py-4">
+          {/* Duplicate logos to create a seamless loop */}
+          {[...logos, ...logos].map((logo, index) => (
+            <div
+              key={index}
+              className={`flex-shrink-0 flex items-center ${logo.className || ""}`}
+            >
+              <Image
+                src={logo.src}
+                width={logo.width}
+                height={logo.height}
+                alt={logo.alt}
+                style={{ objectFit: "contain" }}
+              />
+            </div>
+          ))}
+        </div>
         <div className="flex animate-loop-scroll space-x-10 py-4">
           {/* Duplicate logos to create a seamless loop */}
           {[...logos, ...logos].map((logo, index) => (

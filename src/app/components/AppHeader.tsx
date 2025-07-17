@@ -17,6 +17,7 @@ export default function Header() {
     "JagaDAO",
     "Vault",
     "Campaign",
+    "Jagabot",
   ];
   const pathname = usePathname();
   const active =

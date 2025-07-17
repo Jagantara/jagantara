@@ -107,7 +107,7 @@ export default function StakingDetail() {
           </div>
         </div>
       ) : (
-        <div className="flex flex-col justify-center items-center text-center py-20 px-4 space-y-6 pb-20">
+        <div className="flex flex-col justify-center items-center text-center  space-y-6  h-[60vh]">
           <Image
             src="/jagantara_icon.png"
             alt="Jagantara Icon"

@@ -214,7 +214,7 @@ export default function DAOInterface() {
                         {[...Array(3)].map((_, i) => (
                           <div
                             key={i}
-                            className="p-4 rounded-lg bg-[#031e35] border border-[#093552]"
+                            className="p-4 rounded-lg bg-[var(--secondary)]"
                           >
                             <Skeleton className="h-6 w-32 mb-2" />
                             <Skeleton className="h-4 w-full mb-2" />
@@ -225,14 +225,14 @@ export default function DAOInterface() {
                       </div>
                     ) : proposals.filter((p) => p.status === "active")
                         .length === 0 ? (
-                      <div className="flex flex-col items-center justify-center mt-24 text-white opacity-75">
+                      <div className="flex flex-col items-center justify-center mt-24  opacity-75">
                         <div className="bg-blue-900/30 p-6 rounded-full mb-4">
                           <div className="text-5xl">🗳️</div>
                         </div>
                         <h3 className="text-xl font-semibold mb-1">
                           No Active Proposals
                         </h3>
-                        <p className="text-sm text-white/60 max-w-sm text-center">
+                        <p className="text-sm text-[var(--text)]/60 max-w-sm text-center">
                           It looks like there are currently no proposals open
                           for voting. Please check back later or create a new
                           one.
@@ -591,7 +591,7 @@ export default function DAOInterface() {
           </div>
         </div>
       ) : (
-        <div className="flex flex-col justify-center items-center text-center py-20 px-4 space-y-6 pb-20">
+        <div className="flex flex-col justify-center items-center text-center h-[60vh] space-y-6 pt-10">
           <Image
             src="/jagantara_icon.png"
             alt="Jagantara Icon"

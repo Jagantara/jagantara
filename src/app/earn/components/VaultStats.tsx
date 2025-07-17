@@ -5,9 +5,11 @@ import { useClaimManager } from "@/hooks/useClaimManager";
 import { formatNextSessionDate } from "@/lib/utils";
 import { useStake } from "@/hooks/useJagaStake";
 import { formatTokenAmount } from "@/lib/calculations";
+import { useTheme } from "next-themes";
 export default function VaultStats() {
   const { formattedVaultBalance } = useClaimManager();
   const { timeLeft, nextSession } = useStake();
+  const { theme } = useTheme();
   const StatCard = ({
     icon,
     title,
@@ -139,11 +141,18 @@ export default function VaultStats() {
       {/* Additional Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-10">
         <div className="glass rounded-xl p-6 border border-white/10 bg-[var(--secondary)]">
-          <div className="text-center">
-            <div className="text-3xl mb-2">⏳</div>
-            <div className="font-semibold mb-1">Batch Duration</div>
-            <div className="text-2xl font-bold">30 Days</div>
-            <div className="text-sm opacity-70">Per staking session</div>
+          <div className="text-center flex flex-col justify-center items-center">
+            <div className="mb-1 flex justify-center">
+              <Image
+                src="/morpho_logo2.png"
+                alt="lisk"
+                width={40}
+                height={40}
+              />
+            </div>
+            <div className="font-semibold mb-1">Hedge</div>
+            <div className="text-2xl font-bold">Morpho</div>
+            <div className="text-sm opacity-70">Value Preservation</div>
           </div>
         </div>
 
@@ -151,9 +160,7 @@ export default function VaultStats() {
           <div className="text-center">
             <div className="text-3xl mb-2">🏦</div>
             <div className="font-semibold mb-1">Governance</div>
-            <div className="text-2xl font-bold text-[var(--accent)]">
-              JagaDAO
-            </div>
+            <div className="text-2xl font-bold ">JagaDAO</div>
             <div className="text-sm opacity-70">Community Staking</div>
           </div>
         </div>
@@ -161,16 +168,25 @@ export default function VaultStats() {
         <div className="glass rounded-xl p-6 border border-white/10 bg-[var(--secondary)]">
           <div className="text-center flex flex-col justify-center items-center">
             <div className="text-3xl mb-2">
-              <Image
-                src={"/monad_logo.webp"}
-                alt={"monad"}
-                width={40}
-                height={40}
-              />
+              {theme === "dark" ? (
+                <Image
+                  src={"/lisk_white.png"}
+                  alt={"lisk"}
+                  width={75}
+                  height={75}
+                />
+              ) : (
+                <Image
+                  src={"/lisk_logo.png"}
+                  alt={"lisk"}
+                  width={40}
+                  height={40}
+                />
+              )}
             </div>
             <div className="font-semibold mb-1">Network</div>
-            <div className="text-2xl font-bold text-purple-500">Monad</div>
-            <div className="text- opacity-70">Testnet</div>
+            <div className="text-2xl font-bold">Lisk</div>
+            <div className="text-sm opacity-70">Testnet</div>
           </div>
         </div>
       </div>

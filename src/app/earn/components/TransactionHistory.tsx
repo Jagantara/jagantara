@@ -174,16 +174,16 @@ export default function TransactionHistory() {
         {/* Transaction List */}
         <div className="space-y-3 sm:space-y-4">
           {isLoading ? (
-            <div className="text-center py-12 text-white/80">
+            <div className="text-center py-12 text-[var(--text)]/80">
               Loading indexed data...
             </div>
           ) : filteredTransactions.length === 0 ? (
             <div className="text-center py-12">
               <div className="text-6xl mb-4">📊</div>
-              <h3 className="text-lg sm:text-xl font-semibold mb-2 text-white">
+              <h3 className="text-lg sm:text-xl font-semibold mb-2 ">
                 No transactions found
               </h3>
-              <p className="text-sm sm:text-base text-white/70">
+              <p className="text-sm sm:text-base text-[var(--text)]/70">
                 Try adjusting your filters or search terms.
               </p>
             </div>

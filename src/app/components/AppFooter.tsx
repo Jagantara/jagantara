@@ -4,7 +4,12 @@
 import { useState } from "react";
 import { SiFarcaster } from "react-icons/si";
 import { usePathname, useRouter } from "next/navigation";
-import { FaDiscord, FaLinkedin, FaXTwitter } from "react-icons/fa6";
+import {
+  FaDiscord,
+  FaInstagram,
+  FaLinkedin,
+  FaXTwitter,
+} from "react-icons/fa6";
 import { FaTelegramPlane } from "react-icons/fa";
 export default function Header() {
   const [active, setActive] = useState("Dashboard");
@@ -35,19 +40,22 @@ export default function Header() {
       </div>
       <div className="flex items-center gap-10">
         <div className="flex gap-3">
-          <a href="">
+          <a href="https://x.com/Jagantara_ofc" target="_blank">
             <FaXTwitter size={20} />
           </a>
-          <a href="">
+          <a href="https://discord.gg/fNkrb6FB55" target="_blank">
             <FaDiscord size={20} />
           </a>
-          <a href="">
+          <a
+            href="https://www.linkedin.com/company/jaganusantara"
+            target="_blank"
+          >
             <FaLinkedin size={20} />
           </a>
           <a href="">
-            <SiFarcaster size={20} />
+            <FaInstagram size={20} />
           </a>
-          <a href="">
+          <a href="https://t.me/+QjYXOLJ3diNmM2I1" target="_blank">
             <FaTelegramPlane size={20} />
           </a>
         </div>

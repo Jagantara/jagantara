@@ -53,7 +53,7 @@ export default function FAQLanding() {
             Jagantara
           </GradientText>
         </h2>
-        <p className="text-muted-foreground text-base sm:text-lg max-w-2xl mx-auto">
+        <p className="text-[var(--text)]/70 text-base sm:text-lg max-w-2xl mx-auto">
           Get answers to the most common questions about protecting your digital
           assets with comprehensive insurance coverage.
         </p>
