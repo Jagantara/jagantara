@@ -34,6 +34,14 @@ import { TOKENS } from "@/constants/abi";
 import { useTokenBalance } from "@/hooks/useTokenBalance";
 import { formatBigInt, formatTokenAmount } from "@/lib/formatters";
 import { Skeleton } from "@/components/ui/skeleton";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationPrevious,
+  PaginationNext,
+  PaginationLink,
+} from "@/components/ui/pagination";
 
 interface Proposal {
   id: string;
@@ -58,6 +66,9 @@ export default function DAOInterface() {
   const [tokenOut, setTokenOut] = useState<Token>(TOKENS.JAGA);
   const tokenOutBalance = useTokenBalance(tokenOut);
   const { isConnected } = useAccount();
+  const [currentPage, setCurrentPage] = useState(1);
+  const proposalsPerPage = 5; // Adjust per your design
+
   const {
     getClaimData,
     getClaimStatus,
@@ -173,11 +184,17 @@ export default function DAOInterface() {
         return <AlertCircle className="h-4 w-4" />;
     }
   };
+  const activeProposals = proposals.filter((p) => p.status === "active");
+  const totalPages = Math.ceil(activeProposals.length / proposalsPerPage);
+  const paginatedProposals = activeProposals.slice(
+    (currentPage - 1) * proposalsPerPage,
+    currentPage * proposalsPerPage
+  );
 
   return (
     <div>
       {isConnected ? (
-        <div className="shadow-lg rounded-2xl">
+        <div className="rounded-2xl">
           <div className="mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <Tabs defaultValue="active" className="space-y-6">
               <div className="flex justify-between items-center">
@@ -239,125 +256,163 @@ export default function DAOInterface() {
                         </p>
                       </div>
                     ) : (
-                      proposals
-                        .filter((p) => p.status === "active")
-                        .map((proposal) => (
-                          <Card
-                            key={proposal.id}
-                            className="hover:shadow-md transition-shadow cursor-pointer bg-[var(--secondary)]"
-                            onClick={() => setSelectedProposal(proposal.id)}
-                          >
-                            <CardHeader>
-                              <div className="flex justify-between items-start">
-                                <div className="space-y-2">
-                                  <div className="flex items-center space-x-2">
-                                    <Badge
-                                      className={getStatusColor(
-                                        proposal.status
-                                      )}
-                                    >
-                                      {getStatusIcon(proposal.status)}
-                                      <span className="ml-1 capitalize">
-                                        {proposal.status}
-                                      </span>
-                                    </Badge>
-                                    <Badge variant="outline">
-                                      {proposal.category}
-                                    </Badge>
-                                  </div>
-                                  <CardTitle className="text-lg">
-                                    {proposal.title}
-                                  </CardTitle>
+                      paginatedProposals.map((proposal) => (
+                        <Card
+                          key={proposal.id}
+                          className="hover:shadow-md transition-shadow cursor-pointer bg-[var(--secondary)]"
+                          onClick={() => setSelectedProposal(proposal.id)}
+                        >
+                          <CardHeader>
+                            <div className="flex justify-between items-start">
+                              <div className="space-y-2">
+                                <div className="flex items-center space-x-2">
+                                  <Badge
+                                    className={getStatusColor(proposal.status)}
+                                  >
+                                    {getStatusIcon(proposal.status)}
+                                    <span className="ml-1 capitalize">
+                                      {proposal.status}
+                                    </span>
+                                  </Badge>
+                                  <Badge variant="outline">
+                                    {proposal.category}
+                                  </Badge>
                                 </div>
-                                <div className="text-right text-sm">
-                                  <div className="flex items-center space-x-1">
-                                    <Clock className="h-3 w-3" />
-                                    <span>{proposal.timeLeft}</span>
-                                  </div>
+                                <CardTitle className="text-lg">
+                                  {proposal.title}
+                                </CardTitle>
+                              </div>
+                              <div className="text-right text-sm">
+                                <div className="flex items-center space-x-1">
+                                  <Clock className="h-3 w-3" />
+                                  <span>{proposal.timeLeft}</span>
                                 </div>
                               </div>
-                              <CardDescription className="line-clamp-2">
-                                {proposal.description}
-                              </CardDescription>
-                            </CardHeader>
-                            <CardContent>
-                              <div className="space-y-3">
-                                <div className="flex justify-between text-sm">
-                                  <span>
-                                    ✅ For:{" "}
-                                    {formatBigInt(
-                                      BigInt(proposal.votesFor),
-                                      6
-                                    ).toLocaleString()}
-                                  </span>
-                                  <span>
-                                    ❌ Against:{" "}
-                                    {formatBigInt(
-                                      BigInt(proposal.votesAgainst),
-                                      6
-                                    ).toLocaleString()}
-                                  </span>
-                                </div>
-                                <Progress
-                                  value={
+                            </div>
+                            <CardDescription className="line-clamp-2">
+                              {proposal.description}
+                            </CardDescription>
+                          </CardHeader>
+                          <CardContent>
+                            <div className="space-y-3">
+                              <div className="flex justify-between text-sm">
+                                <span>
+                                  ✅ For:{" "}
+                                  {formatBigInt(
+                                    BigInt(proposal.votesFor),
+                                    6
+                                  ).toLocaleString()}
+                                </span>
+                                <span>
+                                  ❌ Against:{" "}
+                                  {formatBigInt(
+                                    BigInt(proposal.votesAgainst),
+                                    6
+                                  ).toLocaleString()}
+                                </span>
+                              </div>
+                              <Progress
+                                value={
+                                  (Number(
+                                    formatBigInt(BigInt(proposal.votesFor), 6)
+                                  ) /
                                     (Number(
                                       formatBigInt(BigInt(proposal.votesFor), 6)
-                                    ) /
-                                      (Number(
+                                    ) +
+                                      Number(
                                         formatBigInt(
-                                          BigInt(proposal.votesFor),
+                                          BigInt(proposal.votesAgainst),
                                           6
                                         )
-                                      ) +
-                                        Number(
-                                          formatBigInt(
-                                            BigInt(proposal.votesAgainst),
-                                            6
-                                          )
-                                        ) || 1)) *
-                                    100
-                                  }
-                                  className="h-2 bg-white/40"
-                                />
-                                <div className="flex justify-between text-xs">
-                                  {proposal.canExecute && (
-                                    <Button
-                                      className="bg-blue-600 hover:bg-blue-700 cursor-pointer"
-                                      onClick={async () => {
-                                        try {
-                                          await executeVote(
-                                            Number(proposal.id)
-                                          );
-                                          toast.success(
-                                            `Proposal ${proposal.id} executed`
-                                          );
-                                        } catch (err) {
-                                          toast.error("Execution failed");
-                                          console.error(
-                                            "Execute vote error:",
-                                            err
-                                          );
-                                        }
-                                      }}
-                                    >
-                                      <CheckCircle className="h-4 w-4" />
-                                      Execute Vote
-                                    </Button>
-                                  )}
+                                      ) || 1)) *
+                                  100
+                                }
+                                className="h-2 bg-white/40"
+                              />
+                              <div className="flex justify-between text-xs">
+                                {proposal.canExecute && (
+                                  <Button
+                                    className="bg-blue-600 hover:bg-blue-700 cursor-pointer"
+                                    onClick={async () => {
+                                      try {
+                                        await executeVote(Number(proposal.id));
+                                        toast.success(
+                                          `Proposal ${proposal.id} executed`
+                                        );
+                                      } catch (err) {
+                                        toast.error("Execution failed");
+                                        console.error(
+                                          "Execute vote error:",
+                                          err
+                                        );
+                                      }
+                                    }}
+                                  >
+                                    <CheckCircle className="h-4 w-4" />
+                                    Execute Vote
+                                  </Button>
+                                )}
 
-                                  <span className="">
-                                    Amount to cover: {""}
-                                    {formatBigInt(
-                                      BigInt(proposal.amount),
-                                      6
-                                    ).toString()}{" "}
-                                    USDC
-                                  </span>
-                                </div>
+                                <span className="">
+                                  Amount to cover: {""}
+                                  {formatBigInt(
+                                    BigInt(proposal.amount),
+                                    6
+                                  ).toString()}{" "}
+                                  USDC
+                                </span>
                               </div>
-                            </CardContent>
-                          </Card>
-                        ))
+                            </div>
+                          </CardContent>
+                        </Card>
+                      ))
+                    )}
+                    {totalPages >= 1 && (
+                      <Pagination className="mt-6">
+                        <PaginationContent>
+                          <PaginationItem>
+                            <PaginationPrevious
+                              className={
+                                currentPage === 1
+                                  ? "pointer-events-none opacity-50"
+                                  : ""
+                              }
+                              onClick={() =>
+                                setCurrentPage((prev) => Math.max(prev - 1, 1))
+                              }
+                            />
+                          </PaginationItem>
+
+                          {[...Array(totalPages)].map((_, i) => {
+                            const page = i + 1;
+                            return (
+                              <PaginationItem key={page}>
+                                <PaginationLink
+                                  isActive={currentPage === page}
+                                  onClick={() => setCurrentPage(page)}
+                                >
+                                  {page}
+                                </PaginationLink>
+                              </PaginationItem>
+                            );
+                          })}
+
+                          <PaginationItem>
+                            <PaginationNext
+                              className={
+                                currentPage === totalPages
+                                  ? "pointer-events-none opacity-50"
+                                  : ""
+                              }
+                              onClick={() =>
+                                setCurrentPage((prev) =>
+                                  Math.min(prev + 1, totalPages)
+                                )
+                              }
+                            />
+                          </PaginationItem>
+                        </PaginationContent>
+                      </Pagination>
                     )}
                   </div>
 

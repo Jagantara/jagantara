@@ -247,7 +247,7 @@ function App() {
         </section>
         <InfiniteLogoLoop />
 
-        <section className="md:mx-6 lg:mx-20 mt-40">
+        <section className="md:mx-6 lg:mx-20 mt-40 scroll-mt-32 " id="features">
           {/* Header */}
           <div className="text-center md:mb-16">
             <h1 className="text-3xl md:text-5xl font-bold  mb-4">
@@ -261,10 +261,7 @@ function App() {
           <PromotionalCards />
         </section>
 
-        <section
-          className=" md:mx-6 lg:mx-20  scroll-mt-32 mt-40"
-          id="features"
-        >
+        <section className=" md:mx-6 lg:mx-20  mt-40">
           <HoverMenuEarn />
         </section>
 

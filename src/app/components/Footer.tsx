@@ -51,7 +51,7 @@ export default function Footer() {
 
   return (
     <footer className="w-full mt-5 bg-[image:var(--gradient-secondary)] text-text h-fit">
-      <div className=" mx-auto px-10 md:px-20 py-10 flex flex-col md-flex-row justify-between">
+      <div className=" mx-auto px-10 md:px-20 py-10 flex flex-col md:flex-row justify-between">
         {/* Logo Section */}
         <div className="mb-12">
           {/* Ensure your icon is optimized for both light and dark themes */}

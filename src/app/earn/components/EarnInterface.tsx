@@ -1,9 +1,13 @@
 import { TOKENS } from "@/constants/abi";
 import { useStake } from "@/hooks/useJagaStake";
 import { formatTokenAmount } from "@/lib/formatters";
-import { getActiveFrom } from "@/lib/utils";
+import {
+  formatNextSessionDate,
+  formatTimeLeft,
+  getActiveFrom,
+} from "@/lib/utils";
 import { Token } from "@/types/stake";
-import { ArrowDown, Droplet, TrendingUp, Zap } from "lucide-react";
+import { ArrowDown, Droplet, Info, TrendingUp, Zap } from "lucide-react";
 import { useState } from "react";
 
 export default function EarnInterface() {
@@ -129,8 +133,18 @@ export default function EarnInterface() {
             <div className="relative mt-5">
               <div className="p-3 sm:p-4 rounded-xl border border-slate-400 bg-[var(--secondary)]">
                 <div className="flex justify-between">
-                  <p className="opacity-70 font-light">⌛ Active from</p>
+                  <p className="opacity-70 font-light">📌 Active from</p>
                   <p className="font-medium">{getActiveFrom(timeLeft!)}</p>
+                </div>
+                <div className="flex justify-between">
+                  <p className="opacity-70 font-light">🔑 Next Batch</p>
+                  <p className="font-medium">
+                    {formatNextSessionDate(timeLeft!)}
+                  </p>
+                </div>
+                <div className="flex justify-between">
+                  <p className="opacity-70 font-light">⌛ Valid Until</p>
+                  <p className="font-medium">{formatTimeLeft(timeLeft!)}</p>
                 </div>
                 <div className="flex justify-between">
                   <p className="opacity-70 font-light">🕒 Batch Duration</p>
@@ -139,6 +153,13 @@ export default function EarnInterface() {
               </div>
             </div>
 
+            {/* Info line */}
+            <div className="flex items-center  gap-1 mt-4 text-xs md:text-sm text-[var(--text)]/70">
+              <Info className="md:w-4 md:h-4 h-3 w-3 text-blue-400" />
+              <span>
+                Rewards are distibuted per second based on company revenue.
+              </span>
+            </div>
             {/* Claim Button */}
             <button
               onClick={handleClaim}
@@ -224,7 +245,11 @@ export default function EarnInterface() {
                 </div>
               </div>
             </div>
-
+            {/* Info line */}
+            <div className="flex items-center  gap-1 mt-4 text-xs md:text-sm text-[var(--text)]/70">
+              <Info className="md:w-4 md:h-4 h-3 w-3 text-blue-400" />
+              <span>Withdraw anytime. No lock-in.</span>
+            </div>
             {/* Remove Button */}
             <button
               onClick={handleRemove}

@@ -20,7 +20,12 @@ export default function ConnectWallet() {
             >
               <div className="relative flex items-center gap-2">
                 <Wallet className="w-4 h-4 transition-transform group-hover:rotate-12" />
-                <span className="text-sm font-bold">Connect Wallet</span>
+                <span className="hidden md:flex text-sm font-bold">
+                  Connect Wallet
+                </span>
+                <span className="flex md:hidden text-sm font-bold">
+                  Connect
+                </span>
               </div>
             </button>
           ) : (
@@ -37,7 +42,7 @@ export default function ConnectWallet() {
 
               <div className="relative flex items-center gap-2">
                 {/* Balance Section */}
-                <div className="flex items-center gap-1 px-2 py-0.5 bg-white/20 rounded-md border border-white/30 backdrop-blur-sm">
+                <div className="hidden md:flex items-center gap-1 px-2 py-0.5 bg-white/20 rounded-md border border-white/30 backdrop-blur-sm">
                   <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
                   <span className="text-xs font-mono ">
                     {account?.balanceFormatted?.slice(0, 6)}{" "}
@@ -46,7 +51,7 @@ export default function ConnectWallet() {
                 </div>
 
                 {/* Divider */}
-                <div className="w-px h-4 bg-white/40"></div>
+                <div className="w-px h-4 bg-white/40 hidden md:flex"></div>
 
                 {/* Address Section */}
                 <div className="flex items-center gap-1">

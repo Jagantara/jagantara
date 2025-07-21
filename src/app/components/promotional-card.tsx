@@ -1,9 +1,12 @@
 import { Shield, FileCheck, Zap, TrendingUp, Lock, Unlock } from "lucide-react";
+import { useTheme } from "next-themes";
 import Image from "next/image";
 
 export default function PromotionalCards() {
+  const { theme } = useTheme();
+  const logoSrc = theme === "dark" ? "/lisk_white.png" : "/lisk_logo.png";
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mx-auto p-6">
+    <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mx-auto p-6">
       {/* Morpho - Defend Against Inflation */}
       <div className="group relative overflow-hidden rounded-2xl  border-blue-500/20 bg-gradient-to-br from-blue-500/10 to-purple-500/5 backdrop-blur-xl shadow-2xl transition-all duration-500 hover:shadow-blue-500/25 hover:border-blue-500/40 hover:-translate-y-2">
         {/* Background Pattern */}
@@ -32,7 +35,7 @@ export default function PromotionalCards() {
           <div className="space-y-4">
             <div>
               <h3 className="text-xl md:text-2xl font-bold mb-2">
-                Defend Against Inflation
+                Hedge Inflation
               </h3>
               <p className="text-[var(--text)]/80 text-sm leading-relaxed">
                 Protect your wealth with Morpho's high-yield vaults. Earn
@@ -93,7 +96,7 @@ export default function PromotionalCards() {
             <div className="flex items-center gap-4 pt-2">
               <div className="flex items-center gap-2">
                 <FileCheck className="w-4 h-4 text-blue-600" />
-                <span className="text-blue-600 font-semibold md:text-sm text-xs">
+                <span className=" font-semibold md:text-sm text-xs">
                   24h Claims
                 </span>
               </div>
@@ -155,6 +158,57 @@ export default function PromotionalCards() {
               <div className="h-4 w-px bg-[var(--text)]" />
               <span className="text-[var(--text)]/70 md:text-sm text-xs">
                 Instant Access
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* Lisk Network - Foundation Layer */}
+      <div className="group relative overflow-hidden rounded-2xl border-blue-500/20 bg-gradient-to-br from-blue-500/10 to-purple-500/5 backdrop-blur-xl shadow-2xl transition-all duration-500 hover:shadow-blue-500/25 hover:border-blue-500/40 hover:-translate-y-2">
+        {/* Background Pattern */}
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-400/5 to-purple-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+        {/* Floating Elements */}
+        <div className="absolute top-4 right-4 w-20 h-20 bg-blue-400/10 rounded-full blur-xl group-hover:bg-blue-400/20 transition-colors duration-500" />
+        <div className="absolute bottom-8 left-4 w-12 h-12 bg-purple-400/10 rounded-full blur-lg group-hover:bg-purple-400/20 transition-colors duration-500" />
+
+        <div className="relative p-8 space-y-6">
+          {/* Icon */}
+          <div className="relative flex gap-2 items-center">
+            <Image
+              src={logoSrc} // Replace with your actual logo file
+              alt="Lisk"
+              width={theme === "dark" ? 35 : 35}
+              height={theme === "dark" ? 35 : 35}
+              className=""
+            />
+            <p className="font-semibold text-lg">Lisk Network</p>
+          </div>
+
+          {/* Content */}
+          <div className="space-y-4">
+            <div>
+              <h3 className="text-xl md:text-2xl font-bold mb-2">
+                Powered by Lisk
+              </h3>
+              <p className="text-[var(--text)]/80 text-sm leading-relaxed">
+                Built on the scalable and secure Lisk blockchain. Leverage fast
+                finality, low fees, and Lisk’s developer-friendly SDK to build
+                seamless DeFi experiences.
+              </p>
+            </div>
+
+            {/* Stats */}
+            <div className="flex items-center gap-4 pt-2">
+              <div className="flex items-center gap-2">
+                <Zap className="w-4 h-4 text-yellow-500" />
+                <span className=" font-semibold md:text-sm text-xs">
+                  Blazing Speed
+                </span>
+              </div>
+              <div className="h-4 w-px bg-[var(--text)]" />
+              <span className="text-[var(--text)]/70 md:text-sm text-xs">
+                dApp Ready
               </span>
             </div>
           </div>

@@ -9,11 +9,13 @@ import CountUp from "@/components/countup";
 import GradientText from "@/components/gradient-text";
 import { useRouter } from "next/navigation";
 import { useClaimManager } from "@/hooks/useClaimManager";
+import { useMorphoReinvest } from "@/hooks/useMorphoReinvest";
 export default function Component() {
   const { formattedVaultBalance } = useClaimManager();
   const [activeStep, setActiveStep] = useState(1);
   const { scrollYProgress } = useScroll();
   const router = useRouter();
+  const { totalReinvested } = useMorphoReinvest();
   // Transform scroll progress to step changes
   const step = useTransform(scrollYProgress, [0, 0.33, 0.66, 1], [1, 2, 3, 3]);
 
@@ -42,8 +44,8 @@ export default function Component() {
       <div className="max-w-7xl mx-auto">
         <div className="grid lg:grid-cols-2 gap-12">
           {/* Left Content - Sticky */}
-          <div className="lg:sticky lg:top-16 lg:h-[80vh] lg:flex lg:flex-col lg:justify-center p-8">
-            <div className="space-y-12">
+          <div className="lg:sticky lg:top-16 lg:h-fit lg:flex lg:flex-col lg:justify-center p-8">
+            <div className="space-y-6 mt-5">
               <div className="flex flex-row justify-between items-end">
                 <GradientText
                   colors={[
@@ -193,6 +195,60 @@ export default function Component() {
                     <Wallet size={30} />
                     <CountUp from={0} to={100000} separator="," duration={1} />
                   </span>
+                </div>
+              </div>
+              <div className="glass rounded-xl p-6 border border-white/10 bg-[var(--secondary)]  flex items-center justify-between gap-6">
+                {/* Left: Logo + Name */}
+                <div className="flex items-center gap-3">
+                  <div className="relative">
+                    <div className="absolute inset-0 bg-[var(--background)]/20 rounded-full blur-sm" />
+                    <div className="relative bg-[var(--background)]/10 rounded-full p-2 backdrop-blur-sm">
+                      <Image
+                        src="/morpho_logo.png"
+                        alt="Morpho"
+                        width={20}
+                        height={20}
+                        className="relative z-10"
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <p className="font-semibold ">Morpho Vault</p>
+                    <p className="text-[var(--text)]/50 text-xs">
+                      DeFi Protocol
+                    </p>
+                  </div>
+                </div>
+
+                {/* Middle: Total Deposits */}
+                <div className="text-center">
+                  <p className="text-[var(--text)]/50 text-xs font-medium uppercase tracking-wider">
+                    Total Deposits
+                  </p>
+                  <p className=" font-bold text-lg">
+                    {Math.round(
+                      Number(totalReinvested) / 1e6
+                    ).toLocaleString() + " USDC"}
+                  </p>
+                </div>
+                <div className="text-center">
+                  <p className="text-[var(--text)]/50 text-xs font-medium uppercase tracking-wider">
+                    Collateral
+                  </p>
+                  <p className="font-bold text-lg">💵USDC</p>
+                </div>
+
+                {/* Right: APY + Collateral */}
+                <div className="text-right">
+                  <p className="text-[var(--text)]/50 text-xs font-medium uppercase tracking-wider">
+                    APY
+                  </p>
+                  <div className="flex items-baseline justify-end gap-1">
+                    <span className="text-emerald-600 text-xl font-bold">
+                      4.45
+                    </span>
+                    <span className=" text-sm">%</span>
+                  </div>
                 </div>
               </div>
             </div>
