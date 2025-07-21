@@ -90,7 +90,7 @@ export default function InfiniteLogoLoop() {
       <div className="absolute inset-0 pointer-events-none flex items-center justify-center">
         <div
           className={clsx(
-            "w-[800px] h-[800px] rounded-full",
+            "md:w-[800px] md:h-[800px] w-[400px] h-[400px] rounded-full",
             theme === "dark"
               ? "bg-[radial-gradient(circle,_rgba(147,197,253,0.3)_0%,_transparent_60%)]"
               : "bg-[radial-gradient(circle,_rgba(59,130,246,0.5)_0%,_transparent_50%)]"
@@ -123,7 +123,7 @@ export default function InfiniteLogoLoop() {
               Trusted By Industry Leaders
             </GradientText>
 
-            <p className="mt-6 text-xl leading-8 text-muted-foreground max-w-3xl mx-auto">
+            <p className="mt-6 text-md md:text-xl leading-8 text-muted-foreground max-w-3xl mx-auto">
               Join the world's most innovative financial technology companies
               and institutions who trust our platform to power their
               next-generation solutions
@@ -131,7 +131,7 @@ export default function InfiniteLogoLoop() {
           </div>
 
           {/* Stats or additional info */}
-          <div className="flex items-center justify-center gap-8 mt-8 text-sm text-muted-foreground">
+          <div className="flex items-center justify-center gap-8 mt-8 text-xs md:text-sm text-muted-foreground">
             <div className="flex items-center gap-2">
               <div className="w-1.5 h-1.5 rounded-full bg-primary" />
               <span>🏢 500+ Companies</span>
@@ -152,11 +152,11 @@ export default function InfiniteLogoLoop() {
           {/* First Row */}
           <div className="overflow-hidden rounded-lg bg-gradient-to-r from-background via-muted/20 to-background p-1">
             <div className="overflow-hidden rounded-md bg-background/80 backdrop-blur-sm">
-              <div className="flex animate-marquee space-x-16 py-8 min-w-fit will-change-transform">
+              <div className="flex animate-marquee md:space-x-16 md:py-8 min-w-fit will-change-transform">
                 {[...companies, ...companies].map((company, index) => (
                   <div
                     key={`${company.name}-${index}`}
-                    className="flex-shrink-0 flex items-center justify-center h-16 w-56 grayscale hover:grayscale-0 transition-all duration-500 opacity-60 hover:opacity-100 group"
+                    className="flex-shrink-0 flex items-center justify-center h-16 w-40 md:w-56 md:grayscale hover:grayscale-0 transition-all duration-500 md:opacity-60 hover:opacity-100 group"
                   >
                     <div className="relative p-4 rounded-lg transition-all duration-300 group-hover:scale-105">
                       <Image
@@ -176,14 +176,14 @@ export default function InfiniteLogoLoop() {
           {/* Second Row with reverse animation */}
           <div className="overflow-hidden rounded-lg bg-gradient-to-r from-background via-muted/20 to-background p-1">
             <div className="overflow-hidden rounded-md bg-background/80 backdrop-blur-sm">
-              <div className="flex animate-marquee-reverse space-x-16 py-8 w-max will-change-transform">
+              <div className="flex animate-marquee-reverse md:space-x-16 md:py-8 w-max will-change-transform">
                 {[
                   ...companies2.slice().reverse(),
                   ...companies2.slice().reverse(),
                 ].map((company, index) => (
                   <div
                     key={`reverse-${company.name}-${index}`}
-                    className="flex-shrink-0 flex items-center justify-center h-20 w-56 grayscale hover:grayscale-0 transition-all duration-500 opacity-60 hover:opacity-100 group"
+                    className="flex-shrink-0 flex items-center justify-center h-20 w-40 md:w-56 md:grayscale hover:grayscale-0 transition-all duration-500 md:opacity-60 hover:opacity-100 group"
                   >
                     <div className="relative p-4 rounded-lg  transition-all duration-300  group-hover:scale-105">
                       <Image

@@ -14,7 +14,7 @@ import {
   MobileNavMenu,
 } from "../../components/ui/resizable-navbar";
 import ConnectWallet from "./ConnectWallet";
-import { Moon, Sun } from "lucide-react";
+import { ArrowUpRight, Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
 import AnimatedContent from "@/components/animated-content";
@@ -122,20 +122,19 @@ export default function Header() {
                 </a>
               ))}
               <div className="flex w-full flex-col gap-4">
-                <NavbarButton
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  variant="primary"
-                  className="w-full"
+                <Button
+                  size="lg"
+                  style={{
+                    background: "var(--gradient-primary)",
+                    color: "white",
+                  }}
+                  className="group hover:opacity-90 cursor-pointer glow-blue relative overflow-hidden pr-10"
+                  onClick={() => window.open("/earn", "_blank")} // 👈 open in new tab
                 >
-                  Login
-                </NavbarButton>
-                <NavbarButton
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  variant="primary"
-                  className="w-full"
-                >
-                  Book a call
-                </NavbarButton>
+                  Launch App
+                  <ArrowUpRight className="ml-2 h-4 w-4 arrow-animate-out transition-all duration-300 group-hover:arrow-out" />
+                  <ArrowUpRight className="h-4 w-4 absolute right-3 top-1/2 -translate-y-1/2 opacity-0 arrow-animate-in transition-all duration-300 group-hover:arrow-in" />
+                </Button>
               </div>
             </MobileNavMenu>
           </MobileNav>

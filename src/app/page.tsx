@@ -249,11 +249,11 @@ function App() {
 
         <section className="md:mx-6 lg:mx-20 mt-40">
           {/* Header */}
-          <div className="text-center mb-16">
-            <h1 className="text-5xl font-bold  mb-4">
+          <div className="text-center md:mb-16">
+            <h1 className="text-3xl md:text-5xl font-bold  mb-4">
               Next-Gen DeFi Solutions
             </h1>
-            <p className="text-xl text-[var(--text)]/70 max-w-2xl mx-auto">
+            <p className="text-md md:text-xl text-[var(--text)]/70 max-w-2xl mx-auto">
               Discover powerful tools to protect, insure, and maximize your
               crypto assets with cutting-edge protocols
             </p>
@@ -261,7 +261,10 @@ function App() {
           <PromotionalCards />
         </section>
 
-        <section className="md:mx-6 lg:mx-20  scroll-mt-32 mt-40" id="features">
+        <section
+          className=" md:mx-6 lg:mx-20  scroll-mt-32 mt-40"
+          id="features"
+        >
           <HoverMenuEarn />
         </section>
 
@@ -271,7 +274,7 @@ function App() {
 
         <section className="scroll-mt-32" id="pricing">
           <div className="text-center  ">
-            <h2 className="text-2xl font-bold tracking-tight sm:text-3xl md:text-5xl mb-4 space-y-1">
+            <h2 className=" font-bold tracking-tight md:text-5xl mb-4 space-y-1">
               <GradientText
                 colors={[
                   "var(--primary)",
@@ -281,12 +284,12 @@ function App() {
                 ]}
                 animationSpeed={6}
                 showBorder={false}
-                className="font-bold"
+                className="font-bold text-3xl"
               >
                 Premium Prices
               </GradientText>
             </h2>
-            <p className="text-[var(--text)]/70 text-base sm:text-lg max-w-3xl mx-auto">
+            <p className="text-[var(--text)]/70 text-md md:text-lg max-w-3xl mx-auto">
               Choose the right coverage for your digital assets with our
               flexible premium plans. Whether you're an individual or a
               business, we have a plan that fits your needs.

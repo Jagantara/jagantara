@@ -50,10 +50,10 @@ const StatCard = ({
     <div
       className={`bg-gradient-to-br from-${accent}-500/10 to-white/5 p-5 rounded-2xl border border-white/10 flex items-center gap-4`}
     >
-      <div className={`p-3 rounded-xl bg-${accent}-500/20`}>{icon}</div>
+      <div className={`md:p-3 rounded-xl bg-${accent}-500/20`}>{icon}</div>
       <div>
-        <p className="text-2xl font-semibold text-white">{value}</p>
-        <p className="text-sm text-white/60">{label}</p>
+        <p className="text-xl md:text-2xl font-semibold text-white">{value}</p>
+        <p className="text-xs md:text-sm text-white/60">{label}</p>
       </div>
     </div>
   );
@@ -70,7 +70,7 @@ export default function HoverMenuCoverage() {
       icon: <FileLock className="w-5 h-5" />,
       panel: (
         <div className="space-y-4">
-          <div className="bg-gray-900 text-green-400 p-4 rounded-lg font-mono text-sm overflow-x-auto">
+          <div className="bg-gray-900 text-green-400 p-4 rounded-lg font-mono text-xs md:text-sm overflow-x-auto">
             <div className="space-y-1">
               <div>
                 <span className="text-blue-400">claimant:</span> "0x4E3b...aF9C"
@@ -109,7 +109,7 @@ export default function HoverMenuCoverage() {
             </div>
           </div>
 
-          <Button className="w-full bg-gray-900  cursor-pointer text-white py-6 rounded-3xl">
+          <Button className="w-full bg-gray-900  cursor-pointer text-white py-6 rounded-3xl text-xs md:text-sm">
             <>
               <Send className="h-4 w-4 mr-2" />
               Submit Claim to DAO
@@ -126,7 +126,7 @@ export default function HoverMenuCoverage() {
       panel: (
         <div className="space-y-6">
           <div className="bg-[#001e3c] text-white rounded-xl p-6 shadow-lg ">
-            <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+            <h3 className="text-sm md:text-lg font-semibold mb-4 flex items-center gap-2">
               <Vote className="w-5 h-5" />
               Cast Your Vote
             </h3>
@@ -135,7 +135,7 @@ export default function HoverMenuCoverage() {
               <div className="text-white font-bold text-sm mb-1">
                 Phishing Attack
               </div>
-              <p className="text-sm text-blue-100 leading-snug">
+              <p className="text-xs md:text-sm text-blue-100 leading-snug">
                 I interacted with a malicious dApp link disguised as a staking
                 dashboard. It requested wallet access and triggered a hidden
                 signature request. Within minutes, my funds were drained before
@@ -143,7 +143,7 @@ export default function HoverMenuCoverage() {
               </p>
             </div>
 
-            <div className="text-sm text-white/80 mb-3">
+            <div className="text-xs md:text-sm text-white/80 mb-3">
               <div className="flex justify-between mb-1">
                 <span>Your Voting Power:</span>
                 <span className="font-bold text-white">🛡️20,000 JAGA</span>
@@ -153,23 +153,24 @@ export default function HoverMenuCoverage() {
                 <span className="font-bold text-white">5 days</span>
               </div>
             </div>
-            <div className="flex justify-between text-sm mb-3">
+            <div className="flex justify-between text-xs md:text-sm mb-3">
               <span>✅ For: {20000}</span>
               <span>❌ Against: {0}</span>
             </div>
             <Progress value={100} className="h-2 bg-white/40" />
-            <div className="flex flex-col sm:flex-row gap-3 mt-4">
-              <button className="flex-1 bg-green-600 hover:bg-green-500 text-white py-3 rounded-lg font-semibold flex items-center justify-center gap-2 cursor-pointer">
+            {/* Voting Buttons - Responsive */}
+            <div className="flex flex-col sm:flex-row gap-3 mt-4 w-full">
+              <button className="flex-1 bg-green-600 hover:bg-green-500 text-white py-3 rounded-lg font-semibold flex items-center justify-center gap-2 cursor-pointer text-sm sm:text-base">
                 <CheckCircle className="h-4 w-4" />
                 Vote For
               </button>
-              <button className="flex-1 bg-red-600 hover:bg-red-500 text-white py-3 rounded-lg font-semibold flex items-center justify-center gap-2 cursor-pointer">
+              <button className="flex-1 bg-red-600 hover:bg-red-500 text-white py-3 rounded-lg font-semibold flex items-center justify-center gap-2 cursor-pointer text-sm sm:text-base">
                 <XCircle className="h-4 w-4" />
                 Vote Against
               </button>
             </div>
             {/* Info line */}
-            <div className="flex items-center gap-1 mt-4 text-sm text-[var(--text)]/70">
+            <div className="flex items-center gap-1 mt-4 text-xs md:text-sm text-[var(--text)]/70">
               <Info className="w-4 h-4 text-blue-500" />
               <span className="text-white/40">
                 Voting power is calculated at a 1:1 ratio with your JAGA
@@ -190,8 +191,8 @@ export default function HoverMenuCoverage() {
           <div className="bg-[#001e3c] text-white rounded-xl p-6 shadow-lg">
             {/* Header and Description */}
             <div className="text-center space-y-2">
-              <h2 className="text-3xl font-bold">Campaign</h2>
-              <p className="text-sm text-white/70 max-w-xl mx-auto mb-5">
+              <h2 className="text-xl md:text-3xl font-bold">Campaign</h2>
+              <p className="text-xs md:text-sm text-white/70 max-w-xl mx-auto mb-5">
                 The world's most respected investors and institutions have
                 chosen Jagantara as their trusted insurance partner.
               </p>
@@ -201,34 +202,47 @@ export default function HoverMenuCoverage() {
             <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-3 gap-4 justify-items-center my-6">
               {[
                 { name: "Binance", logo: "/campaign_logos/bnb_launchpad.png" },
-                { name: "Coinbase", logo: "/coinbase-logo.webp" },
+                {
+                  name: "Coinbase",
+                  logo: "/coinbase-logo.webp",
+                  hideOnMobile: true,
+                },
                 { name: "100+", isText: true },
-              ].map((company) => (
-                <div
-                  key={company.name}
-                  className="bg-white/5 p-4 rounded-xl flex flex-col items-center w-full h-24 justify-center hover:bg-white/10 transition"
-                >
-                  {company.isText ? (
-                    <>
-                      <span className="text-2xl font-bold text-white text-center">
-                        100+
+              ]
+                .filter(
+                  (company) =>
+                    !(
+                      company.hideOnMobile &&
+                      typeof window !== "undefined" &&
+                      window.innerWidth < 640
+                    )
+                )
+                .map((company) => (
+                  <div
+                    key={company.name}
+                    className="bg-white/5 p-4 rounded-xl flex flex-col items-center w-full h-24 justify-center hover:bg-white/10 transition"
+                  >
+                    {company.isText ? (
+                      <>
+                        <span className="text-xl md:text-2xl font-bold text-white text-center">
+                          100+
+                        </span>
+                        <span className="text-xs text-white/60 mt-2">More</span>
+                      </>
+                    ) : (
+                      <img
+                        src={company.logo}
+                        alt={company.name}
+                        className="w-full md:h-10 h-8 object-cover"
+                      />
+                    )}
+                    {!company.isText && (
+                      <span className="text-xs text-white/60 mt-1">
+                        {company.name}
                       </span>
-                      <span className="text-xs text-white/60 mt-2">More</span>
-                    </>
-                  ) : (
-                    <img
-                      src={company.logo}
-                      alt={company.name}
-                      className="w-full h-10 object-cover"
-                    />
-                  )}
-                  {!company.isText && (
-                    <span className="text-xs text-white/60 mt-1">
-                      {company.name}
-                    </span>
-                  )}
-                </div>
-              ))}
+                    )}
+                  </div>
+                ))}
             </div>
 
             {/* Stat Cards */}
@@ -250,7 +264,7 @@ export default function HoverMenuCoverage() {
             </div>
 
             {/* Call to Action Button */}
-            <button className="w-full bg-[var(--accent)] mt-6 py-4 rounded-xl font-bold text-lg transition-all duration-300 flex items-center justify-center gap-2 hover:opacity-90 cursor-pointer">
+            <button className="w-full bg-[var(--accent)] mt-6 py-4 rounded-xl font-bold text-sm md:text-lg transition-all duration-300 flex items-center justify-center gap-2 hover:opacity-90 cursor-pointer">
               <>
                 <Building2 className="w-5 h-5" />
                 <span>Join Our Campaign</span>
@@ -269,18 +283,18 @@ export default function HoverMenuCoverage() {
       panel: (
         <div className="space-y-6">
           <div className="bg-[#001e3c] text-white rounded-xl p-6 shadow-lg">
-            <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+            <h3 className="text-md md:text-lg font-semibold mb-4 flex items-center gap-2">
               <Bot className="w-5 h-5 text-purple-400" />
               Welcome to Jagantara AI Assistant
             </h3>
-            <p className="text-sm text-white/70 mb-6">
+            <p className="text-xs md:text-sm text-white/70 mb-6">
               I can help you with web3 insurance quotes, smart contract
               analysis, and claim processing.
             </p>
 
             <div className="mt-6 bg-white/5 p-4 rounded-lg">
               <div className="text-white/90 font-medium mb-2">Try asking:</div>
-              <ul className="list-disc list-inside text-white/60 text-sm space-y-1">
+              <ul className="list-disc list-inside text-white/60 text-xs md:text-sm space-y-1">
                 <li>“Generate a quote for my NFT collection worth $5,000”</li>
                 <li>“Analyze this smart contract address...”</li>
                 <li>“Submit a claim for a protocol hack”</li>
@@ -291,9 +305,9 @@ export default function HoverMenuCoverage() {
               <input
                 type="text"
                 placeholder="Ask about insurance quotes, contract analysis, or submit a claim..."
-                className="w-full rounded-lg px-4 py-3 bg-white/10 text-white placeholder-white/40 text-sm"
+                className="w-full rounded-lg px-4 py-3 bg-white/10 text-white placeholder-white/40 text-xs md:text-sm"
               />
-              <button className="mt-3 w-full bg-blue-600 hover:bg-blue-500 text-white py-2 rounded-lg font-semibold">
+              <button className="mt-3 w-full bg-blue-600 hover:bg-blue-500 text-white py-2 rounded-lg font-semibold text-sm md:text-md">
                 Send ↗
               </button>
             </div>
@@ -307,7 +321,7 @@ export default function HoverMenuCoverage() {
     menuItems.find((item) => item.id === activeContent) || menuItems[0];
 
   return (
-    <div className="rounded-3xl bg-[image:var(--gradient-secondary)] p-8">
+    <div className="rounded-3xl bg-[image:var(--gradient-secondary)] md:p-8 ">
       <div className="w-full mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 ">
           {/* Left Panel - Dynamic Content */}
@@ -315,7 +329,7 @@ export default function HoverMenuCoverage() {
             <div className="h-fit">{currentContent.panel}</div>
           </div>
           {/* Left Panel - Menu */}
-          <div className="space-y-8">
+          <div className="space-y-8 px-4 pt-4 md:p-0">
             <div className="flex items-baseline justify-between mb-6">
               <div>
                 <GradientText
@@ -331,7 +345,7 @@ export default function HoverMenuCoverage() {
                 >
                   Coverage
                 </GradientText>
-                <p className="text-[var(--text)]/70">
+                <p className="text-[var(--text)]/70 text-xs md:text-lg">
                   Get covered and Vote the claims
                 </p>
               </div>
@@ -360,7 +374,16 @@ export default function HoverMenuCoverage() {
                       ? "bg-[image:var(--gradient-accent-soft)]"
                       : "hover:bg-[var(--primary)]/20"
                   } rounded-xl p-4`}
-                  onMouseEnter={() => setActiveContent(item.id)}
+                  onClick={() => {
+                    if (window.innerWidth < 768) {
+                      setActiveContent(item.id);
+                    }
+                  }}
+                  onMouseEnter={() => {
+                    if (window.innerWidth >= 768) {
+                      setActiveContent(item.id);
+                    }
+                  }}
                 >
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-3">

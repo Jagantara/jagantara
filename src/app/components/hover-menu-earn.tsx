@@ -71,45 +71,57 @@ export default function HoverMenuEarn() {
             </div>
 
             {/* Position Amount */}
-            <div className="text-4xl font-semibold mb-4">5,000,000 USDC</div>
+            <div className="text-xl md:text-4xl font-semibold mb-4">
+              5,000,000 USDC
+            </div>
 
             {/* Stats */}
             <div className="">
               <div className="flex justify-between pb-2">
-                <span className="text-[var(--text)]">Earn APY</span>
-                <span className="text-lg font-semibold text-green-600">
+                <span className="text-[var(--text)] text-sm md:text-md">
+                  Earn APY
+                </span>
+                <span className="text-sm md:text-lg font-semibold text-green-600">
                   15.00% ✨
                 </span>
               </div>
-              <div className="flex justify-between pb-2">
-                <span className="text-[var(--text)]">Jaga Token</span>
-                <span className="text-lg font-semibold ">🛡️5M JAGA</span>
+              <div className="flex justify-between pb-2 ">
+                <span className="text-[var(--text)] text-sm md:text-md">
+                  Jaga Token
+                </span>
+                <span className="text-sm md:text-lg font-semibold ">
+                  🛡️5M JAGA
+                </span>
               </div>
               <div className="flex justify-between pt-2 pb-2">
-                <span className="text-[var(--text)]">
+                <span className="text-[var(--text)] text-sm md:text-md">
                   Projected Earnings / Month (USD)
                 </span>
-                <span className="font-semibold">$62,500.00</span>
+                <span className="font-semibold text-sm md:text-md">
+                  $62,500.00
+                </span>
               </div>
               <div className="flex justify-between pt-2">
-                <span className="text-[var(--text)]">
+                <span className="text-[var(--text)] text-sm md:text-md">
                   Projected Earnings / Year (USD)
                 </span>
-                <span className="font-semibold">$750,000.00</span>
+                <span className="font-semibold text-sm md:text-md">
+                  $750,000.00
+                </span>
               </div>
             </div>
 
             {/* Disabled Claim Button */}
-            <button className="w-full bg-[var(--accent)] mt-6 py-4 rounded-xl font-bold text-lg transition-all duration-300 flex items-center justify-center gap-2   hover:opacity-90 cursor-pointer ">
+            <button className="w-full bg-[var(--accent)] mt-4 md:mt-6 py-4 rounded-xl font-bold text-sm md:text-lg transition-all duration-300 flex items-center justify-center gap-2  hover:opacity-90 cursor-pointer ">
               <>
-                <Droplet className="w-5 h-5" />
+                <Droplet className="md:w-5 md:h-5 w-4 h-4" />
                 <span>Claim Rewards</span>
               </>
             </button>
 
             {/* Info line */}
 
-            <div className="flex items-center gap-1 mt-4 text-sm text-[var(--text)]/70">
+            <div className="flex items-center gap-1 mt-4 text-xs md:text-sm text-[var(--text)]/70">
               <Info className="w-4 h-4 text-blue-400" />
               <span>
                 Earn 1:1 JAGA tokens and participate in governance via JagaDAO.
@@ -132,34 +144,35 @@ export default function HoverMenuEarn() {
               <span className=" text-sm">My Deposits</span>
               <div className="text-right">
                 <div className=" text-xs">All-time</div>
-                <div className="text-blue-600 text-sm font-semibold">8.55%</div>
+                <div className="text-blue-600 text-xs md:text-sm font-semibold">
+                  8.55%
+                </div>
               </div>
             </div>
 
             {/* Total Deposits */}
-            <div className="text-4xl font-bold  mb-4">
+            <div className="text-xl md:text-4xl font-bold  mb-4">
               $10.25M{" "}
-              <span className="text-sm text-blue-600 align-top ml-2">
+              <span className="text-xs md:text-sm text-blue-600 align-top ml-2">
                 +22.25%
               </span>
             </div>
 
             {/* Recharts Line Chart */}
-            <div className="bg-[var(--background)]/50 rounded-xl p-4 h-64">
+            <div className="bg-[var(--background)]/50 rounded-xl p-3 sm:p-4 h-60 sm:h-64 w-full overflow-hidden">
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart
                   data={data}
-                  margin={{ top: 10, right: 20, bottom: 10, left: 10 }} // spacing to fix left crowding
+                  margin={{ top: 10, right: 10, bottom: 10, left: 0 }} // optimized spacing for mobile
                 >
                   <XAxis
                     dataKey="date"
-                    tick={{ fontSize: 11, fill: "var(--text)" }}
+                    tick={{ fontSize: 10, fill: "var(--text)" }}
                     axisLine={false}
                     tickLine={false}
-                    interval="preserveStartEnd" // <-- FIX alignment
-                    tickMargin={10}
+                    interval="preserveStartEnd"
+                    tickMargin={6}
                   />
-                  {/* YAxis removed */}
                   <Tooltip
                     contentStyle={{
                       backgroundColor: "#1e293b",
@@ -178,7 +191,7 @@ export default function HoverMenuEarn() {
                     stroke="#3b82f6"
                     strokeWidth={2}
                     dot={{
-                      r: 4,
+                      r: 3,
                       stroke: "#3b82f6",
                       strokeWidth: 2,
                       fill: "var(--text)",
@@ -191,15 +204,15 @@ export default function HoverMenuEarn() {
             {/* Earnings Info */}
             <div className="mt-6">
               <div className="space-y-2 text-sm ">
-                <div className="flex justify-between items-center">
+                <div className="flex justify-between items-center text-sm md:text-md">
                   <div className="flex items-center space-x-2">
                     <div className="w-2 h-2 rounded-full bg-blue-600" />
                     <span>Vault APY</span>
                   </div>
                   <span>6.55%</span>
                 </div>
-                <div className="flex justify-between items-center">
-                  <div className="flex items-center space-x-2">
+                <div className="flex justify-between items-center  ">
+                  <div className="flex items-center space-x-2 ">
                     <div className="w-2 h-2 rounded-full bg-blue-600" />
                     <span>MORPHO</span>
                   </div>
@@ -233,9 +246,9 @@ export default function HoverMenuEarn() {
                   height={40}
                 />
               </div>
-              <div className="text-sm font-semibold ">Hedge</div>
-              <div className="text-2xl font-bold ">Morpho</div>
-              <div className="text-sm text-[var(--text)]/70">
+              <div className="text-xs md:text-sm font-semibold ">Hedge</div>
+              <div className="text-lg md:text-2xl font-bold ">Morpho</div>
+              <div className="text-xs md:text-sm text-[var(--text)]/70">
                 Value Preservation
               </div>
             </div>
@@ -243,9 +256,11 @@ export default function HoverMenuEarn() {
             {/* Card 2: Governance */}
             <div className="flex-1 glass rounded-xl p-5  bg-[var(--background)]/30 text-center shadow-md hover:shadow-lg transition">
               <div className="text-3xl mb-2">🏦</div>
-              <div className="text-sm font-semibold ">Governance</div>
-              <div className="text-2xl font-bold ">JagaDAO</div>
-              <div className="text-sm text-[var(--text)]/70">
+              <div className="text-xs md:text-sm font-semibold ">
+                Governance
+              </div>
+              <div className="text-lg md:text-2xl font-bold ">JagaDAO</div>
+              <div className="text-xs md:text-sm text-[var(--text)]/70">
                 Community Staking
               </div>
             </div>
@@ -269,9 +284,11 @@ export default function HoverMenuEarn() {
                   />
                 )}
               </div>
-              <div className="text-sm font-semibold ">Network</div>
-              <div className="text-2xl font-bold ">Lisk</div>
-              <div className="text-sm text-[var(--text)]/70">Testnet</div>
+              <div className="text-xs md:text-sm font-semibold ">Network</div>
+              <div className="text-lg md:text-2xl font-bold ">Lisk</div>
+              <div className="text-xs md:text-sm text-[var(--text)]/70">
+                Testnet
+              </div>
             </div>
           </div>
           <div className="flex flex-col sm:flex-row gap-4 w-full">
@@ -280,8 +297,10 @@ export default function HoverMenuEarn() {
               <div className="flex justify-center text-green-600 text-xl">
                 <TrendingUp className="w-6 h-6" />
               </div>
-              <h3 className=" text-sm font-semibold">Total Value Locked</h3>
-              <p className="text-xl font-bold ">$101.67M</p>
+              <h3 className="text-xs md:text-sm font-semibold">
+                Total Value Locked
+              </h3>
+              <p className="text-lg md:text-xl font-bold ">$101.67M</p>
               <p className="text-[var(--text)]/70 text-xs">
                 Assets locked across strategies
               </p>
@@ -292,8 +311,8 @@ export default function HoverMenuEarn() {
               <div className="flex justify-center text-blue-400 text-xl">
                 <FaUser className="w-6 h-6" />
               </div>
-              <h3 className=" text-sm font-semibold">DAO Members</h3>
-              <p className="text-xl font-bold ">1,482</p>
+              <h3 className="text-xs md:text-sm font-semibold">DAO Members</h3>
+              <p className="text-lg md:text-xl font-bold ">1,482</p>
               <p className="text-[var(--text)]/70 text-xs">
                 Actively participating in JagaDAO
               </p>
@@ -310,46 +329,46 @@ export default function HoverMenuEarn() {
       icon: <Shield className="w-5 h-5" />,
       panel: (
         <div className="space-y-6">
-          <div className="bg-[var(--background)]/30 rounded-xl p-6">
-            <h3 className="text-xl font-bold  mb-4">
+          <div className="bg-[var(--background)]/30 rounded-xl p-4 md:p-6">
+            <h3 className="text-md md:text-xl font-bold  mb-4">
               🗝️ Your Keys, Your Crypto
             </h3>
             <div className="space-y-4">
               <div className="flex items-center space-x-3 p-3 bg-blue-800/20 rounded-lg ">
                 <Shield className="w-5 h-5 text-blue-600" />
                 <div>
-                  <div className="text-blue-600 font-semibold">
+                  <div className="text-blue-600 font-semibold md:text-lg text-sm">
                     Wallet Connected
                   </div>
-                  <div className=" text-sm">0x1234...5678</div>
+                  <div className="text-xs md:text-sm">0x1234...5678</div>
                 </div>
               </div>
               <div className="space-y-2">
-                <div className="flex justify-between">
+                <div className="flex justify-between md:text-lg text-sm">
                   <span className="">Available Balance</span>
                   <span className="">2,500,000 USDC</span>
                 </div>
-                <div className="flex justify-between">
+                <div className="flex justify-between md:text-lg text-sm">
                   <span className="">Staked Amount</span>
                   <span className="">1,000,000 USDC</span>
                 </div>
-                <div className="flex justify-between">
+                <div className="flex justify-between md:text-lg text-sm">
                   <span className="">Rewards Earned</span>
                   <span className="text-green-600">+45,230 USDC</span>
                 </div>
               </div>
             </div>
             {/* Disabled Claim Button */}
-            <button className="w-full bg-[var(--accent)] mt-6 py-4 rounded-xl font-bold text-lg transition-all duration-300 flex items-center justify-center gap-2   hover:opacity-90 cursor-pointer ">
+            <button className="w-full bg-[var(--accent)] mt-4 md:mt-6 py-4 rounded-xl font-bold text-sm md:text-lg transition-all duration-300 flex items-center justify-center gap-2  hover:opacity-90 cursor-pointer ">
               <>
-                <Droplet className="w-5 h-5" />
+                <Droplet className="md:w-5 md:h-5 w-4 h-4" />
                 <span>Remove Liquidity</span>
               </>
             </button>
 
             {/* Info line */}
-            <div className="flex items-center gap-1 mt-4 text-sm text-[var(--text)]/70">
-              <Info className="w-4 h-4 text-blue-400" />
+            <div className="flex items-center  gap-1 mt-4 text-xs md:text-sm text-[var(--text)]/70">
+              <Info className="md:w-4 md:h-4 h-3 w-3 text-blue-400" />
               <span>Withdraw anytime. No lock-in.</span>
             </div>
           </div>
@@ -362,11 +381,11 @@ export default function HoverMenuEarn() {
     menuItems.find((item) => item.id === activeContent) || menuItems[0];
 
   return (
-    <div className="rounded-3xl bg-[image:var(--gradient-secondary)] p-8 ">
+    <div className="rounded-3xl bg-[image:var(--gradient-secondary)] md:p-8 ">
       <div className="w-full mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 ">
           {/* Left Panel - Menu */}
-          <div className="space-y-8">
+          <div className="space-y-8 px-4 pt-4 md:p-0">
             <div className="flex items-baseline justify-between mb-6">
               <div>
                 <GradientText
@@ -382,7 +401,7 @@ export default function HoverMenuEarn() {
                 >
                   Earn
                 </GradientText>
-                <p className="text-[var(--text)]/70">
+                <p className="text-[var(--text)]/70 text-xs md:text-lg">
                   Make your USDC work for you
                 </p>
               </div>
@@ -409,8 +428,17 @@ export default function HoverMenuEarn() {
                     activeContent === item.id
                       ? "bg-[image:var(--gradient-accent-soft)]"
                       : "hover:bg-[var(--primary)]/20"
-                  } rounded-xl p-4`}
-                  onMouseEnter={() => setActiveContent(item.id)}
+                  } rounded-xl md:p-4 p-3`}
+                  onClick={() => {
+                    if (window.innerWidth < 768) {
+                      setActiveContent(item.id);
+                    }
+                  }}
+                  onMouseEnter={() => {
+                    if (window.innerWidth >= 768) {
+                      setActiveContent(item.id);
+                    }
+                  }}
                 >
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-3">
@@ -425,7 +453,9 @@ export default function HoverMenuEarn() {
                       </div>
                       <div>
                         <h3 className=" font-semibold">{item.title}</h3>
-                        <p className=" text-sm">{item.description}</p>
+                        <p className=" text-xs md:text-sm ">
+                          {item.description}
+                        </p>
                       </div>
                     </div>
                     <Plus

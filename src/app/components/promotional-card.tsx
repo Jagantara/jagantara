@@ -31,7 +31,7 @@ export default function PromotionalCards() {
           {/* Content */}
           <div className="space-y-4">
             <div>
-              <h3 className="text-2xl font-bold mb-2">
+              <h3 className="text-xl md:text-2xl font-bold mb-2">
                 Defend Against Inflation
               </h3>
               <p className="text-[var(--text)]/80 text-sm leading-relaxed">
@@ -45,12 +45,12 @@ export default function PromotionalCards() {
             <div className="flex items-center gap-4 pt-2">
               <div className="flex items-center gap-2">
                 <TrendingUp className="w-4 h-4 text-emerald-600" />
-                <span className="text-emerald-600 font-semibold">
+                <span className="text-emerald-600 font-semibold md:text-sm text-xs">
                   4.45%+ APY
                 </span>
               </div>
               <div className="h-4 w-px bg-[var(--text)]" />
-              <span className="text-[var(--text)]/70 text-sm">
+              <span className="text-[var(--text)]/70 text-xs md:text-sm">
                 Beat Inflation
               </span>
             </div>
@@ -79,7 +79,9 @@ export default function PromotionalCards() {
           {/* Content */}
           <div className="space-y-4">
             <div>
-              <h3 className="text-2xl font-bold  mb-2">Seamless Claims</h3>
+              <h3 className="text-xl md:text-2xl font-bold  mb-2">
+                Seamless Claims
+              </h3>
               <p className="text-[var(--text)]/80 text-sm leading-relaxed">
                 Experience hassle-free insurance with JagaDAO. Quick claims
                 processing, transparent coverage, and decentralized protection
@@ -91,10 +93,12 @@ export default function PromotionalCards() {
             <div className="flex items-center gap-4 pt-2">
               <div className="flex items-center gap-2">
                 <FileCheck className="w-4 h-4 text-blue-600" />
-                <span className="text-blue-600 font-semibold">24h Claims</span>
+                <span className="text-blue-600 font-semibold md:text-sm text-xs">
+                  24h Claims
+                </span>
               </div>
               <div className="h-4 w-px bg-[var(--text)]" />
-              <span className="text-[var(--text)]/70 text-sm">
+              <span className="text-[var(--text)]/70 md:text-sm text-xs">
                 100% Transparent
               </span>
             </div>
@@ -129,10 +133,12 @@ export default function PromotionalCards() {
           {/* Content */}
           <div className="space-y-4">
             <div>
-              <h3 className="text-2xl font-bold mb-2">Ultimate Flexibility</h3>
+              <h3 className="text-xl md:text-2xl font-bold mb-2">
+                Ultimate Flexibility
+              </h3>
               <p className="text-[var(--text)]/80 text-sm leading-relaxed">
                 Powered by Synthetix model algorithms. Stake and unstake anytime
-                with no lock-up periods. Distibute rewards per second.
+                with no lock-up periods. Distibute claim rewards per second.
               </p>
             </div>
 
@@ -142,10 +148,12 @@ export default function PromotionalCards() {
                 <div className="flex gap-1">
                   <Unlock className="w-3 h-3 " />
                 </div>
-                <span className=" font-semibold">No Lock-up</span>
+                <span className=" font-semibold md:text-sm text-xs">
+                  No Lock-up
+                </span>
               </div>
               <div className="h-4 w-px bg-[var(--text)]" />
-              <span className="text-[var(--text)]/70 text-sm">
+              <span className="text-[var(--text)]/70 md:text-sm text-xs">
                 Instant Access
               </span>
             </div>

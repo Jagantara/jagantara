@@ -51,7 +51,7 @@ export default function Footer() {
 
   return (
     <footer className="w-full mt-5 bg-[image:var(--gradient-secondary)] text-text h-fit">
-      <div className=" mx-auto px-20 py-10 flex justify-between">
+      <div className=" mx-auto px-10 md:px-20 py-10 flex flex-col md-flex-row justify-between">
         {/* Logo Section */}
         <div className="mb-12">
           {/* Ensure your icon is optimized for both light and dark themes */}
@@ -68,7 +68,7 @@ export default function Footer() {
           {Object.entries(footerSections).map(([title, links]) => (
             <div key={title}>
               <h3 className="font-bold text-base mb-4">{title}</h3>
-              <ul className="space-y-6">
+              <ul className="space-y-6 text-sm md:text-md">
                 {links.map((link) => (
                   <FooterLink key={link.name} href={link.href}>
                     {link.name}
@@ -79,8 +79,8 @@ export default function Footer() {
           ))}
         </div>
       </div>
-      <div className=" mx-auto px-20 py-10 flex justify-between mt-20">
-        <p className="text-slate-500">
+      <div className=" mx-auto px-10 md:px-20 py-10 flex justify-between mt-20">
+        <p className="text-slate-500 md:text-md text-sm">
           © 2025 Jagantara. All Rights Reserved.
         </p>
       </div>
