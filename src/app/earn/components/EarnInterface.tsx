@@ -66,7 +66,7 @@ export default function EarnInterface() {
     setAmountIn(balance.toString());
   };
   return (
-    <div className="w-full  mx-auto px-4 sm:px-0">
+    <div className="w-full  mx-auto px-0">
       <div className="glass rounded-2xl p-5 sm:p-6 lg:p-8 card-hover border border-white/10 shadow-2xl">
         {/* Header with Tabs */}
         <div className="mb-4 sm:mb-6">
@@ -132,21 +132,21 @@ export default function EarnInterface() {
             {/* Info */}
             <div className="relative mt-5">
               <div className="p-3 sm:p-4 rounded-xl border border-slate-400 bg-[var(--secondary)]">
-                <div className="flex justify-between">
+                <div className="flex justify-between md:text-md text-sm">
                   <p className="opacity-70 font-light">📌 Active from</p>
                   <p className="font-medium">{getActiveFrom(timeLeft!)}</p>
                 </div>
-                <div className="flex justify-between">
+                <div className="flex justify-between md:text-md text-sm">
                   <p className="opacity-70 font-light">🔑 Next Batch</p>
                   <p className="font-medium">
                     {formatNextSessionDate(timeLeft!)}
                   </p>
                 </div>
-                <div className="flex justify-between">
+                <div className="flex justify-between md:text-md text-sm">
                   <p className="opacity-70 font-light">⌛ Valid Until</p>
                   <p className="font-medium">{formatTimeLeft(timeLeft!)}</p>
                 </div>
-                <div className="flex justify-between">
+                <div className="flex justify-between md:text-md text-sm">
                   <p className="opacity-70 font-light">🕒 Batch Duration</p>
                   <p className="font-medium">30 Days</p>
                 </div>
@@ -154,8 +154,8 @@ export default function EarnInterface() {
             </div>
 
             {/* Info line */}
-            <div className="flex items-center  gap-1 mt-4 text-xs md:text-sm text-[var(--text)]/70">
-              <Info className="md:w-4 md:h-4 h-3 w-3 text-blue-400" />
+            <div className="flex items-center  gap-2 mt-4 text-xs md:text-sm text-[var(--text)]/70">
+              <Info className="md:w-4 md:h-4 h-4 w-4 text-blue-400" />
               <span>
                 Rewards are distibuted per second based on company revenue.
               </span>
@@ -164,7 +164,7 @@ export default function EarnInterface() {
             <button
               onClick={handleClaim}
               disabled={!hasReward}
-              className={`w-full mt-6 py-4 rounded-xl font-bold text-lg transition-all duration-300 flex items-center justify-center gap-2 bg-[image:var(--gradient-accent-soft)]  hover:opacity-90 cursor-pointer `}
+              className={`w-full mt-6 py-4 rounded-xl font-bold text-lg md:text-lg transition-all duration-300 flex items-center justify-center gap-2 bg-[image:var(--gradient-accent-soft)]  hover:opacity-90 cursor-pointer `}
             >
               {isClaiming ? (
                 <>
@@ -189,15 +189,15 @@ export default function EarnInterface() {
             <div className="relative mt-5">
               <div className="p-3 sm:p-4 rounded-xl border border-slate-400 bg-[var(--secondary)]">
                 <p className="text-md pb-3 font-semibold">Your Position</p>
-                <div className="flex justify-between">
+                <div className="flex justify-between md:text-md text-sm">
                   <p className="opacity-70 font-light">⌛ Active from</p>
                   <p className="font-medium">{getActiveFrom(timeLeft!)}</p>
                 </div>
-                <div className="flex justify-between">
+                <div className="flex justify-between md:text-md text-sm">
                   <p className="opacity-70 font-light">🕒 Batch Duration</p>
                   <p className="font-medium">30 Days</p>
                 </div>
-                <div className="flex justify-between">
+                <div className="flex justify-between md:text-md text-sm">
                   <p className="opacity-70 font-light">💸 Total Deposit</p>
                   <p className="font-medium text-green-600">
                     {formatTokenAmount(currentStake, "USDC")}
@@ -215,15 +215,15 @@ export default function EarnInterface() {
                       Available: {formatTokenAmount(currentStake, "USDC")}
                     </span>
                   </div>
-                  <div className="flex items-center gap-2 sm:gap-3 ">
+                  <div className="flex items-center gap-1 md:gap-3 ">
                     <input
                       type="number"
                       value={amountIn}
                       onChange={(e) => setAmountIn(e.target.value)}
                       placeholder="0.0"
-                      className="flex-1 bg-transparent text-lg sm:text-2xl font-bold outline-none input-primary min-w-0 border px-2 py-1 rounded-md border-slate-400 appearance-none [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                      className="flex-1 bg-transparent text-md md:text-2xl font-bold outline-none input-primary min-w-0 border px-2 py-1 rounded-md border-slate-400 appearance-none [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                     />
-                    <div className="flex items-center gap-2 flex-shrink-0">
+                    <div className="flex items-center flex-shrink-0">
                       <button
                         onClick={handleMaxClickRemove}
                         className="px-2 py-1 text-xs rounded font-medium hover:bg-white/20 transition-colors whitespace-nowrap text-[var(--primary)] cursor-pointer"
@@ -237,8 +237,10 @@ export default function EarnInterface() {
                           borderColor: "rgba(131, 110, 249, 0.3)",
                         }}
                       >
-                        <span className="text-base sm:text-lg">💵</span>
-                        <span className="font-normal text-sm ">USDC</span>
+                        <span className="text-sm sm:text-lg">💵</span>
+                        <span className="font-normal text-xs md:text-sm ">
+                          USDC
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -246,7 +248,7 @@ export default function EarnInterface() {
               </div>
             </div>
             {/* Info line */}
-            <div className="flex items-center  gap-1 mt-4 text-xs md:text-sm text-[var(--text)]/70">
+            <div className="flex items-center  gap-2 mt-4 text-xs md:text-sm text-[var(--text)]/70">
               <Info className="md:w-4 md:h-4 h-3 w-3 text-blue-400" />
               <span>Withdraw anytime. No lock-in.</span>
             </div>
@@ -254,7 +256,7 @@ export default function EarnInterface() {
             <button
               onClick={handleRemove}
               disabled={isUnstaking || isInsufficientBalanceRemove()}
-              className={`w-full mt-6 py-4 rounded-xl font-bold text-lg transition-all duration-300 flex items-center justify-center gap-2  ${
+              className={`w-full mt-6 py-4 rounded-xl font-bold text-md md:text-lg transition-all duration-300 flex items-center justify-center gap-2  ${
                 !amountIn || isUnstaking || isInsufficientBalanceRemove()
                   ? "bg-blue-300/30  cursor-not-allowed opacity-70"
                   : "bg-[image:var(--gradient-accent-soft)]  hover:opacity-90 cursor-pointer"

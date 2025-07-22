@@ -132,8 +132,6 @@ export default function Header() {
                   onClick={() => window.open("/earn", "_blank")} // 👈 open in new tab
                 >
                   Launch App
-                  <ArrowUpRight className="ml-2 h-4 w-4 arrow-animate-out transition-all duration-300 group-hover:arrow-out" />
-                  <ArrowUpRight className="h-4 w-4 absolute right-3 top-1/2 -translate-y-1/2 opacity-0 arrow-animate-in transition-all duration-300 group-hover:arrow-in" />
                 </Button>
               </div>
             </MobileNavMenu>

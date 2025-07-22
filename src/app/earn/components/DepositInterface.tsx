@@ -48,11 +48,11 @@ export default function DepositInterface() {
   };
 
   return (
-    <div className="w-full  mx-auto px-4 sm:px-0">
+    <div className="w-full  mx-auto md:px-4 sm:px-0">
       <div className="glass rounded-2xl p-5 sm:p-6 lg:p-8 card-hover border border-white/10 shadow-2xl">
         {/* Header */}
         <div className="flex items-center justify-between mb-4 sm:mb-6">
-          <h2 className="text-xl sm:text-2xl font-semibold">Deposit Tokens</h2>
+          <h2 className="text-lg md:text-2xl font-semibold">Deposit Tokens</h2>
         </div>
         {/* Token Input */}
         <div className="space-y-3 sm:space-y-4 mb-6">
@@ -76,16 +76,16 @@ export default function DepositInterface() {
                   })()}
                 </span>
               </div>
-              <div className="flex items-center gap-2 sm:gap-3 ">
+              <div className="flex items-center gap-1 md:gap-3 ">
                 <input
                   type="number"
                   value={amountIn}
                   onChange={(e) => setAmountIn(e.target.value)}
                   placeholder="0.0"
-                  className="flex-1 bg-transparent text-lg sm:text-2xl font-bold outline-none input-primary min-w-0 border px-2 py-1 rounded-md border-slate-400 appearance-none [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                  className="flex-1 bg-transparent text-md md:text-2xl font-bold outline-none input-primary min-w-0 border px-2 py-1 rounded-md border-slate-400 appearance-none [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                 />
 
-                <div className="flex items-center gap-2 flex-shrink-0">
+                <div className="flex items-center md:gap-2 flex-shrink-0">
                   <button
                     onClick={handleMaxClick}
                     className="px-2 py-1 text-xs rounded font-medium hover:bg-white/20 transition-colors whitespace-nowrap text-[var(--primary)] cursor-pointer"
@@ -99,7 +99,7 @@ export default function DepositInterface() {
                       borderColor: "rgba(131, 110, 249, 0.3)",
                     }}
                   >
-                    <span className="text-base sm:text-lg">💵</span>
+                    <span className=" text-sm md:text-lg">💵</span>
                     <span className="font-normal text-sm ">USDC</span>
                   </div>
                 </div>
@@ -126,7 +126,7 @@ export default function DepositInterface() {
               </span>
             </div>
             <div className="flex items-center gap-2 sm:gap-3">
-              <div className="flex-1 text-lg sm:text-2xl font-bold min-w-0 truncate">
+              <div className="flex-1 text-md md:text-2xl font-bold min-w-0 truncate">
                 {amountOut || "0.0"}
               </div>
               <div
@@ -136,7 +136,7 @@ export default function DepositInterface() {
                   borderColor: "rgba(131, 110, 249, 0.3)",
                 }}
               >
-                <span className="text-base sm:text-lg">🛡️</span>
+                <span className="text-md sm:text-lg">🛡️</span>
                 <span className="font-normal text-sm ">JAGA</span>
               </div>
             </div>
@@ -145,19 +145,19 @@ export default function DepositInterface() {
         {/* Info */}
         <div className="relative mt-5">
           <div className="p-3 sm:p-4 rounded-xl border border-slate-400 bg-[var(--secondary)]">
-            <div className="flex justify-between">
+            <div className="flex justify-between md:text-md text-sm">
               <p className="opacity-70 font-light">📌 Active From</p>
               <p className="font-medium">{getActiveFrom(timeLeft!)}</p>
             </div>
-            <div className="flex justify-between">
+            <div className="flex justify-between md:text-md text-sm">
               <p className="opacity-70 font-light">🔑 Next Batch</p>
               <p className="font-medium">{formatNextSessionDate(timeLeft!)}</p>
             </div>
-            <div className="flex justify-between">
+            <div className="flex justify-between md:text-md text-sm">
               <p className="opacity-70 font-light">⌛ Valid Until</p>
               <p className="font-medium">{formatTimeLeft(timeLeft!)}</p>
             </div>
-            <div className="flex justify-between">
+            <div className="flex justify-between md:text-md text-sm">
               <p className="opacity-70 font-light">🕒 Batch Duration</p>
               <p className="font-medium">30 Days</p>
             </div>
@@ -168,7 +168,7 @@ export default function DepositInterface() {
         <button
           onClick={handleStake}
           disabled={!amountIn || isStaking || isInsufficientBalance()}
-          className={`w-full mt-6 py-4 rounded-xl font-bold text-lg transition-all duration-300 flex items-center justify-center gap-2  ${
+          className={`w-full mt-6 py-4 rounded-xl font-bold text-md md:text-lg transition-all duration-300 flex items-center justify-center gap-2  ${
             !amountIn || isStaking || isInsufficientBalance()
               ? "bg-blue-300/30  cursor-not-allowed opacity-70"
               : "bg-[image:var(--gradient-accent-soft)]  hover:opacity-90 cursor-pointer"

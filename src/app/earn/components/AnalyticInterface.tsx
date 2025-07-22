@@ -230,10 +230,6 @@ export default function AnalyticInterface() {
               </Button>
             ))}
           </div>
-          <Button className="gap-1 bg-[image:var(--gradient-third)] cursor-pointer">
-            <DollarSign className="h-4 w-4" />
-            Stake More
-          </Button>
         </div>
       </div>
 

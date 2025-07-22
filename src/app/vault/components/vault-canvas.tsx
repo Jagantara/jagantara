@@ -45,7 +45,7 @@ export default function Component() {
         <div className="grid lg:grid-cols-2 gap-12">
           {/* Left Content - Sticky */}
           <div className="lg:sticky lg:top-16 lg:h-fit lg:flex lg:flex-col lg:justify-center p-8">
-            <div className="space-y-6 mt-5">
+            <div className="space-y-6 mt-3">
               <div className="flex flex-row justify-between items-end">
                 <GradientText
                   colors={[

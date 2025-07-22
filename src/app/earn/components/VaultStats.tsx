@@ -76,11 +76,11 @@ export default function VaultStats() {
           >
             Vault Stats
           </GradientText>
-          <p className="opacity-70">
+          <p className="opacity-70 md:text-md text-sm">
             Real-time metrics for USDC Jagantara Vault
           </p>
 
-          <div className="text-sm mt-2 opacity-70">
+          <div className="md:text-sm text-xs mt-2 opacity-70">
             Current rate ratio: 1 JAGA = 1 USDC
           </div>
         </div>
@@ -142,52 +142,60 @@ export default function VaultStats() {
           </div>
         </div>
       </div>
-      <div className="glass rounded-xl p-6 border border-white/10 bg-[var(--secondary)] mt-5 flex items-center justify-between gap-6">
-        {/* Left: Logo + Name */}
-        <div className="flex items-center gap-3">
-          <div className="relative">
-            <div className="absolute inset-0 bg-[var(--background)]/20 rounded-full blur-sm" />
-            <div className="relative bg-[var(--background)]/10 rounded-full p-2 backdrop-blur-sm">
-              <Image
-                src="/morpho_logo.png"
-                alt="Morpho"
-                width={20}
-                height={20}
-                className="relative z-10"
-              />
+      <div className="glass rounded-xl p-4 sm:p-6 border border-white/10 bg-[var(--secondary)] mt-5">
+        <div className="grid grid-cols-2 sm:flex sm:items-center sm:justify-between gap-4 sm:gap-6">
+          {/* Morpho Vault (Left Top) */}
+          <div className="flex items-center gap-3 col-span-1">
+            <div className="relative">
+              <div className="absolute inset-0 bg-[var(--background)]/20 rounded-full blur-sm" />
+              <div className="relative bg-[var(--background)]/10 rounded-full p-2 backdrop-blur-sm">
+                <Image
+                  src="/morpho_logo.png"
+                  alt="Morpho"
+                  width={20}
+                  height={20}
+                  className="relative z-10"
+                />
+              </div>
+            </div>
+            <div>
+              <p className="font-semibold text-sm sm:text-base">Morpho Vault</p>
+              <p className="text-[var(--text)]/50 text-xs sm:text-sm">
+                DeFi Protocol
+              </p>
             </div>
           </div>
-          <div>
-            <p className="font-semibold ">Morpho Vault</p>
-            <p className="text-[var(--text)]/50 text-xs">DeFi Protocol</p>
+
+          {/* APY (Right Top) */}
+          <div className="text-right col-span-1">
+            <p className="text-[var(--text)]/50 text-xs font-medium uppercase tracking-wider">
+              APY
+            </p>
+            <div className="flex justify-end items-baseline gap-1">
+              <span className="text-emerald-600 text-lg sm:text-xl font-bold">
+                4.45
+              </span>
+              <span className="text-sm">%</span>
+            </div>
           </div>
-        </div>
 
-        {/* Middle: Total Deposits */}
-        <div className="text-center">
-          <p className="text-[var(--text)]/50 text-xs font-medium uppercase tracking-wider">
-            Total Deposits
-          </p>
-          <p className=" font-bold text-lg">
-            {Math.round(Number(totalReinvested) / 1e6).toLocaleString() +
-              " USDC"}
-          </p>
-        </div>
-        <div className="text-center">
-          <p className="text-[var(--text)]/50 text-xs font-medium uppercase tracking-wider">
-            Collateral
-          </p>
-          <p className="font-bold text-lg">💵USDC</p>
-        </div>
+          {/* Total Deposits (Left Bottom) */}
+          <div className="text-left sm:text-center col-span-1">
+            <p className="text-[var(--text)]/50 text-xs font-medium uppercase tracking-wider">
+              Total Deposits
+            </p>
+            <p className="font-bold text-base sm:text-lg">
+              {Math.round(Number(totalReinvested) / 1e6).toLocaleString() +
+                " USDC"}
+            </p>
+          </div>
 
-        {/* Right: APY + Collateral */}
-        <div className="text-right">
-          <p className="text-[var(--text)]/50 text-xs font-medium uppercase tracking-wider">
-            APY
-          </p>
-          <div className="flex items-baseline justify-end gap-1">
-            <span className="text-emerald-600 text-xl font-bold">4.45</span>
-            <span className=" text-sm">%</span>
+          {/* Collateral (Right Bottom) */}
+          <div className="text-right sm:text-center col-span-1">
+            <p className="text-[var(--text)]/50 text-xs font-medium uppercase tracking-wider">
+              Collateral
+            </p>
+            <p className="font-bold text-base sm:text-lg">💵USDC</p>
           </div>
         </div>
       </div>

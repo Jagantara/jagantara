@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { useChat, Message } from "@/hooks/useChat";
 import { MessageBubble } from "./MessageBubble";
+import Image from "next/image";
 
 export const ChatInterface: React.FC = () => {
   const [input, setInput] = useState("");
@@ -44,10 +45,6 @@ export const ChatInterface: React.FC = () => {
       label: "Analyze Contract",
       query:
         "Analyze smart contract 0x1234567890123456789012345678901234567890",
-    },
-    {
-      label: "Submit Claim",
-      query: "I want to submit a claim for a hack that resulted in $2,000 loss",
     },
   ];
 
@@ -81,8 +78,13 @@ export const ChatInterface: React.FC = () => {
         <div className="max-w-4xl mx-auto space-y-4">
           {messages.length === 0 && (
             <div className="text-center pt-40">
-              <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Bot className="w-8 h-8 text-white" />
+              <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Image
+                  src="/jagabot_logo.png"
+                  alt="Jagantara Logo"
+                  width={70}
+                  height={70}
+                />
               </div>
               <h3 className="text-lg font-semibold mb-2">
                 Welcome to Jagantara AI Assistant
@@ -111,8 +113,13 @@ export const ChatInterface: React.FC = () => {
 
           {isLoading && (
             <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
-                <Bot className="w-4 h-4 text-white" />
+              <div className="w-8 h-8  rounded-full flex items-center justify-center">
+                <Image
+                  src="/jagabot_logo.png"
+                  alt="Jagantara Logo"
+                  width={50}
+                  height={50}
+                />
               </div>
               <div className="flex space-x-1">
                 <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>

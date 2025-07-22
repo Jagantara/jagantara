@@ -155,7 +155,7 @@ export default function PremiumsPage() {
           >
             Premiums
           </GradientText>
-          <p className=" max-w-2xl mx-auto">
+          <p className=" max-w-2xl mx-auto md:text-md text-sm">
             Protect your Web3 assets with comprehensive insurance coverage. Pay
             with USDC, activate instantly on-chain.
           </p>
@@ -237,7 +237,7 @@ export default function PremiumsPage() {
           <div className="lg:col-span-1 border-none bg-[image:var(--gradient-secondary)] rounded-2xl">
             <Card className="sticky top-6 border-none">
               <CardHeader className="">
-                <CardTitle className="flex items-center gap-2 text-lg">
+                <CardTitle className="flex items-center gap-2 text-md md:text-lg">
                   {currentTier && (
                     <currentTier.icon
                       className={`w-5 h-5 ${currentTier.iconColor}`}
@@ -282,7 +282,7 @@ export default function PremiumsPage() {
                         type="text"
                         value={coverAddress}
                         onChange={(e) => setCoverAddress(e.target.value)}
-                        placeholder="Provide Cover address"
+                        placeholder="Cover address"
                         className="w-full px-3 py-2 text-sm rounded-md bg-[var(--secondary)] border border-[var(--text)]"
                       />
                     </div>
@@ -310,7 +310,7 @@ export default function PremiumsPage() {
                     <span>Monthly Rate</span>
                     <span>${currentTier?.startingPrice}</span>
                   </div>
-                  <div className="flex justify-between items-center text-lg font-bold pt-2 border-t">
+                  <div className="flex justify-between items-center text-md md:text-lg font-bold pt-2 border-t">
                     <span>Total Premium</span>
                     <span>${totalPrice} USDC</span>
                   </div>

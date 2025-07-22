@@ -33,7 +33,7 @@ export default function GradientText({
         <div className="gradient-overlay" style={gradientStyle}></div>
       )}
       <div
-        className={`text-content inline-block relative z-2 text-transparent bg-cover animate-gradient pb-2 text-2xl tracking-tight sm:text-3xl md:text-5xl px-2 ${className}`}
+        className={`text-content inline-block relative z-2 text-transparent bg-cover animate-gradient pb-2 text-3xl tracking-tight  md:text-5xl px-2 ${className}`}
         style={gradientStyle}
       >
         {children}

@@ -43,7 +43,7 @@ export default function Header() {
 
   return (
     <header
-      className="px-6 py-3 flex items-center justify-between sticky w-full top-0 z-50 "
+      className="px-3 md:px-6 py-3 flex items-center justify-between sticky w-full top-0 z-50 "
       style={{ background: "var(--background)" }}
     >
       {/* Left: Logo */}

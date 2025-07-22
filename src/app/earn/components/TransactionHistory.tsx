@@ -122,7 +122,7 @@ export default function TransactionHistory() {
   };
 
   return (
-    <div className="w-full max-w-6xl mx-auto px-4 sm:px-0">
+    <div className="w-full max-w-6xl mx-auto px-0">
       <div className="glass rounded-2xl p-4 sm:p-6 lg:p-8 border border-white/10 shadow-2xl">
         {/* Header */}
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-4 sm:mb-6 space-y-4 lg:space-y-0">
@@ -142,22 +142,24 @@ export default function TransactionHistory() {
             </GradientText>
           </div>
 
-          <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+          <div className="flex flex-row items-center gap-2 sm:gap-3">
+            {/* Refresh Button */}
             <button
               onClick={handleRefresh}
               disabled={isRefreshing}
-              className="flex items-center gap-2 px-3 py-2 rounded-lg border transition-colors disabled:opacity-50 cursor-pointer bg-[var(--accent)]"
+              className="flex items-center gap-1 sm:gap-2 px-2 sm:px-3 py-2 rounded-lg border transition-colors disabled:opacity-50 cursor-pointer bg-[var(--accent)] text-sm"
               style={{ borderColor: "rgba(251, 250, 249, 0.2)" }}
             >
               <RefreshCw
                 className={`w-4 h-4 ${isRefreshing ? "animate-spin" : ""}`}
               />
-              <span className="text-sm">
+              <span className="hidden sm:inline">
                 {isRefreshing ? "Refreshing..." : "Refresh"}
               </span>
             </button>
 
-            <div className="relative">
+            {/* Search Input */}
+            <div className="relative flex-1 sm:flex-none">
               <input
                 type="text"
                 placeholder="Search address or hash..."

@@ -181,7 +181,7 @@ export default function CoverageInterface() {
         isActive ? (
           <>
             <div className=" rounded-2xl">
-              <div className="mx-10 py-8 ">
+              <div className="md:mx-10 py-8 ">
                 <div className="space-y-6">
                   <GradientText
                     colors={[
@@ -199,44 +199,61 @@ export default function CoverageInterface() {
                   {/* Claim Form */}
                   <Card className="bg-[var(--secondary)] border-none">
                     <CardHeader>
-                      <CardTitle className="flex items-center space-x-2">
+                      {/* Title */}
+                      <CardTitle className="flex items-center space-x-2 text-base sm:text-lg">
                         <FileText className="h-5 w-5" />
                         <span>Claim Details</span>
                       </CardTitle>
-                      <CardDescription className="flex justify-between">
-                        <p>
+
+                      {/* Description */}
+                      <CardDescription className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 mt-2 text-sm sm:text-base">
+                        <p className="text-muted-foreground">
                           Provide the essential information for your insurance
                           claim. This data will be stored on-chain and voted on
                           by DAO members.
                         </p>
-                        <p>
-                          {formData.tier} -{" "}
-                          {policy[1].toString() + " " + "Months"}
+                        <p className="text-right sm:text-left font-medium">
+                          {formData.tier} - {policy[1].toString()} Months
                         </p>
                       </CardDescription>
                     </CardHeader>
+
                     <CardContent className="space-y-6">
                       {/* Smart Contract Fields */}
                       <div className="space-y-4">
-                        <div className="bg-[var(--third)]/40 p-4 rounded-lg border border-none">
-                          <h4 className="font-medium mb-2 flex items-center">
+                        <div className="bg-[var(--third)]/40 p-4 rounded-lg border border-none text-sm md:text-md">
+                          <h4 className="font-medium mb-3 flex items-center text-base">
                             <Hash className="h-4 w-4 mr-2" />
                             Smart Contract Data
                           </h4>
-                          <div className="grid gap-3 text-sm">
-                            <div className="flex justify-between">
-                              <span className="">Claimant Address:</span>
-                              <span className="font-mono">{address}</span>
+
+                          <div className="space-y-3">
+                            {/* Row 1 */}
+                            <div className="flex flex-col sm:flex-row sm:justify-between">
+                              <span className="text-[var(--text)]">
+                                Claimant Address:
+                              </span>
+                              <span className="font-mono break-all sm:text-right">
+                                {address}
+                              </span>
                             </div>
-                            <div className="flex justify-between">
-                              <span className="">Cover Wallet Address:</span>
-                              <span className="font-mono ">
+
+                            {/* Row 2 */}
+                            <div className="flex flex-col sm:flex-row sm:justify-between">
+                              <span className="text-[var(--text)]">
+                                Cover Wallet Address:
+                              </span>
+                              <span className="font-mono break-all sm:text-right">
                                 {formData.coveredAddress}
                               </span>
                             </div>
-                            <div className="flex justify-between">
-                              <span className="">Claim Amount:</span>
-                              <span className="font-medium text-green-500">
+
+                            {/* Row 3 */}
+                            <div className="flex flex-col sm:flex-row sm:justify-between">
+                              <span className="text-[var(--text)]">
+                                Claim Amount:
+                              </span>
+                              <span className="font-medium text-green-500 sm:text-right">
                                 {formData.amount
                                   ? `${Number.parseFloat(formData.amount).toLocaleString()} ${formData.currency}`
                                   : "Not set"}
@@ -253,7 +270,7 @@ export default function CoverageInterface() {
                               type="text"
                               placeholder="ex. Drained Wallet"
                               value={formData.title}
-                              className="w-full bg-[var(--third)]/40 border-none"
+                              className="w-full bg-[var(--third)]/40 border-none md:text-md text-sm"
                               onChange={(e) =>
                                 updateFormData("title", e.target.value)
                               }
@@ -292,7 +309,7 @@ export default function CoverageInterface() {
                           <div className="space-y-2 cursor-not-allowed">
                             <Label htmlFor="amount">Amount *</Label>
                             <div className="flex flex-row gap-1">
-                              <div className="w-24 bg-[var(--third)]/40 border-none text-center flex items-center px-2 rounded-md">
+                              <div className="w-24 bg-[var(--third)]/40 border-none text-center flex items-center px-2 rounded-md md:text-md text-sm">
                                 💵USDC
                               </div>
                               <Input
@@ -300,7 +317,7 @@ export default function CoverageInterface() {
                                 type="number"
                                 placeholder="How much you want to recover"
                                 value={formData.amount}
-                                className="w-full bg-[var(--third)]/40 border-none"
+                                className="w-full bg-[var(--third)]/40 border-none md:text-md text-sm"
                                 onChange={(e) =>
                                   updateFormData("amount", e.target.value)
                                 }
@@ -317,7 +334,7 @@ export default function CoverageInterface() {
                             id="reason"
                             placeholder="Provide a comprehensive description of your claim. Include details about what happened, when it occurred, which protocols/assets were affected, transaction hashes if available, and any other relevant information that will help DAO members make an informed voting decision..."
                             rows={6}
-                            className="bg-[var(--third)]/40 border-none"
+                            className="bg-[var(--third)]/40 border-none md:text-md text-xs"
                             value={formData.reason}
                             onChange={(e) =>
                               updateFormData("reason", e.target.value)
@@ -355,7 +372,7 @@ export default function CoverageInterface() {
 
                               <Label
                                 htmlFor={`ack-${index}`}
-                                className="text-sm leading-5"
+                                className="text-xs md:text-sm leading-5"
                               >
                                 {text}
                               </Label>
@@ -364,9 +381,9 @@ export default function CoverageInterface() {
                         </div>
                       </div>
 
-                      <Alert className="bg-yellow-300/70 text-black border-none">
+                      <Alert className="bg-yellow-300/70 text-black border-none md:text-md text-xs">
                         <AlertTriangle className="h-4 w-4" />
-                        <AlertDescription>
+                        <AlertDescription className=" md:text-md text-xs">
                           <strong>Important:</strong> Once submitted, your claim
                           will be permanently recorded on the blockchain and
                           cannot be modified. DAO members will vote to approve
@@ -394,7 +411,7 @@ export default function CoverageInterface() {
                       </Button>
 
                       {!isFormValid() && (
-                        <div className="text-sm text-red-600">
+                        <div className="text-xs md:text-sm text-red-600">
                           <p>Please complete all required fields:</p>
                           <ul className="list-disc list-inside mt-1 space-y-1">
                             {!formData.claimType && <li>Select claim type</li>}
@@ -417,17 +434,17 @@ export default function CoverageInterface() {
                   {/* Smart Contract Preview */}
                   <Card className="bg-[var(--secondary)] border-none">
                     <CardHeader>
-                      <CardTitle className="text-lg flex items-center space-x-2">
+                      <CardTitle className="text-md md:text-lg flex items-center space-x-2">
                         <Hash className="h-5 w-5" />
                         <span>Smart Contract Preview </span>
                       </CardTitle>
-                      <CardDescription>
+                      <CardDescription className="md:text-sm text-xs">
                         Preview of data that will be sent to the ClaimProposal
                         struct
                       </CardDescription>
                     </CardHeader>
                     <CardContent>
-                      <div className="bg-gray-900 text-green-400 p-4 rounded-lg font-mono text-sm overflow-x-auto">
+                      <div className="bg-gray-900 text-green-400 p-4 rounded-lg font-mono text-xs md:text-sm break-words md:overflow-x-auto">
                         <div className="space-y-1">
                           <div>
                             <span className="text-blue-400">claimant:</span> "

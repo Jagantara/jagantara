@@ -397,7 +397,7 @@ export default function HoverMenuEarn() {
                   ]}
                   animationSpeed={6}
                   showBorder={false}
-                  className="font-normal !px-0"
+                  className="font-normal !px-0 "
                 >
                   Earn
                 </GradientText>

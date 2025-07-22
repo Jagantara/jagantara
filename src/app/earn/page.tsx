@@ -10,7 +10,7 @@ export default function EarnPage() {
   // const [timeFilter, setTimeFilter] = useState("12M");
   return (
     <main className="w-full pt-2 " style={{ background: "var(--background)" }}>
-      <section className="bg-[image:var(--gradient-secondary)] mx-10 px-32 rounded-3xl h-[80vh] overflow-y-auto hide-scrollbar ">
+      <section className="bg-[image:var(--gradient-secondary)] md:mx-10 md:px-32 rounded-3xl md:h-[80vh] overflow-y-auto hide-scrollbar ">
         <div className="py-10">
           <StakingDetail />
         </div>

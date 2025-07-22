@@ -247,21 +247,35 @@ function App() {
         </section>
         <InfiniteLogoLoop />
 
-        <section className="md:mx-6 lg:mx-20 mt-40 scroll-mt-32 " id="features">
+        <section
+          className="md:mx-10 lg:mx-20 my-40 scroll-mt-32 "
+          id="features"
+        >
           {/* Header */}
           <div className="text-center md:mb-16">
-            <h1 className="text-3xl md:text-5xl font-bold  mb-4">
-              Next-Gen DeFi Solutions
-            </h1>
+            <GradientText
+              colors={[
+                "var(--primary)",
+                "var(--accent)",
+                "var(--primary)",
+                "var(--accent)",
+              ]}
+              animationSpeed={6}
+              showBorder={false}
+              className="font-bold text-3xl mb-3"
+            >
+              Next Gen Defi Solutions
+            </GradientText>
             <p className="text-md md:text-xl text-[var(--text)]/70 max-w-2xl mx-auto">
               Discover powerful tools to protect, insure, and maximize your
               crypto assets with cutting-edge protocols
             </p>
           </div>
+
           <PromotionalCards />
         </section>
 
-        <section className=" md:mx-6 lg:mx-20  mt-40">
+        <section className=" md:mx-6 lg:mx-20  mt-80">
           <HoverMenuEarn />
         </section>
 

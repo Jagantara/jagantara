@@ -1,5 +1,6 @@
 import { Message } from "@/hooks/useChat";
 import { Bot, User, Zap } from "lucide-react";
+import Image from "next/image";
 
 export const MessageBubble: React.FC<{ message: Message }> = ({ message }) => {
   const isUser = message.role === "user";
@@ -12,15 +13,21 @@ export const MessageBubble: React.FC<{ message: Message }> = ({ message }) => {
         {/* Avatar */}
         <div
           className={`w-8 h-8 rounded-full flex items-center justify-center ${
-            isUser
-              ? "bg-gradient-to-r from-green-500 to-blue-500"
-              : "bg-gradient-to-r from-blue-500 to-purple-600"
+            isUser ? "bg-gradient-to-r from-green-500 to-blue-500" : ""
           }`}
         >
           {isUser ? (
             <User className="w-4 h-4 text-white" />
           ) : (
-            <Bot className="w-4 h-4 text-white" />
+            <div className="w-8 h-8 rounded-full overflow-hidden">
+              <Image
+                src="/jagabot_logo.png"
+                alt="Jagantara Logo"
+                width={32}
+                height={32}
+                className="object-contain"
+              />
+            </div>
           )}
         </div>
 

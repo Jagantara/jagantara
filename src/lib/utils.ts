@@ -12,7 +12,7 @@ export const formatTimeLeft = (seconds: bigint | number) => {
   const minutes = Math.floor((total % 3600) / 60);
   const secs = total % 60;
 
-  return `${days}d ${hours}h ${minutes}m ${secs}s `;
+  return `${days}d ${hours}h ${minutes}m`;
 };
 
 export const formatUnixToDate = (timestamp: bigint | number): string => {
