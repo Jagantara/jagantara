@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 export default function JagaBotPage() {
   return (
     <main className="w-full pt-2 " style={{ background: "var(--background)" }}>
-      <section className=" rounded-3xl h-[80vh] overflow-y-auto hide-scrollbar ">
+      <section className=" rounded-3xl md:h-[80vh] overflow-y-auto hide-scrollbar ">
         <ChatInterface />
       </section>
     </main>

@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 export default function VaultPage() {
   return (
     <main className="w-full pt-2 pb-20">
-      <section className="bg-[image:var(--gradient-secondary)] mx-10 rounded-3xl">
+      <section className="bg-[image:var(--gradient-secondary)] md:mx-10 rounded-3xl">
         <VaultVisualization />
       </section>
     </main>

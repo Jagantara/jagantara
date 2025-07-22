@@ -50,29 +50,6 @@ export const ChatInterface: React.FC = () => {
 
   return (
     <div className="flex flex-col justify-center">
-      {/* Header */}
-      {/* <header className="bg-white shadow-sm border-b border-gray-200 p-4">
-        <div className="max-w-4xl mx-auto flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
-              <Shield className="w-6 h-6 text-white" />
-            </div>
-            <div>
-              <h1 className="text-xl font-bold text-gray-900">
-                Jagantara AI Assistant
-              </h1>
-              <p className="text-sm text-gray-600">
-                Web3 Insurance & Risk Management
-              </p>
-            </div>
-          </div>
-          <div className="flex items-center space-x-2">
-            <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-            <span className="text-sm text-gray-600">Connected</span>
-          </div>
-        </div>
-      </header> */}
-
       {/* Chat Messages */}
       <div className=" overflow-y-auto p-4 h-[72vh]">
         <div className="max-w-4xl mx-auto space-y-4">
@@ -140,7 +117,7 @@ export const ChatInterface: React.FC = () => {
       </div>
 
       {/* Input Area */}
-      <div className="p-4 fixed bottom-15 left-0 right-0 ">
+      <div className="p-4 md:fixed bottom-15 left-0 right-0 ">
         <div className="max-w-4xl mx-auto">
           <form onSubmit={handleSubmit} className="flex space-x-2">
             <div className="flex-1 relative">

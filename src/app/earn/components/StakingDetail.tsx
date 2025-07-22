@@ -40,11 +40,11 @@ export default function StakingDetail() {
             : "1px solid rgba(251, 250, 249, 0.1)",
       }}
     >
-      <div className="flex-shrink-0 text-[var(--text)] md:text-md text-sm">
+      <div className="flex-shrink-0 text-[var(--text)] md:text-lg text-sm">
         {icon}
       </div>
       <div>
-        <div className="font-semibold text-[var(--text)] md:text-md text-sm">
+        <div className="font-semibold text-[var(--text)] md:text-lg text-sm">
           {label}
         </div>
         <div className=" opacity-80 text-[var(--text)] md:text-md text-xs">

@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 export default function JagantaraCampaign() {
   return (
     <main className="w-full pt-2 " style={{ background: "var(--background)" }}>
-      <section className="bg-[image:var(--gradient-secondary)] mx-10 p-8 rounded-3xl h-[80vh] overflow-y-auto hide-scrollbar py-8 ">
+      <section className="bg-[image:var(--gradient-secondary)] md:mx-10 p-4 md:p-8 rounded-3xl md:h-[80vh] overflow-y-auto hide-scrollbar py-8 ">
         <div className="flex justify-center flex-col items-center gap-2">
           <GradientText
             colors={[
@@ -26,9 +26,8 @@ export default function JagantaraCampaign() {
           >
             Campaign
           </GradientText>
-          <p className="text-lg text-center font-light">
-            The world's most respected investors and institutions have chosen{" "}
-            <br />
+          <p className="text-md md:text-lg text-center font-light">
+            The world's most respected investors and institutions have chosen
             Jagantara as their trusted insurance partner
           </p>
         </div>

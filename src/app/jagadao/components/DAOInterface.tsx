@@ -197,14 +197,14 @@ export default function DAOInterface() {
         <div className="rounded-2xl">
           <div className="mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <Tabs defaultValue="active" className="space-y-6">
-              <div className="flex justify-between items-center">
+              <div className="flex justify-between items-center md:flex-row flex-col">
                 <TabsList className="grid w-full max-w-md grid-cols-3 border-slate-500">
                   <TabsTrigger value="active">Active</TabsTrigger>
                   <TabsTrigger value="completed">Completed</TabsTrigger>
                   <TabsTrigger value="analytics">Analytics</TabsTrigger>
                 </TabsList>
 
-                <div className="flex items-center space-x-4 text-sm">
+                <div className="flex items-center space-x-4 text-sm md:mt-0 mt-4">
                   <div className="flex items-center space-x-1">
                     <Users className="h-4 w-4" />
                     <span>12,847 Members</span>
