@@ -2,7 +2,7 @@
 import "@/styles/globals.css";
 import type { Metadata } from "next";
 import { Providers } from "./providers";
-
+import { Analytics } from "@vercel/analytics/next";
 import TransitionClient from "@/app/components/TransitionClient";
 import AppShell from "./components/AppShell";
 import { Toaster } from "react-hot-toast";

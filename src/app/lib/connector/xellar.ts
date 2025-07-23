@@ -8,5 +8,5 @@ export const config = defaultConfig({
   xellarAppId: process.env.XELLAR_API_KEY,
   xellarEnv: "sandbox",
   chains: [liskSepolia],
-  ssr: false,
+  ssr: true,
 }) as Config;
