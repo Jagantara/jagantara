@@ -18,13 +18,22 @@ export default function Component() {
   const { totalReinvested } = useMorphoReinvest();
   // Transform scroll progress to step changes
   const step = useTransform(scrollYProgress, [0, 0.33, 0.66, 1], [1, 2, 3, 3]);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    const unsubscribe = step.onChange((latest) => {
-      setActiveStep(Math.round(latest));
-    });
-    return unsubscribe;
-  }, [step]);
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+  useEffect(() => {
+    if (!isMobile) {
+      const unsubscribe = step.onChange((latest) => {
+        setActiveStep(Math.round(latest));
+      });
+      return unsubscribe;
+    }
+  }, [step, isMobile]);
 
   const renderCanvas = () => {
     switch (activeStep) {
@@ -46,7 +55,7 @@ export default function Component() {
           {/* Left Content - Sticky */}
           <div className="lg:sticky lg:top-16 lg:h-fit lg:flex lg:flex-col lg:justify-center p-8">
             <div className="space-y-6 mt-3">
-              <div className="flex flex-row justify-between items-end">
+              <div className="flex flex-col md:flex-row justify-between items- md:items-end gap-4">
                 <GradientText
                   colors={[
                     "var(--primary)",
@@ -84,18 +93,19 @@ export default function Component() {
                 >
                   <div className="flex items-start gap-4">
                     <span
-                      className={`text-2xl font-bold ${activeStep === 1 ? "text-blue-400" : "text-gray-500"}`}
+                      className={`text-xl md:text-2xl font-bold ${activeStep === 1 ? "text-blue-400" : "text-gray-500"}`}
                     >
                       01
                     </span>
                     <div>
                       <h3
-                        className={`text-xl font-semibold mb-3 ${activeStep === 1 ? "" : "text-gray-400"}`}
+                        onClick={() => isMobile && setActiveStep(1)}
+                        className={`text-lg md:text-xl font-semibold mb-3 ${activeStep === 1 ? "" : "text-gray-400"} cursor-pointer`}
                       >
                         Deposit in Jagantara Vault
                       </h3>
                       {activeStep === 1 && (
-                        <p className="leading-relaxed">
+                        <p className="leading-relaxed text-md">
                           Earn yield by depositing <strong>$USDC</strong> into
                           the Jagantara Vault. In return, you’ll receive{" "}
                           <strong>$JAGA</strong> tokens, which grant governance
@@ -116,13 +126,14 @@ export default function Component() {
                 >
                   <div className="flex items-start gap-4">
                     <span
-                      className={`text-2xl font-bold ${activeStep === 2 ? "text-blue-400" : "text-gray-500"}`}
+                      className={`text-xl md:text-2xl font-bold ${activeStep === 2 ? "text-blue-400" : "text-gray-500"}`}
                     >
                       02
                     </span>
                     <div>
                       <h3
-                        className={`text-xl font-semibold mb-3 ${activeStep === 2 ? "" : "text-gray-400"}`}
+                        onClick={() => isMobile && setActiveStep(2)}
+                        className={`text-lg md:text-xl font-semibold mb-3 ${activeStep === 2 ? "" : "text-gray-400"} cursor-pointer`}
                       >
                         Revenue Allocated via Insurance Manager
                       </h3>
@@ -148,13 +159,14 @@ export default function Component() {
                 >
                   <div className="flex items-start gap-4">
                     <span
-                      className={`text-2xl font-bold ${activeStep === 3 ? "text-blue-400" : "text-gray-500"}`}
+                      className={`text-xl md:text-2xl font-bold ${activeStep === 3 ? "text-blue-400" : "text-gray-500"}`}
                     >
                       03
                     </span>
                     <div>
                       <h3
-                        className={`text-xl font-semibold mb-3 ${activeStep === 3 ? "" : "text-gray-400"}`}
+                        onClick={() => isMobile && setActiveStep(3)}
+                        className={`text-lg md:text-xl font-semibold mb-3 ${activeStep === 3 ? "" : "text-gray-400"} cursor-pointer`}
                       >
                         Earn yield from Policyholders
                       </h3>
@@ -177,7 +189,7 @@ export default function Component() {
                   <p className="text-sm font-normal opacity-70">
                     Total Value Locked
                   </p>
-                  <span className="text-4xl font-normal tracking-tight">
+                  <span className="text-3xl md:text-4xl font-normal tracking-tight">
                     $
                     <CountUp
                       from={0}
@@ -191,63 +203,69 @@ export default function Component() {
                   <p className="text-sm font-normal opacity-70">
                     Total Wallet Protected
                   </p>
-                  <span className="text-4xl font-normal tracking-tight flex gap-1 items-end">
+                  <span className="text-3xl md:text-4xl font-normal tracking-tight flex gap-1 items-end">
                     <Wallet size={30} />
                     <CountUp from={0} to={100000} separator="," duration={1} />
                   </span>
                 </div>
               </div>
-              <div className="glass rounded-xl p-6 border border-white/10 bg-[var(--secondary)]  flex items-center justify-between gap-6">
-                {/* Left: Logo + Name */}
-                <div className="flex items-center gap-3">
-                  <div className="relative">
-                    <div className="absolute inset-0 bg-[var(--background)]/20 rounded-full blur-sm" />
-                    <div className="relative bg-[var(--background)]/10 rounded-full p-2 backdrop-blur-sm">
-                      <Image
-                        src="/morpho_logo.png"
-                        alt="Morpho"
-                        width={20}
-                        height={20}
-                        className="relative z-10"
-                      />
+              <div className="glass rounded-xl p-4 sm:p-6 border border-white/10 bg-[var(--secondary)] mt-5">
+                <div className="grid grid-cols-2 sm:flex sm:items-center sm:justify-between gap-4 sm:gap-6">
+                  {/* Morpho Vault (Left Top) */}
+                  <div className="flex items-center gap-3 col-span-1">
+                    <div className="relative">
+                      <div className="absolute inset-0 bg-[var(--background)]/20 rounded-full blur-sm" />
+                      <div className="relative bg-[var(--background)]/10 rounded-full p-2 backdrop-blur-sm">
+                        <Image
+                          src="/morpho_logo.png"
+                          alt="Morpho"
+                          width={20}
+                          height={20}
+                          className="relative z-10"
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <p className="font-semibold text-sm sm:text-base">
+                        Morpho Vault
+                      </p>
+                      <p className="text-[var(--text)]/50 text-xs sm:text-sm">
+                        DeFi Protocol
+                      </p>
                     </div>
                   </div>
-                  <div>
-                    <p className="font-semibold ">Morpho Vault</p>
-                    <p className="text-[var(--text)]/50 text-xs">
-                      DeFi Protocol
+
+                  {/* APY (Right Top) */}
+                  <div className="text-right col-span-1">
+                    <p className="text-[var(--text)]/50 text-xs font-medium uppercase tracking-wider">
+                      APY
+                    </p>
+                    <div className="flex justify-end items-baseline gap-1">
+                      <span className="text-emerald-600 text-lg sm:text-xl font-bold">
+                        4.45
+                      </span>
+                      <span className="text-sm">%</span>
+                    </div>
+                  </div>
+
+                  {/* Total Deposits (Left Bottom) */}
+                  <div className="text-left sm:text-center col-span-1">
+                    <p className="text-[var(--text)]/50 text-xs font-medium uppercase tracking-wider">
+                      Total Deposits
+                    </p>
+                    <p className="font-bold text-base sm:text-lg">
+                      {Math.round(
+                        Number(totalReinvested) / 1e6
+                      ).toLocaleString() + " USDC"}
                     </p>
                   </div>
-                </div>
 
-                {/* Middle: Total Deposits */}
-                <div className="text-center">
-                  <p className="text-[var(--text)]/50 text-xs font-medium uppercase tracking-wider">
-                    Total Deposits
-                  </p>
-                  <p className=" font-bold text-lg">
-                    {Math.round(
-                      Number(totalReinvested) / 1e6
-                    ).toLocaleString() + " USDC"}
-                  </p>
-                </div>
-                <div className="text-center">
-                  <p className="text-[var(--text)]/50 text-xs font-medium uppercase tracking-wider">
-                    Collateral
-                  </p>
-                  <p className="font-bold text-lg">💵USDC</p>
-                </div>
-
-                {/* Right: APY + Collateral */}
-                <div className="text-right">
-                  <p className="text-[var(--text)]/50 text-xs font-medium uppercase tracking-wider">
-                    APY
-                  </p>
-                  <div className="flex items-baseline justify-end gap-1">
-                    <span className="text-emerald-600 text-xl font-bold">
-                      4.45
-                    </span>
-                    <span className=" text-sm">%</span>
+                  {/* Collateral (Right Bottom) */}
+                  <div className="text-right sm:text-center col-span-1">
+                    <p className="text-[var(--text)]/50 text-xs font-medium uppercase tracking-wider">
+                      Collateral
+                    </p>
+                    <p className="font-bold text-base sm:text-lg">💵USDC</p>
                   </div>
                 </div>
               </div>
@@ -255,7 +273,7 @@ export default function Component() {
           </div>
 
           {/* Right Canvas - Changes based on scroll */}
-          <div className="min-h-[200vh] flex items-start justify-center pt-20">
+          <div className="min-h-[100vh] md:min-h-[200vh] flex items-start justify-center pt-20">
             <div className="sticky top-30">{renderCanvas()}</div>
           </div>
         </div>

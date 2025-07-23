@@ -13,7 +13,7 @@ export class JagantaraMCPClient {
   constructor() {
     this.transport = new StdioClientTransport({
       command: "node",
-      args: ["dist/mcp-server.js"],
+      args: ["src/dist/mcp/mcp-server.js"],
     });
 
     this.client = new Client(

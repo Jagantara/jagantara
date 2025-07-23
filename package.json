@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "build:mcp": "tsc -p tsconfig.server.json",
-    "start:mcp": "node dist/mcp-server.js",
+    "start:mcp": "node src/dist/mcp-server.js",
     "dev:mcp": "npm run build:mcp && npm run start:mcp"
   },
   "dependencies": {
@@ -31,6 +31,7 @@
     "@xellar/kit": "^2.2.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "dotenv": "^17.2.0",
     "ethers": "^6.13.4",
     "framer-motion": "^12.19.1",
     "graphql": "^16.11.0",
