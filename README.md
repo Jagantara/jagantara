@@ -1,4 +1,8 @@
-# 🛡️ Jagantara
+<p align="center">
+  <img src="./public/jagantara_icon.png" alt="Jagantara Logo" width="120" />
+</p>
+
+<h1 align="center">Jagantara</h1>
 
 **Jagantara** is a decentralized application (dApp) platform built with **Next.js**, **TypeScript**, and **Tailwind CSS**, offering a seamless interface to interact with smart contracts, governance systems, and DeFi protocols. Designed with extensibility in mind, Jagantara integrates the **Model Context Protocol (MCP)** to enable intelligent automation, AI assistants, and modular tool execution.
 
