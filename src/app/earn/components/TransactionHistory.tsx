@@ -190,7 +190,7 @@ export default function TransactionHistory() {
               </p>
             </div>
           ) : (
-            <Card className="border-0 shadow-lg bg-[var(--third)] px-10 py-8">
+            <Card className="border-0 shadow-lg bg-[var(--third)] md:px-10 md:py-8">
               <CardHeader>
                 <CardTitle className="flex gap-2">
                   <FaClock /> Recent Activity
@@ -204,7 +204,7 @@ export default function TransactionHistory() {
                   {paginatedData.map((activity, index) => (
                     <div
                       key={index}
-                      className="flex items-center justify-between py-3 px-5 rounded-lg bg-[var(--secondary)] transition-colors"
+                      className="flex items-center justify-between py-3 px-2 md:px-5 rounded-lg bg-[var(--secondary)] transition-colors"
                     >
                       <div className="flex items-center gap-3">
                         <div
@@ -217,11 +217,13 @@ export default function TransactionHistory() {
                           }`}
                         />
                         <div>
-                          <p className="font-medium">{activity.type}</p>
-                          <p className="text-sm">{activity.date}</p>
+                          <p className="font-medium text-sm md:text-md">
+                            {activity.type}
+                          </p>
+                          <p className="text-xs md:text-sm">{activity.date}</p>
                         </div>
                       </div>
-                      <div className="text-right">
+                      <div className="text-right text-sm md:text-md">
                         <p
                           className={`font-semibold ${
                             activity.type === "Reward"

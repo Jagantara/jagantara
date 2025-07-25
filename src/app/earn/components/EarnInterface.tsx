@@ -30,6 +30,7 @@ export default function EarnInterface() {
   };
   const isInsufficientBalanceRemove = () => {
     const balance = Number(currentStake) / Math.pow(10, 6);
+    console.log("Current Stake Balance:", balance);
     return parseFloat(amountIn || "0") > balance;
   };
   const rewardAmount = Number(pendingReward) / 1e6;
@@ -52,7 +53,8 @@ export default function EarnInterface() {
   };
 
   const handleRemove = async () => {
-    if (isUnstaking || isInsufficientBalance() || !amountIn) return;
+    console.log("Removing stake:", amountIn);
+    if (isUnstaking || !amountIn) return;
 
     const success = await unstake(amountIn);
     if (success) {
@@ -255,7 +257,9 @@ export default function EarnInterface() {
             {/* Remove Button */}
             <button
               onClick={handleRemove}
-              disabled={isUnstaking || isInsufficientBalanceRemove()}
+              disabled={
+                isUnstaking || isInsufficientBalanceRemove() || !amountIn
+              }
               className={`w-full mt-6 py-4 rounded-xl font-bold text-md md:text-lg transition-all duration-300 flex items-center justify-center gap-2  ${
                 !amountIn || isUnstaking || isInsufficientBalanceRemove()
                   ? "bg-blue-300/30  cursor-not-allowed opacity-70"
