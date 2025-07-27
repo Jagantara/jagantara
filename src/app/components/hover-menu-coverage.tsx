@@ -160,11 +160,11 @@ export default function HoverMenuCoverage() {
             <Progress value={100} className="h-2 bg-white/40" />
             {/* Voting Buttons - Responsive */}
             <div className="flex flex-col sm:flex-row gap-3 mt-4 w-full">
-              <button className="flex-1 bg-green-600 hover:bg-green-500 text-white py-3 rounded-lg font-semibold flex items-center justify-center gap-2 cursor-pointer text-sm sm:text-base">
+              <button className="flex-1 bg-[image:var(--gradient-third)] hover:bg-[image:var(--gradient-third)]/50 py-3 rounded-lg font-semibold flex items-center justify-center gap-2 cursor-pointer text-sm sm:text-base text-[var(--text)]">
                 <CheckCircle className="h-4 w-4" />
                 Vote For
               </button>
-              <button className="flex-1 bg-red-600 hover:bg-red-500 text-white py-3 rounded-lg font-semibold flex items-center justify-center gap-2 cursor-pointer text-sm sm:text-base">
+              <button className="flex-1 bg-[image:var(--gradient-third)] hover:bg-[image:var(--gradient-third)]/50 py-3 rounded-lg font-semibold flex items-center justify-center gap-2 cursor-pointer text-sm sm:text-base text-[var(--text)]">
                 <XCircle className="h-4 w-4" />
                 Vote Against
               </button>

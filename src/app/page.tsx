@@ -47,16 +47,6 @@ function App() {
             <div className="grid gap-6 md:grid-cols-2 lg:gap-12 lg:grid-cols-2">
               <div className="flex flex-col justify-center space-y-4">
                 <div className="space-y-2">
-                  {/* <Badge
-                    variant="secondary"
-                    className="w-fit"
-                    style={{
-                      backgroundColor: "var(--secondary)",
-                      color: "var(--primary)",
-                    }}
-                  >
-                    🚀 Now Live on Mainnet
-                  </Badge> */}
                   <div className="">
                     <SplitText
                       text="Decentralized Protection "
@@ -174,7 +164,7 @@ function App() {
                       <p className="text-sm font-normal opacity-70">
                         Total Value Locked
                       </p>
-                      <span className="text-4xl font-normal tracking-tight">
+                      <span className="text-3xl md:text-4xl font-normal tracking-tight">
                         $
                         <CountUp
                           from={0}
@@ -190,7 +180,7 @@ function App() {
                       <p className="text-sm font-normal opacity-70">
                         Total Wallet Protected
                       </p>
-                      <span className="text-4xl font-normal tracking-tight flex gap-1 items-end">
+                      <span className="text-3xl md:text-4xl font-normal tracking-tight flex gap-1 items-end">
                         <Wallet size={30} />
                         <CountUp
                           from={0}

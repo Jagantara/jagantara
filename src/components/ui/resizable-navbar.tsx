@@ -70,7 +70,6 @@ export const Navbar = ({ children, className }: NavbarProps) => {
   return (
     <motion.div
       ref={ref}
-      // IMPORTANT: Change this to class of `fixed` if you want the navbar to be fixed
       className={cn("py-2 inset-x-0 top-20 z-40 w-full", className)}
     >
       {React.Children.map(children, (child) =>
@@ -251,7 +250,9 @@ export const NavbarLogo = () => {
       className="relative z-20 flex items-center px-2 py-1 text-sm font-bold"
     >
       <Image src="/jagantara_icon.png" alt="logo" width={50} height={50} />
-      <span className="font-bold text-lg cursor-pointer">Jagantara</span>
+      <span className="font-bold text-md md:text-lg cursor-pointer">
+        Jagantara
+      </span>
     </button>
   );
 };

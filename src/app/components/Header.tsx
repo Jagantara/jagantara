@@ -78,7 +78,19 @@ export default function Header() {
                 <span className="sr-only">Toggle theme</span>
               </Button>
 
-              <ConnectWallet />
+              <Button
+                size="lg"
+                style={{
+                  background: "var(--gradient-primary)",
+                  color: "white",
+                }}
+                className="group hover:opacity-90 cursor-pointer glow-blue relative overflow-hidden pr-5 rounded-3xl"
+                onClick={() => window.open("/earn", "_blank")} // 👈 open in new tab
+              >
+                Launch App
+                <ArrowUpRight className="ml-2 h-4 w-4 arrow-animate-out transition-all duration-300 group-hover:arrow-out" />
+                <ArrowUpRight className="h-4 w-4 absolute right-3 top-1/2 -translate-y-1/2 opacity-0 arrow-animate-in transition-all duration-300 group-hover:arrow-in" />
+              </Button>
             </div>
           </NavBody>
 
@@ -100,6 +112,18 @@ export default function Header() {
                   )}
                   <span className="sr-only">Toggle theme</span>
                 </Button>
+
+                <button
+                  style={{
+                    background: "var(--gradient-primary)",
+                    color: "white",
+                  }}
+                  className="group hover:opacity-90 cursor-pointer glow-blue relative overflow-hidden p-2.5 rounded-xl text-sm font-medium"
+                  onClick={() => window.open("/earn", "_blank")} // 👈 open in new tab
+                >
+                  Launch App
+                </button>
+
                 <MobileNavToggle
                   isOpen={isMobileMenuOpen}
                   onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -121,19 +145,6 @@ export default function Header() {
                   <span className="block">{item.name}</span>
                 </a>
               ))}
-              <div className="flex w-full flex-col gap-4">
-                <Button
-                  size="lg"
-                  style={{
-                    background: "var(--gradient-primary)",
-                    color: "white",
-                  }}
-                  className="group hover:opacity-90 cursor-pointer glow-blue relative overflow-hidden pr-10"
-                  onClick={() => window.open("/earn", "_blank")} // 👈 open in new tab
-                >
-                  Launch App
-                </Button>
-              </div>
             </MobileNavMenu>
           </MobileNav>
         </Navbar>

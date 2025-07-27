@@ -466,7 +466,7 @@ export default function DAOInterface() {
 
                                 <div className="space-y-2">
                                   <Button
-                                    className="w-full bg-green-600 hover:bg-green-700 cursor-pointer"
+                                    className="w-full bg-[var(--third)] hover:bg-[var(--third)]/50 cursor-pointer"
                                     onClick={() =>
                                       handleVote(proposal.id, "for")
                                     }
@@ -475,7 +475,7 @@ export default function DAOInterface() {
                                     Vote For
                                   </Button>
                                   <Button
-                                    className="w-full cursor-pointer bg-red-600 hover:bg-red-700"
+                                    className="w-full cursor-pointer bg-[var(--third)] hover:bg-[var(--third)]/50"
                                     onClick={() =>
                                       handleVote(proposal.id, "against")
                                     }
