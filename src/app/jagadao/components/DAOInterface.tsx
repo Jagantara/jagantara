@@ -332,7 +332,7 @@ export default function DAOInterface() {
                               <div className="flex justify-between text-xs">
                                 {proposal.canExecute && (
                                   <Button
-                                    className="bg-blue-600 hover:bg-blue-700 cursor-pointer"
+                                    className="bg-[var(--third)] hover:bg-[var(--third)]/50 cursor-pointer"
                                     onClick={async () => {
                                       try {
                                         await executeVote(Number(proposal.id));

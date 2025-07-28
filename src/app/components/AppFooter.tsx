@@ -55,7 +55,7 @@ export default function Header() {
           >
             <FaLinkedin size={18} />
           </a>
-          <a href="">
+          <a href="https://www.instagram.com/jagantara.xyz" target="_blank">
             <FaInstagram size={18} />
           </a>
           <a href="https://t.me/+QjYXOLJ3diNmM2I1" target="_blank">

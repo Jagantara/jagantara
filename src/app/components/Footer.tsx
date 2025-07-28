@@ -36,10 +36,14 @@ export default function Footer() {
       { name: "DeFiLlama", href: "#" },
     ],
     Community: [
-      { name: "Twitter", href: "#" },
-      { name: "LinkedIn", href: "#" },
-      { name: "Farcaster", href: "#" },
-      { name: "Discord", href: "#" },
+      { name: "Twitter", href: "https://x.com/Jagantara_ofc" },
+      {
+        name: "LinkedIn",
+        href: "https://www.linkedin.com/company/jaganusantara",
+      },
+      { name: "Instagram", href: "https://www.instagram.com/jagantara.xyz" },
+      { name: "Discord", href: "https://discord.gg/fNkrb6FB55" },
+      { name: "Telegram", href: "https://t.me/+QjYXOLJ3diNmM2I1" },
     ],
     Company: [
       { name: "Terms of use", href: "#" },
