@@ -21,6 +21,7 @@ const tiers = [
     id: "lite",
     name: "Lite",
     icon: Shield,
+    rate: 0.001,
     bestFor: "Students, first-time Web3 users",
     claimCap: "$5,000",
     startingPrice: 65,
@@ -34,6 +35,7 @@ const tiers = [
     id: "shield",
     name: "Shield",
     icon: Star,
+    rate: 0.003,
     bestFor: "NFT collectors, DAO voters, casual DeFi",
     claimCap: "$15,000",
     startingPrice: 145,
@@ -53,6 +55,7 @@ const tiers = [
     id: "max",
     name: "Max",
     icon: Crown,
+    rate: 0.005,
     bestFor: "Active investors, DeFi builders",
     claimCap: "$50,000",
     startingPrice: 205,
@@ -71,6 +74,7 @@ const tiers = [
     id: "enterprise",
     name: "Enterprise",
     icon: Building2,
+    rate: null,
     bestFor: "DAOs, protocols, high-net-worth users",
     claimCap: "$100,000+",
     startingPrice: 295,
@@ -117,8 +121,10 @@ export default function PricingCard() {
                       <div>
                         <CardTitle className="text-lg">{tier.name}</CardTitle>
                         <div className="text-lg font-bold ">
-                          {tier.custom ? "Custom" : `$${tier.startingPrice}`}
-                          <span className="text-sm font-normal ">/mo</span>
+                          {tier.custom
+                            ? "Custom"
+                            : `${(tier.rate! * 100).toFixed(1)}% of cap`}
+                          <span className="text-sm font-normal "> / mo</span>
                         </div>
                       </div>
                     </div>
@@ -129,7 +135,7 @@ export default function PricingCard() {
                   <CardContent className="flex flex-col justify-between h-full space-y-3">
                     <div className="space-y-3">
                       <div className="bg-[var(--background)]/70  rounded-lg p-4 space-y-3 ">
-                        <div className="flex justify-between text-sm">
+                        {/* <div className="flex justify-between text-sm">
                           <span className=" flex items-center gap-1">
                             💰 <span>Claim Cap:</span>
                           </span>
@@ -140,26 +146,26 @@ export default function PricingCard() {
                             📊 <span>Asset Value:</span>
                           </span>
                           <span className="font-bold ">{tier.assetValue}</span>
+                        </div> */}
+                        <div className="space-y-1">
+                          <h4 className="font-semibold text-sm  flex items-center gap-1">
+                            🛡️ Coverage Includes:
+                          </h4>
+                          {tier.coverage.slice(0, 3).map((item, index) => (
+                            <div
+                              key={index}
+                              className="flex items-center text-xs"
+                            >
+                              <Check className="w-3 h-3 text-green-500 mr-2 flex-shrink-0" />
+                              <span>{item}</span>
+                            </div>
+                          ))}
+                          {tier.coverage.length > 3 && (
+                            <div className="text-xs  ml-5">
+                              ✨ +{tier.coverage.length - 3} more features
+                            </div>
+                          )}
                         </div>
-                      </div>
-                      <div className="space-y-1">
-                        <h4 className="font-semibold text-sm  flex items-center gap-1">
-                          🛡️ Coverage Includes:
-                        </h4>
-                        {tier.coverage.slice(0, 3).map((item, index) => (
-                          <div
-                            key={index}
-                            className="flex items-center text-xs"
-                          >
-                            <Check className="w-3 h-3 text-green-500 mr-2 flex-shrink-0" />
-                            <span>{item}</span>
-                          </div>
-                        ))}
-                        {tier.coverage.length > 3 && (
-                          <div className="text-xs  ml-5">
-                            ✨ +{tier.coverage.length - 3} more features
-                          </div>
-                        )}
                       </div>
                     </div>
 
@@ -183,11 +189,9 @@ export default function PricingCard() {
                         )}
                       </Button>
 
-                      {!tier.custom && (
-                        <p className="text-xs  text-center">
-                          ⚡ Instant activation • 🔄 Cancel anytime
-                        </p>
-                      )}
+                      <p className="text-xs  text-center">
+                        ⚡ Instant activation • 🔄 Cancel anytime
+                      </p>
                     </div>
                   </CardContent>
                 </Card>

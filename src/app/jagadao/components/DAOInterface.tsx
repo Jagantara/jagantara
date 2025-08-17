@@ -24,6 +24,7 @@ import {
   AlertCircle,
   Wallet,
   BarChart3,
+  ExternalLink,
 } from "lucide-react";
 import { useAccount } from "wagmi";
 import ConnectWallet from "@/app/components/ConnectWallet";
@@ -48,6 +49,7 @@ interface Proposal {
   title: string;
   description: string;
   proposer: string;
+  coveredAddress: string;
   amount: bigint;
   status: "active" | "passed" | "rejected" | "pending";
   votesFor: number;
@@ -113,6 +115,7 @@ export default function DAOInterface() {
               title: claim.title,
               description: claim.reason,
               proposer: claim.claimant,
+              coveredAddress: claim.coveredAddress,
               amount: BigInt(claim.amount),
               status:
                 statusEnum === ClaimStatus.Pending
@@ -278,6 +281,11 @@ export default function DAOInterface() {
                                     {proposal.category}
                                   </Badge>
                                 </div>
+                                {proposal.coveredAddress && (
+                                  <p className="text-xs text-muted-foreground break-all">
+                                    Covered Address: {proposal.coveredAddress}
+                                  </p>
+                                )}
                                 <CardTitle className="text-lg">
                                   {proposal.title}
                                 </CardTitle>
@@ -330,28 +338,44 @@ export default function DAOInterface() {
                                 className="h-2 bg-white/40"
                               />
                               <div className="flex justify-between text-xs">
-                                {proposal.canExecute && (
+                                <div className="flex flex-col md:flex-row items-center gap-3">
+                                  {proposal.canExecute && (
+                                    <Button
+                                      className="bg-[var(--third)] hover:bg-[var(--third)]/50 cursor-pointer"
+                                      onClick={async () => {
+                                        try {
+                                          await executeVote(
+                                            Number(proposal.id)
+                                          );
+                                          toast.success(
+                                            `Proposal ${proposal.id} executed`
+                                          );
+                                        } catch (err) {
+                                          toast.error("Execution failed");
+                                          console.error(
+                                            "Execute vote error:",
+                                            err
+                                          );
+                                        }
+                                      }}
+                                    >
+                                      <CheckCircle className="h-4 w-4" />
+                                      Execute Vote
+                                    </Button>
+                                  )}
                                   <Button
-                                    className="bg-[var(--third)] hover:bg-[var(--third)]/50 cursor-pointer"
-                                    onClick={async () => {
-                                      try {
-                                        await executeVote(Number(proposal.id));
-                                        toast.success(
-                                          `Proposal ${proposal.id} executed`
-                                        );
-                                      } catch (err) {
-                                        toast.error("Execution failed");
-                                        console.error(
-                                          "Execute vote error:",
-                                          err
-                                        );
-                                      }
-                                    }}
+                                    className="bg-[var(--third)] hover:bg-[var(--third)]/50 cursor-pointer hidden md:flex"
+                                    onClick={() =>
+                                      window.open(
+                                        `https://sepolia-blockscout.lisk.com/address/${proposal.coveredAddress}`,
+                                        "_blank"
+                                      )
+                                    }
                                   >
-                                    <CheckCircle className="h-4 w-4" />
-                                    Execute Vote
+                                    <ExternalLink className="h-4 w-4" />
+                                    View on Explorer
                                   </Button>
-                                )}
+                                </div>
 
                                 <span className="">
                                   Amount to cover: {""}
@@ -439,7 +463,7 @@ export default function DAOInterface() {
                                   <h4 className="font-medium text-sm mb-1">
                                     {proposal.title}
                                   </h4>
-                                  <p className="text-xs line-clamp-3">
+                                  <p className="text-xs">
                                     {proposal.description}
                                   </p>
                                 </div>
@@ -463,25 +487,38 @@ export default function DAOInterface() {
                                 </div>
 
                                 <Separator />
-
-                                <div className="space-y-2">
+                                <div className="flex flex-col">
+                                  <div className="space-y-2 flex w-full gap-1">
+                                    <Button
+                                      className="w-1/2 bg-[var(--third)] hover:bg-[var(--third)]/50 cursor-pointer"
+                                      onClick={() =>
+                                        handleVote(proposal.id, "for")
+                                      }
+                                    >
+                                      <CheckCircle className="h-4 w-4" />
+                                      Vote For
+                                    </Button>
+                                    <Button
+                                      className="w-1/2 cursor-pointer bg-[var(--third)] hover:bg-[var(--third)]/50"
+                                      onClick={() =>
+                                        handleVote(proposal.id, "against")
+                                      }
+                                    >
+                                      <XCircle className="h-4 w-4" />
+                                      Vote Against
+                                    </Button>
+                                  </div>
                                   <Button
-                                    className="w-full bg-[var(--third)] hover:bg-[var(--third)]/50 cursor-pointer"
+                                    className="bg-[var(--third)] hover:bg-[var(--third)]/50 cursor-pointer"
                                     onClick={() =>
-                                      handleVote(proposal.id, "for")
+                                      window.open(
+                                        `https://sepolia-blockscout.lisk.com/address/${proposal.coveredAddress}`,
+                                        "_blank"
+                                      )
                                     }
                                   >
-                                    <CheckCircle className="h-4 w-4" />
-                                    Vote For
-                                  </Button>
-                                  <Button
-                                    className="w-full cursor-pointer bg-[var(--third)] hover:bg-[var(--third)]/50"
-                                    onClick={() =>
-                                      handleVote(proposal.id, "against")
-                                    }
-                                  >
-                                    <XCircle className="h-4 w-4" />
-                                    Vote Against
+                                    <ExternalLink className="h-4 w-4" />
+                                    View on Explorer
                                   </Button>
                                 </div>
                               </>
@@ -614,6 +651,28 @@ export default function DAOInterface() {
                               }
                               className="h-2 bg-white/40"
                             />
+                            <div className="flex justify-between text-xs gap-5">
+                              <Button
+                                className="bg-[var(--third)] hover:bg-[var(--third)]/50 cursor-pointer"
+                                onClick={() =>
+                                  window.open(
+                                    `https://sepolia-blockscout.lisk.com/address/${proposal.coveredAddress}`,
+                                    "_blank"
+                                  )
+                                }
+                              >
+                                <ExternalLink className="h-4 w-4" />
+                                View on Explorer
+                              </Button>
+                              <span className="text-xs">
+                                Amount to cover: {""}
+                                {formatBigInt(
+                                  BigInt(proposal.amount),
+                                  6
+                                ).toString()}{" "}
+                                USDC
+                              </span>
+                            </div>
                           </div>
                         </CardContent>
                       </Card>

@@ -11,17 +11,10 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import GradientText from "@/components/gradient-text";
 import { useInsuranceManager } from "@/hooks/useInsuranceManager";
-
+import { Slider } from "@/components/ui/slider";
 const tiers = [
   {
     id: "lite",
@@ -31,6 +24,7 @@ const tiers = [
     claimCap: "$5,000",
     startingPrice: 65,
     assetValue: "<$5k",
+    rate: 0.001,
     durations: [1, 3, 6, 12],
     coverage: ["Basic Smart Contract Failure", "Custody Risk"],
     color: "bg-blue-50 border-blue-200",
@@ -44,6 +38,7 @@ const tiers = [
     claimCap: "$15,000",
     startingPrice: 145,
     assetValue: "$5k–15k",
+    rate: 0.003,
     durations: [1, 3, 6, 12],
     coverage: [
       "Major Smart Contract Failure",
@@ -60,6 +55,7 @@ const tiers = [
     name: "Max",
     icon: Crown,
     bestFor: "Active investors, DeFi builders",
+    rate: 0.005,
     claimCap: "$50,000",
     startingPrice: 205,
     assetValue: "$15k–25k",
@@ -78,6 +74,7 @@ const tiers = [
     name: "Enterprise",
     icon: Building2,
     bestFor: "DAOs, protocols, high-net-worth users",
+    rate: null,
     claimCap: "$100,000+",
     startingPrice: 295,
     assetValue: "Custom",
@@ -97,20 +94,18 @@ const tiers = [
 export default function PremiumsPage() {
   const [selectedTier, setSelectedTier] = useState("shield");
   const [coverAddress, setCoverAddress] = useState("");
-  const [selectedDuration, setSelectedDuration] = useState("6");
+  const [selectedDuration, setSelectedDuration] = useState(1);
+  const [assetValue, setAssetValue] = useState<string>(""); // start empty
   const { payPremium, isPaying, refetchIsActive } = useInsuranceManager();
   const currentTier = tiers.find((tier) => tier.id === selectedTier);
-  const durationMultiplier =
-    selectedDuration === "1"
-      ? 1
-      : selectedDuration === "3"
-        ? 3
-        : selectedDuration === "6"
-          ? 6
-          : 12;
-  const totalPrice = currentTier
-    ? Math.round(currentTier.startingPrice * durationMultiplier)
+
+  const monthlyRate = currentTier?.rate
+    ? Number((Number(assetValue) * currentTier.rate).toFixed(2))
     : 0;
+
+  const totalPrice = currentTier?.custom
+    ? 0
+    : Number((monthlyRate * selectedDuration).toFixed(2));
 
   const handlePay = async () => {
     if (isPaying || !coverAddress) return;
@@ -122,12 +117,10 @@ export default function PremiumsPage() {
     };
 
     const tier = tierMap[selectedTier];
-    const duration = parseInt(selectedDuration, 10);
-    console.log(tier, duration);
 
     const success = await payPremium(
       tier,
-      duration,
+      selectedDuration,
       coverAddress,
       String(totalPrice)
     );
@@ -192,8 +185,10 @@ export default function PremiumsPage() {
                         <div>
                           <CardTitle className="text-lg">{tier.name}</CardTitle>
                           <div className="text-lg font-bold ">
-                            {tier.custom ? "Custom" : `$${tier.startingPrice}+`}
-                            <span className="text-sm font-normal ">/mo</span>
+                            {tier.custom
+                              ? "Custom"
+                              : `${(tier.rate! * 100).toFixed(1)}% of cap`}
+                            <span className="text-sm font-normal "> / mo</span>
                           </div>
                         </div>
                       </div>
@@ -202,14 +197,14 @@ export default function PremiumsPage() {
                       </CardDescription>
                     </CardHeader>
                     <CardContent className="pt-0 space-y-3">
-                      <div className="flex justify-between text-sm">
+                      {/* <div className="flex justify-between text-sm">
                         <span className="">Claim Cap:</span>
                         <span className="font-medium">{tier.claimCap}</span>
                       </div>
                       <div className="flex justify-between text-sm">
                         <span className="">Asset Value:</span>
                         <span className="font-medium">{tier.assetValue}</span>
-                      </div>
+                      </div> */}
                       <div className="space-y-1">
                         {tier.coverage.slice(0, 3).map((item, index) => (
                           <div
@@ -235,7 +230,7 @@ export default function PremiumsPage() {
 
           {/* Configuration & Purchase Panel */}
           <div className="lg:col-span-1 border-none bg-[image:var(--gradient-secondary)] rounded-2xl">
-            <Card className="sticky top-6 border-none">
+            <Card className="border-none">
               <CardHeader className="">
                 <CardTitle className="flex items-center gap-2 text-md md:text-lg">
                   {currentTier && (
@@ -246,75 +241,81 @@ export default function PremiumsPage() {
                   {currentTier?.name} Plan
                 </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-6">
-                {/* Duration Selection */}
-                <div className="space-y-3">
-                  <Label className="text-sm font-medium">
-                    Coverage Details
+              <CardContent className="space-y-4">
+                {/* Address Input */}
+                <div>
+                  <Label className="text-sm font-medium mb-2">
+                    Cover Address
                   </Label>
-                  <div className="flex gap-3">
-                    {/* Coverage Duration */}
-                    <div className="w-1/2">
-                      <Select
-                        value={selectedDuration}
-                        onValueChange={setSelectedDuration}
-                      >
-                        <SelectTrigger className="cursor-pointer">
-                          <SelectValue placeholder="Select duration" />
-                        </SelectTrigger>
-                        <SelectContent className="bg-[var(--secondary)]">
-                          {currentTier?.durations.map((duration) => (
-                            <SelectItem
-                              key={duration}
-                              value={duration.toString()}
-                              className="cursor-pointer"
-                            >
-                              {duration} {duration === 1 ? "Month" : "Months"}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
-
-                    {/* Cover Address Input */}
-                    <div className="w-full">
-                      <input
-                        type="text"
-                        value={coverAddress}
-                        onChange={(e) => setCoverAddress(e.target.value)}
-                        placeholder="Cover address"
-                        className="w-full px-3 py-2 text-sm rounded-md bg-[var(--secondary)] border border-[var(--text)]"
-                      />
-                    </div>
-                  </div>
+                  <input
+                    type="text"
+                    value={coverAddress}
+                    onChange={(e) => setCoverAddress(e.target.value)}
+                    placeholder="0x441a78s..."
+                    className="w-full px-3 py-2 text-sm rounded-md bg-[var(--secondary)] border border-[var(--text)]"
+                  />
                 </div>
 
-                {/* Payment Method */}
-                <div className=" rounded-lg ">
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium">Payment Token</span>
-                    <div className="flex items-center gap-2">
-                      💵
-                      <span className="text-sm font-medium">USDC</span>
-                    </div>
+                {/* Value Cap Input */}
+                <div>
+                  <Label className="text-sm font-medium mb-2">
+                    Asset Value Cap (USDC)
+                  </Label>
+                  <input
+                    type="number"
+                    value={assetValue}
+                    onChange={(e) => setAssetValue(e.target.value)}
+                    placeholder="Enter amount"
+                    className="w-full px-3 py-2 text-sm rounded-md bg-[var(--secondary)] border border-[var(--text)]  appearance-none [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                  />
+                </div>
+
+                <Label className="text-sm font-medium ">
+                  Duration (months)
+                </Label>
+                {/* Enhanced Slider */}
+                <div className="relative py-4">
+                  <Slider
+                    value={[selectedDuration]}
+                    onValueChange={(val) => setSelectedDuration(val[0])}
+                    min={1}
+                    max={12}
+                    step={1}
+                    className="w-full cursor-pointer"
+                  />
+
+                  {/* Month markers */}
+                  <div className="flex justify-between mt-3 px-2">
+                    {[1, 3, 6, 9, 12].map((month) => (
+                      <div key={month} className="flex flex-col items-center">
+                        <div
+                          className={`w-1 h-2 rounded-full transition-colors ${
+                            selectedDuration >= month
+                              ? "bg-blue-500"
+                              : "bg-gray-300"
+                          }`}
+                        />
+                        <span className="text-xs text-gray-500 mt-1">
+                          {month}mo
+                        </span>
+                      </div>
+                    ))}
                   </div>
                 </div>
 
                 {/* Price Summary */}
-                <div className="space-y-3 pt-2 border-t">
-                  <div className="flex justify-between items-center text-sm">
-                    <span>Duration</span>
-                    <span>{selectedDuration} months</span>
+                {!currentTier?.custom && (
+                  <div className="space-y-3 pt-2 border-t">
+                    <div className="flex justify-between items-center text-sm">
+                      <span>Monthly Premium</span>
+                      <span>${monthlyRate.toFixed(2)}</span>
+                    </div>
+                    <div className="flex justify-between items-center text-md md:text-lg font-bold pt-2 border-t">
+                      <span>Total Premium</span>
+                      <span>${totalPrice} USDC</span>
+                    </div>
                   </div>
-                  <div className="flex justify-between items-center text-sm">
-                    <span>Monthly Rate</span>
-                    <span>${currentTier?.startingPrice}</span>
-                  </div>
-                  <div className="flex justify-between items-center text-md md:text-lg font-bold pt-2 border-t">
-                    <span>Total Premium</span>
-                    <span>${totalPrice} USDC</span>
-                  </div>
-                </div>
+                )}
 
                 {/* Purchase Button */}
                 <Button
@@ -329,21 +330,6 @@ export default function PremiumsPage() {
                       ? "Contact Sales"
                       : "Purchase Coverage"}
                 </Button>
-
-                {/* Coverage Summary */}
-                <div className="bg-[var(--secondary)] rounded-lg p-3">
-                  <h4 className="font-medium text-sm mb-2">
-                    Coverage Includes:
-                  </h4>
-                  <div className="space-y-1">
-                    {currentTier?.coverage.map((item, index) => (
-                      <div key={index} className="flex items-center text-xs">
-                        <Check className="w-3 h-3 text-green-500 mr-2 flex-shrink-0" />
-                        <span>{item}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
 
                 <p className="text-xs text-gray-500 text-center">
                   Policy activates after on-chain payment confirmation

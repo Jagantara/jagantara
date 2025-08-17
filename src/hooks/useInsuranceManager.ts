@@ -5,8 +5,6 @@ import { config } from "@/app/lib/connector/xellar";
 
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { parseTokenAmount } from "@/lib/calculations";
-import { Policy } from "@/types/stake";
 
 export const useInsuranceManager = () => {
   const { address } = useAccount();
@@ -29,6 +27,7 @@ export const useInsuranceManager = () => {
     },
   });
 
+  // 🧠 READ: user policy
   const {
     data: policy,
     isLoading: isPolicyLoading,
@@ -49,39 +48,43 @@ export const useInsuranceManager = () => {
     tier: number,
     duration: number,
     coveredAddress: string,
-    amount: string
+    amountToCover: string
   ): Promise<boolean> => {
-    if (!address || !tier || !duration || !coveredAddress) return false;
+    if (!address || !tier || !duration || !coveredAddress || !amountToCover) {
+      return false;
+    }
     setIsPaying(true);
-    const premiumPrice = await readContract(config, {
-      address: CONTRACTS.INSURANCE_MANAGER,
-      abi: INSURANCE_MANAGER_ABI,
-      functionName: "tierToPrice",
-      args: [tier],
-    });
-
-    const expectedPremium = BigInt(premiumPrice as string) * BigInt(duration);
-    console.log("EXPECTED PREMIUM: ", expectedPremium.toString());
 
     try {
-      const expectedPremium = Number(premiumPrice) * duration;
-      console.log("EXPECTED PREMIUM: ", expectedPremium);
-      // 1. Approve USDC
+      // 1. Ask contract how much premium is required
+      const premiumPerMonth = await readContract(config, {
+        address: CONTRACTS.INSURANCE_MANAGER,
+        abi: INSURANCE_MANAGER_ABI,
+        functionName: "getPriceFromAmountTier",
+        args: [BigInt(amountToCover), BigInt(tier)],
+      });
+
+      const totalPremium = BigInt(premiumPerMonth as bigint) * BigInt(duration);
+      console.log("TOTAL PREMIUM (wei):", totalPremium.toString());
+
+      // 2. Approve USDC
       const approveHash = await writeContractAsync({
         address: CONTRACTS.USDC,
         abi: ERC20_ABI,
         functionName: "approve",
-        args: [CONTRACTS.INSURANCE_MANAGER, expectedPremium],
+        args: [CONTRACTS.INSURANCE_MANAGER, totalPremium],
         account: address,
       });
       await waitForTransactionReceipt(config, { hash: approveHash });
+
       toast.loading("Paying insurance premium...", { id: "payPremium" });
 
+      // 3. Call payPremium
       const hash = await writeContractAsync({
         address: CONTRACTS.INSURANCE_MANAGER as `0x${string}`,
         abi: INSURANCE_MANAGER_ABI,
         functionName: "payPremium",
-        args: [tier, duration, coveredAddress],
+        args: [tier, duration, coveredAddress, BigInt(amountToCover)],
         account: address,
       });
 

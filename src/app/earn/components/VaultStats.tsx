@@ -91,7 +91,7 @@ export default function VaultStats() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
             <StatCard
               icon={
-                <DollarSign className="w-5 h-5" style={{ color: "#10B981" }} />
+                <DollarSign className="w-5 h-5" style={{ color: "#0000FF" }} />
               }
               title="Total Value Locked"
               value={
@@ -99,18 +99,18 @@ export default function VaultStats() {
                 " USDC"
               }
               subtitle="Real vault reserves"
-              color="#10B981"
+              color="#0000FF"
               // isLoading={isLoading}
             />
 
             <StatCard
               icon={
-                <Activity className="w-5 h-5" style={{ color: "#836EF9" }} />
+                <Activity className="w-5 h-5" style={{ color: "#0000FF" }} />
               }
               title="Next Session"
               value={`${formatNextSessionDate(timeLeft!)}`}
               subtitle="Next staking batch"
-              color="#836EF9"
+              color="#0000FF"
               // isLoading={isLoading}
             />
           </div>
@@ -119,24 +119,24 @@ export default function VaultStats() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <StatCard
               icon={
-                <TrendingUp className="w-5 h-5" style={{ color: "#A0055D" }} />
+                <TrendingUp className="w-5 h-5" style={{ color: "#0000FF" }} />
               }
               title="Total Staked"
               value={
                 Math.round(Number(totalSupply) / 1e6).toLocaleString() + " USDC"
               }
               subtitle="Total staked in Vault"
-              color="#A0055D"
+              color="#0000FF"
               // isLoading={isLoading}
             />
             <StatCard
               icon={
-                <Droplets className="w-5 h-5" style={{ color: "#F59E0B" }} />
+                <Droplets className="w-5 h-5" style={{ color: "#0000FF" }} />
               }
               title="APY"
               value={`12,4%`}
               subtitle="Based on company revenue"
-              color="#F59E0B"
+              color="#0000FF"
               // isLoading={isLoading}
             />
           </div>
@@ -195,7 +195,16 @@ export default function VaultStats() {
             <p className="text-[var(--text)]/50 text-xs font-medium uppercase tracking-wider">
               Collateral
             </p>
-            <p className="font-bold text-base sm:text-lg">💵USDC</p>
+            <p className="font-bold text-base sm:text-lg flex items-center">
+              <Image
+                src={"/usdc_logo.png"}
+                width={50}
+                height={50}
+                alt="usdc"
+                className="object-cover w-7 h-6"
+              />
+              USDC
+            </p>
           </div>
         </div>
       </div>

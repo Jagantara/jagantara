@@ -310,14 +310,21 @@ export default function CoverageInterface() {
                             <Label htmlFor="amount">Amount *</Label>
                             <div className="flex flex-row gap-1">
                               <div className="w-24 bg-[var(--third)]/40 border-none text-center flex items-center px-2 rounded-md md:text-md text-sm">
-                                💵USDC
+                                <Image
+                                  src={"/usdc_logo.png"}
+                                  width={50}
+                                  height={50}
+                                  alt="usdc"
+                                  className="object-cover w-7 h-6"
+                                />
+                                USDC
                               </div>
                               <Input
                                 id="amount"
                                 type="number"
                                 placeholder="How much you want to recover"
                                 value={formData.amount}
-                                className="w-full bg-[var(--third)]/40 border-none md:text-md text-sm"
+                                className="w-full bg-[var(--third)]/40 border-none md:text-md text-sm  appearance-none [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 onChange={(e) =>
                                   updateFormData("amount", e.target.value)
                                 }

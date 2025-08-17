@@ -10,6 +10,7 @@ import {
 } from "@/lib/utils";
 import { Token } from "@/types/stake";
 import { ArrowDown, TrendingUp } from "lucide-react";
+import Image from "next/image";
 import { useState } from "react";
 
 export default function DepositInterface() {
@@ -99,7 +100,14 @@ export default function DepositInterface() {
                       borderColor: "rgba(131, 110, 249, 0.3)",
                     }}
                   >
-                    <span className=" text-sm md:text-lg">💵</span>
+                    {/* <span className=" text-sm md:text-lg">💵</span> */}
+                    <Image
+                      src={"/usdc_logo.png"}
+                      width={50}
+                      height={50}
+                      alt="usdc"
+                      className="object-cover w-7 h-6"
+                    />
                     <span className="font-normal text-sm ">USDC</span>
                   </div>
                 </div>
@@ -119,10 +127,18 @@ export default function DepositInterface() {
               <span className="text-xs sm:text-sm opacity-70">JAGA</span>
               <span className="text-xs sm:text-sm truncate ml-2 opacity-70">
                 Balance:{" "}
-                {formatTokenAmount(
-                  tokenOutBalance.balance,
-                  tokenOut.symbol as keyof typeof TOKENS
-                )}
+                {(() => {
+                  const raw = formatTokenAmount(
+                    tokenOutBalance.balance,
+                    tokenOut.symbol as keyof typeof TOKENS
+                  );
+
+                  // Remove commas and strip token symbol
+                  const numericPart = raw.replace(/,/g, "").split(" ")[0];
+
+                  const num = Number(numericPart);
+                  return isNaN(num) ? "0" : Math.floor(num).toLocaleString();
+                })()}
               </span>
             </div>
             <div className="flex items-center gap-2 sm:gap-3">
@@ -136,7 +152,7 @@ export default function DepositInterface() {
                   borderColor: "rgba(131, 110, 249, 0.3)",
                 }}
               >
-                <span className="text-md sm:text-lg">🛡️</span>
+                <span className="text-md sm:text-lg w-7">🛡️</span>
                 <span className="font-normal text-sm ">JAGA</span>
               </div>
             </div>

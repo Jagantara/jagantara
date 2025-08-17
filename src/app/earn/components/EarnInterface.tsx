@@ -8,6 +8,7 @@ import {
 } from "@/lib/utils";
 import { Token } from "@/types/stake";
 import { ArrowDown, Droplet, Info, TrendingUp, Zap } from "lucide-react";
+import Image from "next/image";
 import { useState } from "react";
 
 export default function EarnInterface() {
@@ -42,11 +43,10 @@ export default function EarnInterface() {
     try {
       const success = await claim();
       if (success) {
-        alert(`Successfully claimed $${rewardAmount.toFixed(2)} USDC`);
+        refetchCurrentStake();
       }
     } catch (error) {
       console.error("Claim error:", error);
-      alert("Claim failed. Please try again.");
     } finally {
       setIsClaiming(false);
     }
@@ -111,7 +111,18 @@ export default function EarnInterface() {
                 <div className="flex justify-between items-center mb-2">
                   <span className="text-xs sm:text-sm opacity-70">USDC</span>
                   <span className="text-xs sm:text-sm truncate ml-2 opacity-70">
-                    Available: {formatTokenAmount(pendingReward, "USDC")}
+                    Available:{" "}
+                    {(() => {
+                      const raw = formatTokenAmount(pendingReward, "USDC");
+
+                      // Remove commas and strip token symbol
+                      const numericPart = raw.replace(/,/g, "").split(" ")[0];
+
+                      const num = Number(numericPart);
+                      return isNaN(num)
+                        ? "0"
+                        : Math.floor(num).toLocaleString();
+                    })()}
                   </span>
                 </div>
                 <div className="flex items-center gap-2 sm:gap-3">
@@ -125,7 +136,13 @@ export default function EarnInterface() {
                       borderColor: "rgba(131, 110, 249, 0.3)",
                     }}
                   >
-                    <span className="text-base sm:text-lg">💵</span>
+                    <Image
+                      src={"/usdc_logo.png"}
+                      width={50}
+                      height={50}
+                      alt="usdc"
+                      className="object-cover w-7 h-6"
+                    />
                     <span className="font-normal text-sm ">USDC</span>
                   </div>
                 </div>
@@ -214,7 +231,18 @@ export default function EarnInterface() {
                   <div className="flex justify-between items-center mb-2">
                     <span className="text-xs sm:text-sm opacity-70">USDC</span>
                     <span className="text-xs sm:text-sm truncate ml-2 opacity-70">
-                      Available: {formatTokenAmount(currentStake, "USDC")}
+                      Available:{" "}
+                      {(() => {
+                        const raw = formatTokenAmount(currentStake, "USDC");
+
+                        // Remove commas and strip token symbol
+                        const numericPart = raw.replace(/,/g, "").split(" ")[0];
+
+                        const num = Number(numericPart);
+                        return isNaN(num)
+                          ? "0"
+                          : Math.floor(num).toLocaleString();
+                      })()}
                     </span>
                   </div>
                   <div className="flex items-center gap-1 md:gap-3 ">
@@ -239,7 +267,13 @@ export default function EarnInterface() {
                           borderColor: "rgba(131, 110, 249, 0.3)",
                         }}
                       >
-                        <span className="text-sm sm:text-lg">💵</span>
+                        <Image
+                          src={"/usdc_logo.png"}
+                          width={50}
+                          height={50}
+                          alt="usdc"
+                          className="object-cover w-7 h-6"
+                        />
                         <span className="font-normal text-xs md:text-sm ">
                           USDC
                         </span>

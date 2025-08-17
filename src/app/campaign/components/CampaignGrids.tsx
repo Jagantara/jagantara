@@ -116,7 +116,7 @@ const items = [
       "A leading Web3 launchpad and incubator empowering blockchain gaming, metaverse, and NFT projects to thrive.",
     header: (
       <Image
-        src={"/campaign_logos/seedify_logo.png"}
+        src={"/campaign_logos/lisk_logo.webp"}
         width={600}
         height={250}
         className="bg-neutral-200 dark:bg-neutral-800 h-32 rounded-xl"
@@ -212,7 +212,7 @@ const items = [
       "A high-performance Layer 1 blockchain optimized for parallel execution and scalability in decentralized applications.",
     header: (
       <Image
-        src={"/campaign_logos/monad_logo.png"}
+        src={"/campaign_logos/seedify_logo.png"}
         width={600}
         height={250}
         className="bg-neutral-200 dark:bg-neutral-800 h-32 rounded-xl"

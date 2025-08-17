@@ -265,7 +265,16 @@ export default function Component() {
                     <p className="text-[var(--text)]/50 text-xs font-medium uppercase tracking-wider">
                       Collateral
                     </p>
-                    <p className="font-bold text-base sm:text-lg">💵USDC</p>
+                    <p className="font-bold text-base sm:text-lg flex items-center">
+                      <Image
+                        src={"/usdc_logo.png"}
+                        width={50}
+                        height={50}
+                        alt="usdc"
+                        className="object-cover w-7 h-6"
+                      />
+                      USDC
+                    </p>
                   </div>
                 </div>
               </div>
