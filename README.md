@@ -3,11 +3,28 @@
 </p>
 
 <h1 align="center">Jagantara</h1>
+Jagantara offers an on-chain insurance system that allows users to submit, verify, and process claims through a transparent DAO-governed mechanism,all powered by smart contracts. Jagantara provides a modular, intelligent, and user-friendly interface that makes blockchain functionality more accessible, secure, and automated.
 
-**Jagantara** is a decentralized application (dApp) platform built with **Next.js**, **TypeScript**, and **Tailwind CSS**, offering a seamless interface to interact with smart contracts, governance systems, and DeFi protocols. Designed with extensibility in mind, Jagantara integrates the **Model Context Protocol (MCP)** to enable intelligent automation, AI assistants, and modular tool execution.
+Jagantara’s decentralized insurance offers a faster, cheaper, and more transparent alternative to traditional insurance. Unlike centralized providers that rely on opaque processes and slow manual reviews. Built with **Next.js**, **TypeScript**, and **Tailwind CSS**, offering a seamless interface to interact with smart contracts, governance systems, and DeFi protocols. Designed with extensibility in mind, Jagantara integrates the **Model Context Protocol (MCP)** to enable intelligent automation, AI assistants, and modular tool execution.
 
 Jagantara incorporates **Morpho** to hedge against inflation and adopts a **Synthetix-inspired staking model** that offers flexible, user-controlled staking and unstaking.
 
+🧩 What Problem Does Jagantara Solve?
+Jagantara tackles key issues in both DeFi and traditional insurance:
+
+Complexity: Both systems are hard to use and understand, especially for newcomers.
+
+Fragmentation: Users rely on multiple disconnected tools for staking, governance, insurance, and asset management.
+
+Manual Processes: Claims, onboarding, and other tasks are slow and inefficient.
+
+Inflation Risk: Capital sits idle or loses value over time without protection.
+
+Lack of AI Support: Most platforms offer no smart assistance or automation.
+
+Opaque Claims: Traditional insurance lacks transparency and trust in claim decisions.
+
+Jagantara solves all of this in one integrated, AI-powered platform that makes DeFi and protection smarter, faster, and more user-friendly.
 ---
 
 ## 🚀 Features
@@ -47,6 +64,33 @@ Jagantara incorporates **Morpho** to hedge against inflation and adopts a **Synt
 | **Blockchain** | Foundry, Solidity, Ponder, Ethers.js    |
 | **Automation** | Model Context Protocol (MCP), Gemini AI |
 | **Wallets**    | Wagmi, Xellar                           |
+
+---
+Jagantara Contract on Lisk Sepolia:
+
+- USDC 
+https://sepolia-blockscout.lisk.com/token/0xA2D17a5CAEbEC48a32fF945aAF5471Eb9b989345?tab=contract
+
+- JagaToken
+https://sepolia-blockscout.lisk.com/token/0x529bB304E550E21938c20D1E27EAa4EE0dB549E6?tab=contract
+
+- Insurance Manager
+https://sepolia-blockscout.lisk.com/address/0x3A70a20d10381447B5c1DaB62fDcE23Df9079A8E?tab=contract
+
+- Jaga Stake
+https://sepolia-blockscout.lisk.com/address/0x65165BFb8162744E1C5251c1deB196bB270fE1eE?tab=contract
+
+- Morpho
+https://sepolia-blockscout.lisk.com/address/0xFDe181Ca94A77c3C0Bdf225963725a8E4680ADcF?tab=contract
+
+- Claim Manager
+https://sepolia-blockscout.lisk.com/address/0x72aE49071e641e38350EFbE4511C70C119E48875?tab=contract
+
+- DAO Governance
+https://sepolia-blockscout.lisk.com/address/0x43C67E463C7a9aF76c52194A095E69c35edEaAeA?tab=contract
+
+- Morpho Re-invest
+https://sepolia-blockscout.lisk.com/address/0xb09e395a600eA5848f9aE593538F2C584aE23773?tab=contract
 
 ---
 
