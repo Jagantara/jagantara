@@ -67,8 +67,8 @@ export const ChatInterface: React.FC = () => {
                 Welcome to Jagantara AI Assistant
               </h3>
               <p className="text-[var(--text)]/70 mb-6">
-                I can help you with web3 insurance quotes, smart contract
-                analysis, and claim processing.
+                I can help you with web3 insurance quotes and smart contract
+                analysis.
               </p>
               <div className="flex flex-wrap gap-2 justify-center">
                 {quickActions.map((action, index) => (

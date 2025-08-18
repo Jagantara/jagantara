@@ -3,31 +3,12 @@
 import CountUp from "@/components/countup";
 import Orb from "@/components/orb";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent,
-} from "@/components/ui/card";
-import {
-  ArrowRight,
-  ArrowUpRight,
-  Badge,
-  CheckCircle,
-  Shield,
-  Wallet,
-} from "lucide-react";
+import { ArrowUpRight, CheckCircle, Wallet } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useAccount, useConnect, useDisconnect } from "wagmi";
 import SplitText from "@/components/split-text";
 import FadeContent from "@/components/fade-content";
-import AnimatedContent from "@/components/animated-content";
 import Image from "next/image";
-import { StickyScrollFileClaim } from "./components/sticky-scroll-file";
 import FAQLanding from "./components/FAQLanding";
-import { animatePageOut } from "@/lib/transition";
-import { FaWallet } from "react-icons/fa6";
 import { useClaimManager } from "@/hooks/useClaimManager";
 import InfiniteLogoLoop from "./components/InfiniteLogoLoop.tsx";
 import PricingCard from "./components/PricingCard";

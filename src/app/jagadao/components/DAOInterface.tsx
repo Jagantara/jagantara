@@ -201,10 +201,10 @@ export default function DAOInterface() {
           <div className="mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <Tabs defaultValue="active" className="space-y-6">
               <div className="flex justify-between items-center md:flex-row flex-col">
-                <TabsList className="grid w-full max-w-md grid-cols-3 border-slate-500">
+                <TabsList className="grid w-full max-w-md grid-cols-2 border-slate-500">
                   <TabsTrigger value="active">Active</TabsTrigger>
                   <TabsTrigger value="completed">Completed</TabsTrigger>
-                  <TabsTrigger value="analytics">Analytics</TabsTrigger>
+                  {/* <TabsTrigger value="analytics">Analytics</TabsTrigger> */}
                 </TabsList>
 
                 <div className="flex items-center space-x-4 text-sm md:mt-0 mt-4">
@@ -597,7 +597,7 @@ export default function DAOInterface() {
                 {proposals.filter((p) => p.status !== "active").length === 0 ? (
                   <div className="text-center mt-32 ">
                     <div className="text-6xl mb-4">📊</div>
-                    <h3 className="text-lg sm:text-xl font-semibold mb-2 text-white">
+                    <h3 className="text-lg sm:text-xl font-semibold mb-2 text-[var(--text)]">
                       No Completed Proposal found
                     </h3>
                   </div>

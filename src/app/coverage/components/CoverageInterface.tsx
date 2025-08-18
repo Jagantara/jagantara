@@ -33,6 +33,10 @@ import {
   Hash,
   Clock,
   Send,
+  Check,
+  Star,
+  Crown,
+  Building2,
 } from "lucide-react";
 import { useAccount } from "wagmi";
 import ConnectWallet from "@/app/components/ConnectWallet";
@@ -85,26 +89,25 @@ export default function CoverageInterface() {
     { value: "Tier-3", label: "Jaga Max" },
     { value: "Tier-4", label: "Jaga Enterprise" },
   ];
+  const iconMap: Record<string, React.ElementType> = {
+    "Jaga Lite": Shield,
+    "Jaga Shield": Star,
+    "Jaga Max": Crown,
+    "Jaga Enterprise": Building2,
+  };
 
   const claimTypesByTier = {
-    "Tier-1": ["Basic Smart Contract Failure", "Custody Risk"],
+    "Tier-1": ["Failed Token Swaps", "Phishing Scam Reimbursement"],
     "Tier-2": [
-      "Major Smart Contract Failure",
-      "Basic DAO Liability",
-      "NFT Theft",
-      "Custody Risk",
+      "All Lite coverage",
+      "NFT Theft Coverage",
+      "Wallet Recovery Assistance",
     ],
-    "Tier-3": [
-      "Advanced DAO Liability",
-      "DeFi Hacks",
-      "Optional Audit Review",
-      "All Shield coverage",
-    ],
+    "Tier-3": ["All Shield coverage", "Rug Pull Protection"],
     "Tier-4": [
-      "Multi-wallet & Cross-chain",
-      "Custom treasury options",
-      "SLA-backed claims",
       "All Max coverage",
+      "Exchange / Custodial Insolvency",
+      "Major Smart Contract Failures",
     ],
   };
 
@@ -212,7 +215,12 @@ export default function CoverageInterface() {
                           claim. This data will be stored on-chain and voted on
                           by DAO members.
                         </p>
-                        <p className="text-right sm:text-left font-medium">
+                        <p className="text-right sm:text-left font-medium flex items-center gap-2">
+                          {formData.tier &&
+                            (() => {
+                              const Icon = iconMap[formData.tier];
+                              return <Icon className="w-4 h-4 text-blue-500" />;
+                            })()}
                           {formData.tier} - {policy[1].toString()} Months
                         </p>
                       </CardDescription>
@@ -315,7 +323,7 @@ export default function CoverageInterface() {
                                   width={50}
                                   height={50}
                                   alt="usdc"
-                                  className="object-cover w-7 h-6"
+                                  className="object-cover w-6 h-6"
                                 />
                                 USDC
                               </div>

@@ -111,9 +111,9 @@ const items = [
     ),
   },
   {
-    title: "Seedify Launchpad",
+    title: "Lisk Spark",
     description:
-      "A leading Web3 launchpad and incubator empowering blockchain gaming, metaverse, and NFT projects to thrive.",
+      "A Web3 launchpad and incubator leveraging Lisk’s fast, accessible, and developer-friendly blockchain to empower gaming, metaverse, and NFT projects.",
     header: (
       <Image
         src={"/campaign_logos/lisk_logo.webp"}
@@ -207,25 +207,25 @@ const items = [
     ),
   },
   {
-    title: "Monad",
+    title: "Seedify Launchpad",
     description:
-      "A high-performance Layer 1 blockchain optimized for parallel execution and scalability in decentralized applications.",
+      "A leading Web3 launchpad and incubator empowering blockchain gaming, metaverse, and NFT projects to thrive.",
     header: (
       <Image
         src={"/campaign_logos/seedify_logo.png"}
         width={600}
         height={250}
         className="bg-neutral-200 dark:bg-neutral-800 h-32 rounded-xl"
-        alt="Monad Logo"
+        alt="Seedify Logo"
       />
     ),
     icon: (
       <div className="flex gap-1 flex-wrap">
         <Badge className="bg-[image:var(--gradient-accent-soft)]">
-          20+ Projects Building
+          70+ Projects Backed
         </Badge>
         <Badge className="bg-[image:var(--gradient-accent-soft)]">
-          $225M+ Raised
+          $50M+ Raised
         </Badge>
       </div>
     ),
