@@ -1,4 +1,4 @@
-import { TOKENS } from "@/constants/abi";
+import { getContracts, getTokens, TOKENS } from "@/constants/abi";
 import { useStake } from "@/hooks/useJagaStake";
 import { useTokenBalance } from "@/hooks/useTokenBalance";
 import { formatTokenAmount } from "@/lib/formatters";
@@ -12,20 +12,21 @@ import { Token } from "@/types/stake";
 import { ArrowDown, TrendingUp } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
+import { useChainId } from "wagmi";
 
 export default function DepositInterface() {
   const { stake, isStaking, timeLeft } = useStake();
   const [amountIn, setAmountIn] = useState<string>("");
-  const [tokenIn, setTokenIn] = useState<Token>(TOKENS.USDC);
-  const [tokenOut, setTokenOut] = useState<Token>(TOKENS.JAGA);
+  const chainId = useChainId();
+  const contracts = getContracts(chainId);
+  const tokens = getTokens(chainId);
+  const [tokenIn, setTokenIn] = useState<Token>(tokens.USDC);
+  const [tokenOut, setTokenOut] = useState<Token>(tokens.JAGA);
   const amountOut = amountIn || "0.0";
   const tokenInBalance = useTokenBalance(tokenIn);
   const tokenOutBalance = useTokenBalance(tokenOut);
   const isInsufficientBalance = () => {
-    const formatted = formatTokenAmount(
-      tokenInBalance.balance,
-      tokenIn.symbol as keyof typeof TOKENS // ✅ use tokenIn here
-    );
+    const formatted = formatTokenAmount(tokenInBalance.balance, tokenIn);
 
     const balance = parseFloat(formatted.replace(/,/g, "")); // ✅ strip commas just in case
     return parseFloat(amountIn || "0") > balance;
@@ -66,7 +67,7 @@ export default function DepositInterface() {
                   {(() => {
                     const raw = formatTokenAmount(
                       tokenInBalance.balance,
-                      tokenIn.symbol as keyof typeof TOKENS
+                      tokenIn
                     );
 
                     // Remove commas and strip token symbol
@@ -130,7 +131,7 @@ export default function DepositInterface() {
                 {(() => {
                   const raw = formatTokenAmount(
                     tokenOutBalance.balance,
-                    tokenOut.symbol as keyof typeof TOKENS
+                    tokenOut
                   );
 
                   // Remove commas and strip token symbol

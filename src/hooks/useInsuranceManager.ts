@@ -1,5 +1,15 @@
-import { useAccount, useReadContract, useWriteContract } from "wagmi";
-import { CONTRACTS, ERC20_ABI, INSURANCE_MANAGER_ABI } from "@/constants/abi";
+import {
+  useAccount,
+  useChainId,
+  useReadContract,
+  useWriteContract,
+} from "wagmi";
+import {
+  CONTRACTS,
+  ERC20_ABI,
+  getContracts,
+  INSURANCE_MANAGER_ABI,
+} from "@/constants/abi";
 import { readContract, waitForTransactionReceipt } from "@wagmi/core";
 import { config } from "@/app/lib/connector/xellar";
 
@@ -10,14 +20,15 @@ export const useInsuranceManager = () => {
   const { address } = useAccount();
   const { writeContractAsync } = useWriteContract();
   const [isPaying, setIsPaying] = useState(false);
-
+  const chainId = useChainId();
+  const contracts = getContracts(chainId);
   // 🧠 READ: isActive status
   const {
     data: isActive,
     isLoading: isActiveLoading,
     refetch: refetchIsActive,
   } = useReadContract({
-    address: CONTRACTS.INSURANCE_MANAGER as `0x${string}`,
+    address: contracts.INSURANCE_MANAGER as `0x${string}`,
     abi: INSURANCE_MANAGER_ABI,
     functionName: "isActive",
     args: address ? [address] : undefined,
@@ -33,7 +44,7 @@ export const useInsuranceManager = () => {
     isLoading: isPolicyLoading,
     refetch: refetchPolicy,
   } = useReadContract({
-    address: CONTRACTS.INSURANCE_MANAGER as `0x${string}`,
+    address: contracts.INSURANCE_MANAGER as `0x${string}`,
     abi: INSURANCE_MANAGER_ABI,
     functionName: "policies",
     args: address ? [address] : undefined,
@@ -58,7 +69,7 @@ export const useInsuranceManager = () => {
     try {
       // 1. Ask contract how much premium is required
       const premiumPerMonth = await readContract(config, {
-        address: CONTRACTS.INSURANCE_MANAGER,
+        address: contracts.INSURANCE_MANAGER,
         abi: INSURANCE_MANAGER_ABI,
         functionName: "getPriceFromAmountTier",
         args: [BigInt(amountToCover), BigInt(tier)],
@@ -69,10 +80,10 @@ export const useInsuranceManager = () => {
 
       // 2. Approve USDC
       const approveHash = await writeContractAsync({
-        address: CONTRACTS.USDC,
+        address: contracts.USDC,
         abi: ERC20_ABI,
         functionName: "approve",
-        args: [CONTRACTS.INSURANCE_MANAGER, totalPremium],
+        args: [contracts.INSURANCE_MANAGER, totalPremium],
         account: address,
       });
       await waitForTransactionReceipt(config, { hash: approveHash });
@@ -81,7 +92,7 @@ export const useInsuranceManager = () => {
 
       // 3. Call payPremium
       const hash = await writeContractAsync({
-        address: CONTRACTS.INSURANCE_MANAGER as `0x${string}`,
+        address: contracts.INSURANCE_MANAGER as `0x${string}`,
         abi: INSURANCE_MANAGER_ABI,
         functionName: "payPremium",
         args: [tier, duration, coveredAddress, BigInt(amountToCover)],

@@ -270,10 +270,10 @@ export default function HoverMenuEarn() {
               <div className="mb-2 flex justify-center">
                 {theme === "dark" ? (
                   <Image
-                    src="/lisk_white.png"
+                    src="/eth_logo2.png"
                     alt="lisk"
-                    width={75}
-                    height={75}
+                    width={40}
+                    height={40}
                   />
                 ) : (
                   <Image
@@ -285,9 +285,9 @@ export default function HoverMenuEarn() {
                 )}
               </div>
               <div className="text-xs md:text-sm font-semibold ">Network</div>
-              <div className="text-lg md:text-2xl font-bold ">Lisk</div>
+              <div className="text-lg md:text-2xl font-bold ">EVM</div>
               <div className="text-xs md:text-sm text-[var(--text)]/70">
-                Testnet
+                Superchain Ecosystem
               </div>
             </div>
           </div>

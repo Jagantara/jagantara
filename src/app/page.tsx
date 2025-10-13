@@ -30,7 +30,7 @@ function App() {
                 <div className="space-y-2">
                   <div className="">
                     <SplitText
-                      text="Decentralized Protection "
+                      text="Decentralized Protection"
                       className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none "
                       delay={20}
                       duration={0.6}
@@ -75,7 +75,7 @@ function App() {
                   </div>
 
                   <p
-                    className="max-w-[600px] md:text-xl font-light"
+                    className="max-w-[500px] md:text-xl font-light"
                     style={{
                       color: "var(--text)",
                       opacity: 0.8,

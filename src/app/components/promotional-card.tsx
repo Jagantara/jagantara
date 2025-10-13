@@ -20,39 +20,39 @@ export default function PromotionalCards() {
           {/* Icon */}
           <div className="relative flex gap-2 items-center">
             <Image
-              src={logoSrc} // Replace with your actual logo file
-              alt="Lisk"
-              width={theme === "dark" ? 35 : 35}
-              height={theme === "dark" ? 35 : 35}
+              src={"/eth_logo2.png"} // Replace with your actual logo file
+              alt="ETH"
+              width={30}
+              height={30}
               className=""
             />
-            <p className="font-semibold text-lg">Lisk Network</p>
+            <p className="font-semibold text-lg">Superchain Ecosystem</p>
           </div>
 
           {/* Content */}
           <div className="space-y-4">
             <div>
               <h3 className="text-xl md:text-2xl font-bold mb-2">
-                Powered by Lisk
+                Supercharged Scaling
               </h3>
               <p className="text-[var(--text)]/80 text-sm leading-relaxed">
-                Built on the scalable and secure Lisk blockchain. Leverage fast
-                finality, low fees, and Lisk’s developer-friendly SDK to build
-                seamless DeFi experiences.
+                Built on the Optimism Superchain, a unified ecosystem of rollups
+                sharing the same open-source OP Stack. Enjoy low fees, seamless
+                interoperability, and fast finality.
               </p>
             </div>
 
             {/* Stats */}
             <div className="flex items-center gap-4 pt-2">
               <div className="flex items-center gap-2">
-                <Zap className="w-4 h-4 text-yellow-500" />
+                <Zap className="w-4 h-4 text-red-600" />
                 <span className=" font-semibold md:text-sm text-xs">
-                  Blazing Speed
+                  OP Stack Powered
                 </span>
               </div>
               <div className="h-4 w-px bg-[var(--text)]" />
               <span className="text-[var(--text)]/70 md:text-sm text-xs">
-                dApp Ready
+                Interoperable Layer 2
               </span>
             </div>
           </div>

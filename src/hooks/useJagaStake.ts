@@ -1,15 +1,26 @@
-import { useAccount, useWriteContract, useReadContract } from "wagmi";
+import {
+  useAccount,
+  useWriteContract,
+  useReadContract,
+  useChainId,
+} from "wagmi";
 import { useState } from "react";
 import { waitForTransactionReceipt } from "@wagmi/core";
 import toast from "react-hot-toast";
-import { CONTRACTS, ERC20_ABI, JAGA_STAKE_ABI } from "@/constants/abi";
+import {
+  CONTRACTS,
+  ERC20_ABI,
+  getContracts,
+  JAGA_STAKE_ABI,
+} from "@/constants/abi";
 import { config } from "@/app/lib/connector/xellar";
 import { parseTokenAmount } from "@/lib/calculations";
 
 export const useStake = () => {
   const { address } = useAccount();
   const { writeContractAsync } = useWriteContract();
-
+  const chainId = useChainId();
+  const contracts = getContracts(chainId);
   const [isStaking, setIsStaking] = useState(false);
   const [isUnstaking, setIsUnstaking] = useState(false);
   const [isClaiming, setIsClaiming] = useState(false);
@@ -20,7 +31,7 @@ export const useStake = () => {
     isLoading: isStakeLoading,
     refetch: refetchCurrentStake,
   } = useReadContract({
-    address: CONTRACTS.JAGA_STAKE,
+    address: contracts.JAGA_STAKE,
     abi: JAGA_STAKE_ABI,
     functionName: "balanceOf",
     args: address ? [address] : undefined,
@@ -36,7 +47,7 @@ export const useStake = () => {
     isLoading: isTotalSupplyLoading,
     refetch: refetchTotalSupply,
   } = useReadContract({
-    address: CONTRACTS.JAGA_STAKE,
+    address: contracts.JAGA_STAKE,
     abi: JAGA_STAKE_ABI,
     functionName: "totalSupply",
     query: {
@@ -51,7 +62,7 @@ export const useStake = () => {
     isLoading: isPendingLoading,
     refetch: refetchPendingReward,
   } = useReadContract({
-    address: CONTRACTS.JAGA_STAKE,
+    address: contracts.JAGA_STAKE,
     abi: JAGA_STAKE_ABI,
     functionName: "earned",
     args: address ? [address] : undefined,
@@ -67,7 +78,7 @@ export const useStake = () => {
     isLoading: isTimeLeftLoading,
     refetch: refetchTimeLeft,
   } = useReadContract({
-    address: CONTRACTS.JAGA_STAKE,
+    address: contracts.JAGA_STAKE,
     abi: JAGA_STAKE_ABI,
     functionName: "timeLeft",
     query: {
@@ -86,10 +97,10 @@ export const useStake = () => {
 
       // 1. Approve USDC
       const approveHash = await writeContractAsync({
-        address: CONTRACTS.USDC,
+        address: contracts.USDC,
         abi: ERC20_ABI,
         functionName: "approve",
-        args: [CONTRACTS.JAGA_STAKE, parsedAmount],
+        args: [contracts.JAGA_STAKE, parsedAmount],
         account: address,
       });
       toast.loading("Approving USDC...", { id: "stake" });
@@ -98,7 +109,7 @@ export const useStake = () => {
       // 2. Stake
       toast.loading("Staking...", { id: "stake" });
       const stakeHash = await writeContractAsync({
-        address: CONTRACTS.JAGA_STAKE,
+        address: contracts.JAGA_STAKE,
         abi: JAGA_STAKE_ABI,
         functionName: "stake",
         args: [parsedAmount],
@@ -131,7 +142,7 @@ export const useStake = () => {
 
       toast.loading("Unstaking...", { id: "unstake" });
       const hash = await writeContractAsync({
-        address: CONTRACTS.JAGA_STAKE,
+        address: contracts.JAGA_STAKE,
         abi: JAGA_STAKE_ABI,
         functionName: "unstake",
         args: [parsedAmount],
@@ -162,7 +173,7 @@ export const useStake = () => {
     try {
       toast.loading("Claiming rewards...", { id: "claim" });
       const hash = await writeContractAsync({
-        address: CONTRACTS.JAGA_STAKE,
+        address: contracts.JAGA_STAKE,
         abi: JAGA_STAKE_ABI,
         functionName: "claim",
         args: [],

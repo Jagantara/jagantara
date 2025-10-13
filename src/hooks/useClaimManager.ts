@@ -1,10 +1,16 @@
-import { useAccount, useWriteContract, useReadContract } from "wagmi";
+import {
+  useAccount,
+  useWriteContract,
+  useReadContract,
+  useChainId,
+} from "wagmi";
 import { useState } from "react";
 import { waitForTransactionReceipt } from "@wagmi/core";
 import {
   CONTRACTS,
   CLAIM_MANAGER_ABI,
   DAO_GOVERNANCE_ABI,
+  getContracts,
 } from "@/constants/abi";
 import toast from "react-hot-toast";
 import { config } from "@/app/lib/connector/xellar";
@@ -13,7 +19,8 @@ import { formatTokenAmount } from "@/lib/calculations";
 export const useClaimManager = () => {
   const { address } = useAccount();
   const { writeContractAsync } = useWriteContract();
-
+  const chainId = useChainId();
+  const contracts = getContracts(chainId);
   // Loading states
   const [isClaimingPayout, setIsClaimingPayout] = useState(false);
   const [isSettingConfig, setIsSettingConfig] = useState(false);
@@ -24,7 +31,7 @@ export const useClaimManager = () => {
     isLoading: isVaultBalanceLoading,
     refetch: refetchVaultBalance,
   } = useReadContract({
-    address: CONTRACTS.CLAIM_MANAGER as `0x${string}`,
+    address: contracts.CLAIM_MANAGER as `0x${string}`,
     abi: CLAIM_MANAGER_ABI,
     functionName: "vaultBalance",
     query: {
@@ -39,7 +46,7 @@ export const useClaimManager = () => {
     isLoading: isOwnerLoading,
     refetch: refetchOwner,
   } = useReadContract({
-    address: CONTRACTS.CLAIM_MANAGER as `0x${string}`,
+    address: contracts.CLAIM_MANAGER as `0x${string}`,
     abi: CLAIM_MANAGER_ABI,
     functionName: "owner",
     query: {
@@ -53,7 +60,7 @@ export const useClaimManager = () => {
     isLoading: isDaoGovernanceLoading,
     refetch: refetchDaoGovernance,
   } = useReadContract({
-    address: CONTRACTS.CLAIM_MANAGER as `0x${string}`,
+    address: contracts.CLAIM_MANAGER as `0x${string}`,
     abi: CLAIM_MANAGER_ABI,
     functionName: "daoGovernance",
     query: {
@@ -67,7 +74,7 @@ export const useClaimManager = () => {
     isLoading: isJagaStakeLoading,
     refetch: refetchJagaStake,
   } = useReadContract({
-    address: CONTRACTS.CLAIM_MANAGER as `0x${string}`,
+    address: contracts.CLAIM_MANAGER as `0x${string}`,
     abi: CLAIM_MANAGER_ABI,
     functionName: "jagaStake",
     query: {
@@ -81,7 +88,7 @@ export const useClaimManager = () => {
     isLoading: isUsdcLoading,
     refetch: refetchUsdc,
   } = useReadContract({
-    address: CONTRACTS.CLAIM_MANAGER as `0x${string}`,
+    address: contracts.CLAIM_MANAGER as `0x${string}`,
     abi: CLAIM_MANAGER_ABI,
     functionName: "usdc",
     query: {
@@ -92,7 +99,7 @@ export const useClaimManager = () => {
   // 🧠 READ: check if claim is executed
   const getClaimExecuted = (claimId: number) => {
     return useReadContract({
-      address: CONTRACTS.CLAIM_MANAGER as `0x${string}`,
+      address: contracts.CLAIM_MANAGER as `0x${string}`,
       abi: CLAIM_MANAGER_ABI,
       functionName: "claimExecuted",
       args: [BigInt(claimId)],
@@ -137,7 +144,7 @@ export const useClaimManager = () => {
       toast.loading("Processing claim payout...", { id: "claimPayout" });
 
       const hash = await writeContractAsync({
-        address: CONTRACTS.CLAIM_MANAGER as `0x${string}`,
+        address: contracts.CLAIM_MANAGER as `0x${string}`,
         abi: CLAIM_MANAGER_ABI,
         functionName: "claimPayout",
         args: [BigInt(claimId)],
@@ -175,7 +182,7 @@ export const useClaimManager = () => {
     try {
       toast.loading("Setting configuration...", { id: "setConfig" });
       const hash = await writeContractAsync({
-        address: CONTRACTS.CLAIM_MANAGER as `0x${string}`,
+        address: contracts.CLAIM_MANAGER as `0x${string}`,
         abi: CLAIM_MANAGER_ABI,
         functionName: "setConfig",
         args: [

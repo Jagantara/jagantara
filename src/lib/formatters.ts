@@ -30,16 +30,12 @@ export const formatNumber = (
  */
 export const formatTokenAmount = (
   amount: bigint | string,
-  tokenSymbol: keyof typeof TOKENS,
-  decimals?: number
+  token: { decimals: number; symbol: string }
 ): string => {
-  const token = TOKENS[tokenSymbol];
-  const tokenDecimals = decimals || token.decimals;
-
   const value =
     typeof amount === "string"
       ? parseFloat(amount)
-      : Number(amount) / Math.pow(10, tokenDecimals);
+      : Number(amount) / Math.pow(10, token.decimals);
 
   return `${formatNumber(value, 4)} ${token.symbol}`;
 };

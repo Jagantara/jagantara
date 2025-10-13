@@ -1,8 +1,13 @@
-import { useAccount, useReadContract, useWriteContract } from "wagmi";
+import {
+  useAccount,
+  useChainId,
+  useReadContract,
+  useWriteContract,
+} from "wagmi";
 import { readContract, waitForTransactionReceipt } from "@wagmi/core";
 import { useState } from "react";
 import { config } from "@/app/lib/connector/xellar";
-import { DAO_GOVERNANCE_ABI, CONTRACTS } from "@/constants/abi";
+import { DAO_GOVERNANCE_ABI, CONTRACTS, getContracts } from "@/constants/abi";
 import toast from "react-hot-toast";
 
 // Types
@@ -15,7 +20,8 @@ export enum ClaimStatus {
 export const useDAOGovernance = () => {
   const { address } = useAccount();
   const { writeContractAsync } = useWriteContract();
-
+  const chainId = useChainId();
+  const contracts = getContracts(chainId);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isVoting, setIsVoting] = useState(false);
   const [isExecuting, setIsExecuting] = useState(false);
@@ -31,7 +37,7 @@ export const useDAOGovernance = () => {
     setIsSubmitting(true);
     try {
       const hash = await writeContractAsync({
-        address: CONTRACTS.DAO_GOVERNANCE,
+        address: contracts.DAO_GOVERNANCE,
         abi: DAO_GOVERNANCE_ABI,
         functionName: "submitClaim",
         args: [reason, title, claimType, amount],
@@ -55,7 +61,7 @@ export const useDAOGovernance = () => {
     setIsVoting(true);
     try {
       const hash = await writeContractAsync({
-        address: CONTRACTS.DAO_GOVERNANCE,
+        address: contracts.DAO_GOVERNANCE,
         abi: DAO_GOVERNANCE_ABI,
         functionName: "vote",
         args: [claimId, approve],
@@ -77,7 +83,7 @@ export const useDAOGovernance = () => {
     setIsExecuting(true);
     try {
       const hash = await writeContractAsync({
-        address: CONTRACTS.DAO_GOVERNANCE,
+        address: contracts.DAO_GOVERNANCE,
         abi: DAO_GOVERNANCE_ABI,
         functionName: "executeVote",
         args: [claimId],
@@ -101,7 +107,7 @@ export const useDAOGovernance = () => {
   ): Promise<ClaimStatus | null> => {
     try {
       const status = await readContract(config, {
-        address: CONTRACTS.DAO_GOVERNANCE,
+        address: contracts.DAO_GOVERNANCE,
         abi: DAO_GOVERNANCE_ABI,
         functionName: "getClaimStatus",
         args: [claimId],
@@ -132,7 +138,7 @@ export const useDAOGovernance = () => {
   } | null> => {
     try {
       const result = await readContract(config, {
-        address: CONTRACTS.DAO_GOVERNANCE,
+        address: contracts.DAO_GOVERNANCE,
         abi: DAO_GOVERNANCE_ABI,
         functionName: "claims",
         args: [claimId],
@@ -190,7 +196,7 @@ export const useDAOGovernance = () => {
   const getClaimCounter = async (): Promise<number> => {
     try {
       const result = await readContract(config, {
-        address: CONTRACTS.DAO_GOVERNANCE,
+        address: contracts.DAO_GOVERNANCE,
         abi: DAO_GOVERNANCE_ABI,
         functionName: "claimCounter",
       });
@@ -206,7 +212,7 @@ export const useDAOGovernance = () => {
   const getMinimumVotingPeriod = async (): Promise<number> => {
     try {
       const result = await readContract(config, {
-        address: CONTRACTS.DAO_GOVERNANCE,
+        address: contracts.DAO_GOVERNANCE,
         abi: DAO_GOVERNANCE_ABI,
         functionName: "minimumVotingPeriod",
       });
@@ -222,7 +228,7 @@ export const useDAOGovernance = () => {
   const isClaimApproved = async (claimId: number): Promise<boolean> => {
     try {
       const result = await readContract(config, {
-        address: CONTRACTS.DAO_GOVERNANCE,
+        address: contracts.DAO_GOVERNANCE,
         abi: DAO_GOVERNANCE_ABI,
         functionName: "isClaimApproved",
         args: [claimId],

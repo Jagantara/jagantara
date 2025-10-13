@@ -1,15 +1,26 @@
-import { useAccount, useWriteContract, useReadContract } from "wagmi";
+import {
+  useAccount,
+  useWriteContract,
+  useReadContract,
+  useChainId,
+} from "wagmi";
 import { useState } from "react";
 import { waitForTransactionReceipt } from "@wagmi/core";
 import toast from "react-hot-toast";
 import { config } from "@/app/lib/connector/xellar";
-import { CONTRACTS, ERC20_ABI, MORPHO_REINVEST_ABI } from "@/constants/abi";
+import {
+  CONTRACTS,
+  ERC20_ABI,
+  getContracts,
+  MORPHO_REINVEST_ABI,
+} from "@/constants/abi";
 import { parseTokenAmount } from "@/lib/calculations";
 
 export const useMorphoReinvest = () => {
   const { address } = useAccount();
   const { writeContractAsync } = useWriteContract();
-
+  const chainId = useChainId();
+  const contracts = getContracts(chainId);
   const [isDepositing, setIsDepositing] = useState(false);
   const [isRedeeming, setIsRedeeming] = useState(false);
   const [isClaiming, setIsClaiming] = useState(false);
@@ -20,7 +31,7 @@ export const useMorphoReinvest = () => {
     isLoading: isReinvestedLoading,
     refetch: refetchReinvested,
   } = useReadContract({
-    address: CONTRACTS.MORPHO_REINVEST,
+    address: contracts.MORPHO_REINVEST,
     abi: MORPHO_REINVEST_ABI,
     functionName: "totalReinvested",
     query: {
@@ -40,10 +51,10 @@ export const useMorphoReinvest = () => {
       // 1. Approve USDC to reinvest contract
       toast.loading("Approving USDC...", { id: "morpho" });
       const approveHash = await writeContractAsync({
-        address: CONTRACTS.USDC,
+        address: contracts.USDC,
         abi: ERC20_ABI,
         functionName: "approve",
-        args: [CONTRACTS.MORPHO_REINVEST, parsedAmount],
+        args: [contracts.MORPHO_REINVEST, parsedAmount],
         account: address,
       });
       await waitForTransactionReceipt(config, { hash: approveHash });
@@ -51,7 +62,7 @@ export const useMorphoReinvest = () => {
       // 2. Deposit in Vault
       toast.loading("Depositing to Morpho Vault...", { id: "morpho" });
       const depositHash = await writeContractAsync({
-        address: CONTRACTS.MORPHO_REINVEST,
+        address: contracts.MORPHO_REINVEST,
         abi: MORPHO_REINVEST_ABI,
         functionName: "depositInVault",
         args: [parsedAmount],
@@ -80,7 +91,7 @@ export const useMorphoReinvest = () => {
     try {
       toast.loading("Redeeming all from Morpho Vault...", { id: "redeem" });
       const hash = await writeContractAsync({
-        address: CONTRACTS.MORPHO_REINVEST,
+        address: contracts.MORPHO_REINVEST,
         abi: MORPHO_REINVEST_ABI,
         functionName: "redeemAllFromVault",
         args: [],
@@ -115,7 +126,7 @@ export const useMorphoReinvest = () => {
       toast.loading("Claiming rewards...", { id: "claim" });
 
       const hash = await writeContractAsync({
-        address: CONTRACTS.MORPHO_REINVEST,
+        address: contracts.MORPHO_REINVEST,
         abi: MORPHO_REINVEST_ABI,
         functionName: "claim",
         args: [distributor, address, asset, claimable, proof],

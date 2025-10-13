@@ -7,6 +7,7 @@ import { useStake } from "@/hooks/useJagaStake";
 import { formatTokenAmount } from "@/lib/calculations";
 import { useTheme } from "next-themes";
 import { useMorphoReinvest } from "@/hooks/useMorphoReinvest";
+import { useChainId } from "wagmi";
 export default function VaultStats() {
   const { formattedVaultBalance } = useClaimManager();
   const { timeLeft, currentStake, totalSupply } = useStake();
@@ -58,6 +59,32 @@ export default function VaultStats() {
       )}
     </div>
   );
+
+  const chainId = useChainId();
+
+  // 🧠 Define network data mapping
+  const NETWORKS: Record<
+    number,
+    { name: string; label: string; logo: string; logoLight?: string }
+  > = {
+    84532: {
+      name: "Base",
+      label: "Testnet",
+      logo: "/base_logo.webp",
+      logoLight: "/base_logo.webp",
+    },
+    4202: {
+      name: "Lisk",
+      label: "Testnet",
+      logo: "/lisk_logo.png",
+      logoLight: "/lisk_white.png",
+    },
+  };
+  const currentNetwork = NETWORKS[chainId] || {
+    name: "Unknown",
+    label: "Unsupported",
+    logo: "/eth_logo.png",
+  };
   return (
     <main>
       <div className="space-y-8">
@@ -239,25 +266,20 @@ export default function VaultStats() {
         <div className="glass rounded-xl p-6 border border-white/10 bg-[var(--secondary)]">
           <div className="text-center flex flex-col justify-center items-center">
             <div className="text-3xl mb-2">
-              {theme === "dark" ? (
-                <Image
-                  src={"/lisk_white.png"}
-                  alt={"lisk"}
-                  width={40}
-                  height={40}
-                />
-              ) : (
-                <Image
-                  src={"/lisk_logo.png"}
-                  alt={"lisk"}
-                  width={40}
-                  height={40}
-                />
-              )}
+              <Image
+                src={
+                  theme === "dark"
+                    ? currentNetwork.logoLight || currentNetwork.logo
+                    : currentNetwork.logo
+                }
+                alt={currentNetwork.name}
+                width={40}
+                height={40}
+              />
             </div>
             <div className="font-semibold mb-1">Network</div>
-            <div className="text-2xl font-bold">Lisk</div>
-            <div className="text-sm opacity-70">Testnet</div>
+            <div className="text-2xl font-bold">{currentNetwork.name}</div>
+            <div className="text-sm opacity-70">{currentNetwork.label}</div>
           </div>
         </div>
       </div>

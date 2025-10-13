@@ -26,12 +26,12 @@ import {
   BarChart3,
   ExternalLink,
 } from "lucide-react";
-import { useAccount } from "wagmi";
+import { useAccount, useChainId } from "wagmi";
 import ConnectWallet from "@/app/components/ConnectWallet";
 import { useDAOGovernance, ClaimStatus } from "@/hooks/useDAOGovernance";
 import toast from "react-hot-toast";
 import { Token } from "@/types/stake";
-import { TOKENS } from "@/constants/abi";
+import { getTokens, TOKENS } from "@/constants/abi";
 import { useTokenBalance } from "@/hooks/useTokenBalance";
 import { formatBigInt, formatTokenAmount } from "@/lib/formatters";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -65,7 +65,9 @@ export default function DAOInterface() {
   const [selectedProposal, setSelectedProposal] = useState<string | null>(null);
   const [proposals, setProposals] = useState<Proposal[]>([]);
   const [loadingProposals, setLoadingProposals] = useState(true);
-  const [tokenOut, setTokenOut] = useState<Token>(TOKENS.JAGA);
+  const chainId = useChainId();
+  const tokens = getTokens(chainId);
+  const [tokenOut, setTokenOut] = useState<Token>(tokens.JAGA);
   const tokenOutBalance = useTokenBalance(tokenOut);
   const { isConnected } = useAccount();
   const [currentPage, setCurrentPage] = useState(1);
@@ -216,10 +218,7 @@ export default function DAOInterface() {
                     🛡️
                     <span>
                       {" "}
-                      {formatTokenAmount(
-                        tokenOutBalance.balance,
-                        tokenOut.symbol as keyof typeof TOKENS // ✅ use tokenIn here
-                      )}
+                      {formatTokenAmount(tokenOutBalance.balance, tokenOut)}
                     </span>
                   </div>
                 </div>
@@ -474,7 +473,7 @@ export default function DAOInterface() {
                                     <span className="font-medium">
                                       {formatTokenAmount(
                                         tokenOutBalance.balance,
-                                        tokenOut.symbol as keyof typeof TOKENS // ✅ use tokenIn here
+                                        tokenOut
                                       )}
                                     </span>
                                   </div>
@@ -540,7 +539,7 @@ export default function DAOInterface() {
                     <Card className="bg-[var(--secondary)]">
                       <CardHeader>
                         <CardTitle className="text-lg">
-                          🏛️Governance Stats
+                          🏛️ Governance Stats
                         </CardTitle>
                       </CardHeader>
                       <CardContent className="space-y-4">
