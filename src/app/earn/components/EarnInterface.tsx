@@ -113,7 +113,10 @@ export default function EarnInterface() {
                   <span className="text-xs sm:text-sm truncate ml-2 opacity-70">
                     Available:{" "}
                     {(() => {
-                      const raw = formatTokenAmount(pendingReward, "USDC");
+                      const raw = formatTokenAmount(pendingReward, {
+                        decimals: 6,
+                        symbol: "USDC",
+                      });
 
                       // Remove commas and strip token symbol
                       const numericPart = raw.replace(/,/g, "").split(" ")[0];
@@ -127,7 +130,10 @@ export default function EarnInterface() {
                 </div>
                 <div className="flex items-center gap-2 sm:gap-3">
                   <div className="flex-1 text-lg sm:text-2xl font-bold min-w-0 truncate">
-                    {formatTokenAmount(pendingReward, "USDC")}
+                    {formatTokenAmount(pendingReward, {
+                      decimals: 6,
+                      symbol: "USDC",
+                    })}
                   </div>
                   <div
                     className="flex items-center gap-1 p-2 rounded-xl border"
@@ -219,7 +225,10 @@ export default function EarnInterface() {
                 <div className="flex justify-between md:text-md text-sm">
                   <p className="opacity-70 font-light">💸 Total Deposit</p>
                   <p className="font-medium text-green-600">
-                    {formatTokenAmount(currentStake, "USDC")}
+                    {formatTokenAmount(pendingReward, {
+                      decimals: 6,
+                      symbol: "USDC",
+                    })}
                   </p>
                 </div>
               </div>
@@ -233,7 +242,10 @@ export default function EarnInterface() {
                     <span className="text-xs sm:text-sm truncate ml-2 opacity-70">
                       Available:{" "}
                       {(() => {
-                        const raw = formatTokenAmount(currentStake, "USDC");
+                        const raw = formatTokenAmount(pendingReward, {
+                          decimals: 6,
+                          symbol: "USDC",
+                        });
 
                         // Remove commas and strip token symbol
                         const numericPart = raw.replace(/,/g, "").split(" ")[0];
