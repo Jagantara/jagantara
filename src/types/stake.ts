@@ -17,6 +17,7 @@ export type Policy = {
 
 export type ContractAddresses = {
   USDC: Address;
+  IDRX: Address;
   JAGA_TOKEN: Address;
   INSURANCE_MANAGER: Address;
   JAGA_STAKE: Address;

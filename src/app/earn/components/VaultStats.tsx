@@ -117,13 +117,10 @@ export default function VaultStats() {
           {/* Top Row - TVL and Volume */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
             <StatCard
-              icon={
-                <DollarSign className="w-5 h-5" style={{ color: "#0000FF" }} />
-              }
+              icon={<DollarSign className="w-5 h-5 text-[var(--text)]" />}
               title="Total Value Locked"
               value={
-                Math.round(Number(formattedVaultBalance)).toLocaleString() +
-                " USDC"
+                "$" + Math.round(Number(formattedVaultBalance)).toLocaleString()
               }
               subtitle="Real vault reserves"
               color="#0000FF"
@@ -131,9 +128,7 @@ export default function VaultStats() {
             />
 
             <StatCard
-              icon={
-                <Activity className="w-5 h-5" style={{ color: "#0000FF" }} />
-              }
+              icon={<Activity className="w-5 h-5 text-[var(--text)]" />}
               title="Next Session"
               value={`${formatNextSessionDate(timeLeft!)}`}
               subtitle="Next staking batch"
@@ -145,21 +140,17 @@ export default function VaultStats() {
           {/* Bottom Row - Price and APR */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <StatCard
-              icon={
-                <TrendingUp className="w-5 h-5" style={{ color: "#0000FF" }} />
-              }
+              icon={<TrendingUp className="w-5 h-5 text-[var(--text)]" />}
               title="Total Staked"
               value={
-                Math.round(Number(totalSupply) / 1e6).toLocaleString() + " USDC"
+                "$" + Math.round(Number(totalSupply) / 1e6).toLocaleString()
               }
               subtitle="Total staked in Vault"
               color="#0000FF"
               // isLoading={isLoading}
             />
             <StatCard
-              icon={
-                <Droplets className="w-5 h-5" style={{ color: "#0000FF" }} />
-              }
+              icon={<Droplets className="w-5 h-5 text-[var(--text)]" />}
               title="APY"
               value={`12,4%`}
               subtitle="Based on company revenue"
@@ -212,8 +203,7 @@ export default function VaultStats() {
               Total Deposits
             </p>
             <p className="font-bold text-base sm:text-lg">
-              {Math.round(Number(totalReinvested) / 1e6).toLocaleString() +
-                " USDC"}
+              {"$" + Math.round(Number(totalReinvested) / 1e6).toLocaleString()}
             </p>
           </div>
 
@@ -222,13 +212,13 @@ export default function VaultStats() {
             <p className="text-[var(--text)]/50 text-xs font-medium uppercase tracking-wider">
               Collateral
             </p>
-            <p className="font-bold text-base sm:text-lg flex items-center">
+            <p className="font-bold text-base sm:text-lg flex items-center justify-end">
               <Image
                 src={"/usdc_logo.png"}
-                width={50}
-                height={50}
+                width={20}
+                height={20}
                 alt="usdc"
-                className="object-cover w-7 h-6"
+                className="object-cover mr-1"
               />
               USDC
             </p>
@@ -256,7 +246,7 @@ export default function VaultStats() {
 
         <div className="glass rounded-xl p-6 border border-white/10 bg-[var(--secondary)]">
           <div className="text-center">
-            <div className="text-3xl mb-2">🏦</div>
+            <div className="text-3xl mb-2">🏛️</div>
             <div className="font-semibold mb-1">Governance</div>
             <div className="text-2xl font-bold ">JagaDAO</div>
             <div className="text-sm opacity-70">Community Staking</div>

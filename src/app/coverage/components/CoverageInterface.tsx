@@ -90,8 +90,8 @@ export default function CoverageInterface() {
     { value: "Tier-4", label: "Jaga Enterprise" },
   ];
   const iconMap: Record<string, React.ElementType> = {
-    "Jaga Lite": Shield,
-    "Jaga Shield": Star,
+    "Jaga Lite": Star,
+    "Jaga Shield": Shield,
     "Jaga Max": Crown,
     "Jaga Enterprise": Building2,
   };
@@ -518,7 +518,7 @@ export default function CoverageInterface() {
           </div>
         )
       ) : (
-        <div className="flex flex-col justify-center items-center text-center h-[60vh] space-y-6 pt-10">
+        <div className="flex flex-col justify-center items-center text-center h-[67vh] space-y-6 pt-20">
           <Image
             src="/jagantara_icon.png"
             alt="Jagantara Icon"
@@ -533,7 +533,6 @@ export default function CoverageInterface() {
             To file a Claim, please connect your wallet securely and subscribed
             to a premium.
           </p>
-          <ConnectWallet />
         </div>
       )}
     </div>

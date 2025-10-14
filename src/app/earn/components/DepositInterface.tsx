@@ -9,6 +9,7 @@ import {
   getActiveFrom,
 } from "@/lib/utils";
 import { Token } from "@/types/stake";
+
 import { ArrowDown, TrendingUp } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
@@ -20,6 +21,10 @@ export default function DepositInterface() {
   const chainId = useChainId();
   const contracts = getContracts(chainId);
   const tokens = getTokens(chainId);
+
+  const [selectedToken, setSelectedToken] = useState<"USDC" | "IDRX">("USDC");
+  const [showDropdown, setShowDropdown] = useState(false);
+
   const [tokenIn, setTokenIn] = useState<Token>(tokens.USDC);
   const [tokenOut, setTokenOut] = useState<Token>(tokens.JAGA);
   const amountOut = amountIn || "0.0";
@@ -63,7 +68,7 @@ export default function DepositInterface() {
               <div className="flex justify-between items-center mb-2">
                 <span className="text-xs sm:text-sm opacity-70">USDC</span>
                 <span className="text-xs sm:text-sm truncate ml-2 opacity-70">
-                  Balance:{" "}
+                  Balance:{" $"}
                   {(() => {
                     const raw = formatTokenAmount(
                       tokenInBalance.balance,
@@ -94,22 +99,74 @@ export default function DepositInterface() {
                   >
                     MAX
                   </button>
-                  <div
-                    className="flex items-center gap-1 p-2 rounded-xl border "
-                    style={{
-                      backgroundColor: "rgba(131, 110, 249, 0.1)",
-                      borderColor: "rgba(131, 110, 249, 0.3)",
-                    }}
-                  >
-                    {/* <span className=" text-sm md:text-lg">💵</span> */}
-                    <Image
-                      src={"/usdc_logo.png"}
-                      width={50}
-                      height={50}
-                      alt="usdc"
-                      className="object-cover w-7 h-6"
-                    />
-                    <span className="font-normal text-sm ">USDC</span>
+                  <div className="relative">
+                    <button
+                      onClick={() => setShowDropdown(!showDropdown)}
+                      className="flex items-center gap-1 p-2 rounded-xl border transition-colors hover:bg-white/10"
+                      style={{
+                        backgroundColor: "rgba(131, 110, 249, 0.1)",
+                        borderColor: "rgba(131, 110, 249, 0.3)",
+                      }}
+                    >
+                      <Image
+                        src={
+                          selectedToken === "IDRX"
+                            ? "/idrx_logo.png"
+                            : "/usdc_logo.png"
+                        }
+                        width={20}
+                        height={20}
+                        alt={selectedToken}
+                        className="object-cover  mr-0.5"
+                      />
+                      <span className="font-normal text-sm">
+                        {selectedToken}
+                      </span>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className={`h-4 w-4 ml-1 transition-transform ${
+                          showDropdown ? "rotate-180" : ""
+                        }`}
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M19 9l-7 7-7-7"
+                        />
+                      </svg>
+                    </button>
+
+                    {showDropdown && (
+                      <div className="absolute right-0 mt-2 w-24 bg-[var(--secondary)] border border-slate-600 rounded-xl shadow-lg z-50">
+                        {(["USDC", "IDRX"] as const).map((token) => (
+                          <button
+                            key={token}
+                            onClick={() => {
+                              setSelectedToken(token);
+                              setShowDropdown(false);
+                            }}
+                            className="flex items-center gap-2 w-full px-3 py-2 text-sm rounded-lg hover:bg-white/10 transition"
+                          >
+                            <Image
+                              src={
+                                token === "IDRX"
+                                  ? "/idrx_logo.png"
+                                  : "/usdc_logo.png"
+                              }
+                              width={20}
+                              height={20}
+                              alt={token}
+                              className="object-cover"
+                            />
+                            <span>{token}</span>
+                          </button>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -153,7 +210,14 @@ export default function DepositInterface() {
                   borderColor: "rgba(131, 110, 249, 0.3)",
                 }}
               >
-                <span className="text-md sm:text-lg w-7">🛡️</span>
+                <Image
+                  src="/jagantara_icon.png"
+                  alt="logo"
+                  width={30}
+                  height={30}
+                  className="object-cover w-6 h-6"
+                />
+
                 <span className="font-normal text-sm ">JAGA</span>
               </div>
             </div>
@@ -163,19 +227,19 @@ export default function DepositInterface() {
         <div className="relative mt-5">
           <div className="p-3 sm:p-4 rounded-xl border border-slate-400 bg-[var(--secondary)]">
             <div className="flex justify-between md:text-md text-sm">
-              <p className="opacity-70 font-light">📌 Active From</p>
+              <p className="opacity-70 font-light">Active From</p>
               <p className="font-medium">{getActiveFrom(timeLeft!)}</p>
             </div>
             <div className="flex justify-between md:text-md text-sm">
-              <p className="opacity-70 font-light">🔑 Next Batch</p>
+              <p className="opacity-70 font-light">Next Batch</p>
               <p className="font-medium">{formatNextSessionDate(timeLeft!)}</p>
             </div>
             <div className="flex justify-between md:text-md text-sm">
-              <p className="opacity-70 font-light">⌛ Valid Until</p>
+              <p className="opacity-70 font-light">Valid Until</p>
               <p className="font-medium">{formatTimeLeft(timeLeft!)}</p>
             </div>
             <div className="flex justify-between md:text-md text-sm">
-              <p className="opacity-70 font-light">🕒 Batch Duration</p>
+              <p className="opacity-70 font-light">Batch Duration</p>
               <p className="font-medium">30 Days</p>
             </div>
           </div>

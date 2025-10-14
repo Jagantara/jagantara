@@ -189,7 +189,7 @@ export default function Component() {
                   <p className="text-sm font-normal opacity-70">
                     Total Value Locked
                   </p>
-                  <span className="text-3xl md:text-4xl font-normal tracking-tight">
+                  <span className="text-2xl md:text-3xl font-normal tracking-tight">
                     $
                     <CountUp
                       from={0}
@@ -203,7 +203,7 @@ export default function Component() {
                   <p className="text-sm font-normal opacity-70">
                     Total Wallet Protected
                   </p>
-                  <span className="text-3xl md:text-4xl font-normal tracking-tight flex gap-1 items-end">
+                  <span className="text-2xl md:text-3xl font-normal tracking-tight flex gap-1 items-end">
                     <Wallet size={30} />
                     <CountUp from={0} to={100000} separator="," duration={1} />
                   </span>
@@ -254,9 +254,10 @@ export default function Component() {
                       Total Deposits
                     </p>
                     <p className="font-bold text-base sm:text-lg">
-                      {Math.round(
-                        Number(totalReinvested) / 1e6
-                      ).toLocaleString() + " USDC"}
+                      {"$" +
+                        Math.round(
+                          Number(totalReinvested) / 1e6
+                        ).toLocaleString()}
                     </p>
                   </div>
 
@@ -265,13 +266,13 @@ export default function Component() {
                     <p className="text-[var(--text)]/50 text-xs font-medium uppercase tracking-wider">
                       Collateral
                     </p>
-                    <p className="font-bold text-base sm:text-lg flex items-center">
+                    <p className="font-bold text-base sm:text-lg flex items-center justify-end">
                       <Image
                         src={"/usdc_logo.png"}
-                        width={50}
-                        height={50}
+                        width={20}
+                        height={20}
                         alt="usdc"
-                        className="object-cover w-7 h-6"
+                        className="object-cover mr-1"
                       />
                       USDC
                     </p>

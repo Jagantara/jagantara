@@ -19,8 +19,8 @@ const companies = [
     logo: "/landing_logo/bankindonesia.png",
   },
   {
-    name: "Lisk",
-    logo: "/landing_logo/lisk.png",
+    name: "Base",
+    logo: "/landing_logo/base_logo.png",
   },
   {
     name: "DAO Maker",
@@ -54,8 +54,8 @@ const companies2 = [
     logo: "/landing_logo/lisk.png",
   },
   {
-    name: "DAO Maker",
-    logo: "/landing_logo/daomaker.png",
+    name: "IDRX",
+    logo: "/landing_logo/idrx_logo.webp",
   },
   {
     name: "OpenSea", // This one will be dynamic

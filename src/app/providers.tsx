@@ -48,7 +48,7 @@ export function Providers(props: { children: ReactNode }) {
                     "base_account",
                     "detected_ethereum_wallets",
                   ],
-                  theme: "light",
+                  theme: "dark",
                   showWalletLoginFirst: true,
                   walletChainType: "ethereum-only",
                 },

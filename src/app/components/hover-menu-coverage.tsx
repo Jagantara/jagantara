@@ -27,6 +27,7 @@ import {
 } from "lucide-react";
 import GradientText from "@/components/gradient-text";
 import { Progress } from "@/components/ui/progress";
+import Image from "next/image";
 
 interface MenuContent {
   id: string;
@@ -146,7 +147,16 @@ export default function HoverMenuCoverage() {
             <div className="text-xs md:text-sm text-white/80 mb-3">
               <div className="flex justify-between mb-1">
                 <span>Your Voting Power:</span>
-                <span className="font-bold text-white">🛡️20,000 JAGA</span>
+                <span className="font-bold text-white flex items-center">
+                  {" "}
+                  <Image
+                    src="/jagantara_icon.png"
+                    alt="logo"
+                    width={30}
+                    height={30}
+                  />{" "}
+                  20,000 JAGA
+                </span>
               </div>
               <div className="flex justify-between">
                 <span>Time Remaining:</span>
@@ -284,7 +294,12 @@ export default function HoverMenuCoverage() {
         <div className="space-y-6">
           <div className="bg-[#001e3c] text-white rounded-xl p-6 shadow-lg">
             <h3 className="text-md md:text-lg font-semibold mb-4 flex items-center gap-2">
-              <Bot className="w-5 h-5 text-purple-400" />
+              <Image
+                src="/jagabot_logo.png"
+                alt="Jagabot"
+                width={40}
+                height={40}
+              />
               Welcome to Jagantara AI Assistant
             </h3>
             <p className="text-xs md:text-sm text-white/70 mb-6">

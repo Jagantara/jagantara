@@ -63,7 +63,7 @@ export default function StakingDetail() {
               id="deposit"
               icon={<TrendingUp className="w-6 h-6" />}
               label="Deposit"
-              description="Deposit $USDC to Stake"
+              description="Deposit to Stake"
             />
             <TabButton
               id="earn"
@@ -111,7 +111,7 @@ export default function StakingDetail() {
           </div>
         </div>
       ) : (
-        <div className="flex flex-col justify-center items-center text-center  space-y-6  h-[60vh]">
+        <div className="flex flex-col justify-center items-center text-center  space-y-6  h-[67vh]">
           <Image
             src="/jagantara_icon.png"
             alt="Jagantara Icon"
@@ -126,7 +126,6 @@ export default function StakingDetail() {
             To access your staking dashboard, please connect your wallet
             securely.
           </p>
-          <ConnectWallet />
         </div>
       )}
     </div>

@@ -7,7 +7,7 @@ import TransitionClient from "@/app/components/TransitionClient";
 import AppShell from "./components/AppShell";
 import { Toaster } from "react-hot-toast";
 export const metadata: Metadata = {
-  title: "Jagantara | Indonesian Insurance for Digital Assets",
+  title: "Jagantara | Insurance for your Digital Assets",
   description: "Decentralized coverage",
   icons: "./jagantara_icon.png",
 };

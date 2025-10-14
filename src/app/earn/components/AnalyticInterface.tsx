@@ -241,10 +241,8 @@ export default function AnalyticInterface() {
               Total Deposits
             </CardTitle>
             <div className="flex items-center gap-2">
-              <Wallet className="h-5 w-5 opacity-80" />
               <span className="text-2xl font-bold">
-                {Math.round(Number(currentStake) / 1e6).toLocaleString() +
-                  " USDC"}
+                {"$" + Math.round(Number(currentStake) / 1e6).toLocaleString()}
               </span>
             </div>
           </CardHeader>
@@ -263,9 +261,8 @@ export default function AnalyticInterface() {
               Total Rewards Earned
             </CardTitle>
             <div className="flex items-center gap-2">
-              <DollarSign className="h-5 w-5 text-green-600" />
               <span className="text-2xl font-bold">
-                {/* ${formatTokenAmount(totalRewards, 6, 2)} */}3
+                {/* ${formatTokenAmount(totalRewards, 6, 2)} */}$2,304
               </span>
             </div>
           </CardHeader>
@@ -282,7 +279,6 @@ export default function AnalyticInterface() {
           <CardHeader className="pb-3">
             <CardTitle className="text-sm font-medium">Current APY</CardTitle>
             <div className="flex items-center gap-2">
-              <Percent className="h-5 w-5 text-green-600" />
               <span className="text-2xl font-bold">12.4%</span>
             </div>
           </CardHeader>
@@ -369,7 +365,7 @@ export default function AnalyticInterface() {
         <Card className="border-0 shadow-lg bg-[var(--third)]">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Wallet className="h-5 w-5 text-blue-600" />
+              <Wallet className="h-5 w-5 text-[var(--text)]" />
               Total Deposits Growth
             </CardTitle>
             <CardDescription>Cumulative deposits over time</CardDescription>

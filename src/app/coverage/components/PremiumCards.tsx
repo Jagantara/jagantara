@@ -19,7 +19,7 @@ const tiers = [
   {
     id: "lite",
     name: "Lite",
-    icon: Shield,
+    icon: Star,
     bestFor: "Students, first-time Web3 users",
     claimCap: "$5,000",
     startingPrice: 65,
@@ -28,12 +28,12 @@ const tiers = [
     durations: [1, 3, 6, 12],
     coverage: ["Failed Token Swaps", "Phishing Scam Reimbursement"],
     color: "bg-blue-50 border-blue-200",
-    iconColor: "text-blue-600",
+    iconColor: "text-blue-500",
   },
   {
     id: "shield",
     name: "Shield",
-    icon: Star,
+    icon: Shield,
     bestFor: "NFT collectors, DAO voters, casual DeFi",
     claimCap: "$15,000",
     startingPrice: 145,
@@ -46,7 +46,7 @@ const tiers = [
       "Wallet Recovery Assistance",
     ],
     color: "bg-yellow-50 border-yellow-200",
-    iconColor: "text-yellow-500",
+    iconColor: "text-blue-500",
     popular: true,
   },
   {
@@ -61,7 +61,7 @@ const tiers = [
     durations: [3, 6, 12],
     coverage: ["All Shield coverage", "Rug Pull Protection"],
     color: "bg-amber-50 border-amber-200",
-    iconColor: "text-amber-600",
+    iconColor: "text-blue-500",
   },
   {
     id: "enterprise",
@@ -79,7 +79,7 @@ const tiers = [
       "Major Smart Contract Failures",
     ],
     color: "bg-emerald-50 border-emerald-200",
-    iconColor: "text-emerald-600",
+    iconColor: "text-blue-500",
     custom: true,
   },
 ];
@@ -263,8 +263,8 @@ export default function PremiumsPage() {
                   />
                 </div>
 
-                <Label className="text-sm font-medium ">
-                  Duration (months)
+                <Label className="text-sm font-medium flex justify-between">
+                  Duration (months) <span>{selectedDuration} month</span>
                 </Label>
                 {/* Enhanced Slider */}
                 <div className="relative py-4">
@@ -335,21 +335,21 @@ export default function PremiumsPage() {
         {/* Quick Info Footer */}
         <div className="mt-8 grid md:grid-cols-3 gap-4 text-center">
           <div className="bg-[var(--secondary)] rounded-lg p-4">
-            <Shield className="w-6 h-6 text-blue-600 mx-auto mb-2" />
+            <Shield className="w-6 h-6 text-[var(--text)] mx-auto mb-2" />
             <h4 className="font-medium text-sm">Instant Activation</h4>
             <p className="text-xs opacity-70">
               Coverage starts immediately after payment
             </p>
           </div>
           <div className="bg-[var(--secondary)] rounded-lg p-4">
-            <Check className="w-6 h-6 text-green-600 mx-auto mb-2" />
+            <Check className="w-6 h-6 text-[var(--text)] mx-auto mb-2" />
             <h4 className="font-medium text-sm">Fast Claims</h4>
             <p className="text-xs opacity-70">
               Automated verification & quick payouts
             </p>
           </div>
           <div className="bg-[var(--secondary)] rounded-lg p-4">
-            <Crown className="w-6 h-6 text-amber-600 mx-auto mb-2" />
+            <Crown className="w-6 h-6 text-[var(--text)] mx-auto mb-2" />
             <h4 className="font-medium text-sm">Comprehensive</h4>
             <p className="text-xs opacity-70">
               Covers smart contracts, DeFi, NFTs & more

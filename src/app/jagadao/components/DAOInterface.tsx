@@ -215,7 +215,12 @@ export default function DAOInterface() {
                     <span>12,847 Members</span>
                   </div>
                   <div className="flex items-center space-x-1">
-                    🛡️
+                    <Image
+                      src="/jagantara_icon.png"
+                      alt="logo"
+                      width={30}
+                      height={30}
+                    />
                     <span>
                       {" "}
                       {formatTokenAmount(tokenOutBalance.balance, tokenOut)}
@@ -544,14 +549,14 @@ export default function DAOInterface() {
                       </CardHeader>
                       <CardContent className="space-y-4">
                         <div className="flex justify-between">
-                          <span className="text-sm">🗝️ Total Proposals</span>
+                          <span className="text-sm">Total Proposals</span>
                           <span className="font-medium">
                             {proposals.length}
                           </span>
                         </div>
 
                         <div className="flex justify-between">
-                          <span className="text-sm">✅ Passed</span>
+                          <span className="text-sm">Passed</span>
                           <span className="font-medium text-green-600">
                             {
                               proposals.filter((p) => p.status === "passed")
@@ -561,7 +566,7 @@ export default function DAOInterface() {
                         </div>
 
                         <div className="flex justify-between">
-                          <span className="text-sm">❌ Rejected</span>
+                          <span className="text-sm">Rejected</span>
                           <span className="font-medium text-red-600">
                             {
                               proposals.filter((p) => p.status === "rejected")
@@ -571,7 +576,7 @@ export default function DAOInterface() {
                         </div>
 
                         <div className="flex justify-between">
-                          <span className="text-sm">⌛ Active</span>
+                          <span className="text-sm">Active</span>
                           <span className="font-medium text-blue-600">
                             {
                               proposals.filter((p) => p.status === "active")
@@ -594,7 +599,7 @@ export default function DAOInterface() {
 
               <TabsContent value="completed" className="space-y-4">
                 {proposals.filter((p) => p.status !== "active").length === 0 ? (
-                  <div className="text-center mt-32 ">
+                  <div className="text-center mt-44 ">
                     <div className="text-6xl mb-4">📊</div>
                     <h3 className="text-lg sm:text-xl font-semibold mb-2 text-[var(--text)]">
                       No Completed Proposal found
@@ -704,7 +709,7 @@ export default function DAOInterface() {
           </div>
         </div>
       ) : (
-        <div className="flex flex-col justify-center items-center text-center h-[60vh] space-y-6 pt-10">
+        <div className="flex flex-col justify-center items-center text-center h-[67vh] space-y-6 pt-20 px-5">
           <Image
             src="/jagantara_icon.png"
             alt="Jagantara Icon"
@@ -719,7 +724,6 @@ export default function DAOInterface() {
             To access your JagaDAO and Vote, please connect your wallet
             securely.
           </p>
-          <ConnectWallet />
         </div>
       )}
     </div>

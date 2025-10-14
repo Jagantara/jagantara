@@ -20,7 +20,7 @@ const tiers = [
   {
     id: "lite",
     name: "Lite",
-    icon: Shield,
+    icon: Star,
     rate: 0.001,
     bestFor: "Students, first-time Web3 users",
     claimCap: "$5,000",
@@ -29,12 +29,12 @@ const tiers = [
     durations: [1, 3, 6, 12],
     coverage: ["Failed Token Swaps", "Phishing Scam Reimbursement"],
     color: "bg-blue-50 border-blue-200",
-    iconColor: "text-blue-600",
+    iconColor: "text-blue-500",
   },
   {
     id: "shield",
     name: "Shield",
-    icon: Star,
+    icon: Shield,
     rate: 0.003,
     bestFor: "NFT collectors, DAO voters, casual DeFi",
     claimCap: "$15,000",
@@ -47,7 +47,7 @@ const tiers = [
       "Wallet Recovery Assistance",
     ],
     color: "bg-yellow-50 border-yellow-200",
-    iconColor: "text-yellow-500",
+    iconColor: "text-blue-500",
     popular: true,
   },
   {
@@ -62,7 +62,7 @@ const tiers = [
     durations: [3, 6, 12],
     coverage: ["All Shield coverage", "Rug Pull Protection"],
     color: "bg-amber-50 border-amber-200",
-    iconColor: "text-amber-600",
+    iconColor: "text-blue-500",
   },
   {
     id: "enterprise",
@@ -80,7 +80,7 @@ const tiers = [
       "Major Smart Contract Failures",
     ],
     color: "bg-emerald-50 border-emerald-200",
-    iconColor: "text-emerald-600",
+    iconColor: "text-blue-500",
     custom: true,
   },
 ];
@@ -101,7 +101,7 @@ export default function PricingCard() {
                 >
                   {tier.popular && (
                     <Badge className="absolute -top-2 left-1/2 transform -translate-x-1/2 bg-blue-600 text-xs text-white">
-                      🔥Popular
+                      Popular
                     </Badge>
                   )}
                   <CardHeader className="">
@@ -122,7 +122,7 @@ export default function PricingCard() {
                       </div>
                     </div>
                     <CardDescription className="text-sm">
-                      🎯 {tier.bestFor}
+                      {tier.bestFor}
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="flex flex-col justify-between h-full space-y-3">
@@ -142,7 +142,7 @@ export default function PricingCard() {
                         </div> */}
                         <div className="space-y-1">
                           <h4 className="font-semibold text-sm  flex items-center gap-1">
-                            🛡️ Coverage Includes:
+                            Coverage Includes:
                           </h4>
                           {tier.coverage.slice(0, 3).map((item, index) => (
                             <div
@@ -171,12 +171,12 @@ export default function PricingCard() {
                       >
                         {tier.custom ? (
                           <>
-                            💬 Contact Sales
+                            Contact Sales
                             <ArrowRight className="w-4 h-4" />
                           </>
                         ) : (
                           <>
-                            🚀 Get Started
+                            Get Started
                             <ArrowRight className="w-4 h-4" />
                           </>
                         )}

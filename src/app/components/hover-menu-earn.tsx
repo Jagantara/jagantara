@@ -72,7 +72,7 @@ export default function HoverMenuEarn() {
 
             {/* Position Amount */}
             <div className="text-xl md:text-4xl font-semibold mb-4">
-              5,000,000 USDC
+              $5,000,000
             </div>
 
             {/* Stats */}
@@ -82,15 +82,21 @@ export default function HoverMenuEarn() {
                   Earn APY
                 </span>
                 <span className="text-sm md:text-lg font-semibold text-green-600">
-                  15.00% ✨
+                  15.00%
                 </span>
               </div>
               <div className="flex justify-between pb-2 ">
                 <span className="text-[var(--text)] text-sm md:text-md">
                   Jaga Token
                 </span>
-                <span className="text-sm md:text-lg font-semibold ">
-                  🛡️5M JAGA
+                <span className="text-sm md:text-md font-semibold flex items-center">
+                  <Image
+                    src="/jagantara_icon.png"
+                    alt="logo"
+                    width={30}
+                    height={30}
+                  />{" "}
+                  5M JAGA
                 </span>
               </div>
               <div className="flex justify-between pt-2 pb-2">
@@ -255,7 +261,7 @@ export default function HoverMenuEarn() {
 
             {/* Card 2: Governance */}
             <div className="flex-1 glass rounded-xl p-5  bg-[var(--background)]/30 text-center shadow-md hover:shadow-lg transition">
-              <div className="text-3xl mb-2">🏦</div>
+              <div className="text-3xl mb-2">🏛️</div>
               <div className="text-xs md:text-sm font-semibold ">
                 Governance
               </div>
@@ -268,26 +274,12 @@ export default function HoverMenuEarn() {
             {/* Card 3: Network */}
             <div className="flex-1 glass rounded-xl p-5  bg-[var(--background)]/30 text-center shadow-md hover:shadow-lg transition">
               <div className="mb-2 flex justify-center">
-                {theme === "dark" ? (
-                  <Image
-                    src="/eth_logo2.png"
-                    alt="lisk"
-                    width={40}
-                    height={40}
-                  />
-                ) : (
-                  <Image
-                    src="/lisk_logo.png"
-                    alt="lisk"
-                    width={40}
-                    height={40}
-                  />
-                )}
+                <Image src="/eth_logo2.png" alt="eth" width={40} height={35} />
               </div>
               <div className="text-xs md:text-sm font-semibold ">Network</div>
               <div className="text-lg md:text-2xl font-bold ">EVM</div>
               <div className="text-xs md:text-sm text-[var(--text)]/70">
-                Superchain Ecosystem
+                Superchain
               </div>
             </div>
           </div>
@@ -308,7 +300,7 @@ export default function HoverMenuEarn() {
 
             {/* Card 2: DAO Members */}
             <div className="flex-1 bg-[var(--background)]/30 rounded-xl p-5 text-center space-y-2 shadow-md hover:shadow-lg transition">
-              <div className="flex justify-center text-blue-400 text-xl">
+              <div className="flex justify-center text-[var(--text)] text-xl">
                 <FaUser className="w-6 h-6" />
               </div>
               <h3 className="text-xs md:text-sm font-semibold">DAO Members</h3>
@@ -331,11 +323,11 @@ export default function HoverMenuEarn() {
         <div className="space-y-6">
           <div className="bg-[var(--background)]/30 rounded-xl p-4 md:p-6">
             <h3 className="text-md md:text-xl font-bold  mb-4">
-              🗝️ Your Keys, Your Crypto
+              Your Keys, Your Crypto
             </h3>
             <div className="space-y-4">
               <div className="flex items-center space-x-3 p-3 bg-blue-800/20 rounded-lg ">
-                <Shield className="w-5 h-5 text-blue-600" />
+                <Shield className="w-5 h-5 text-[var(--text)]" />
                 <div>
                   <div className="text-blue-600 font-semibold md:text-lg text-sm">
                     Wallet Connected
