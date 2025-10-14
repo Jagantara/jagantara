@@ -1,6 +1,6 @@
 "use client";
 import { usePrivy, useWallets } from "@privy-io/react-auth";
-import { ChevronDown, User, Wallet, Network } from "lucide-react";
+import { ChevronDown, User, Wallet } from "lucide-react";
 import { useState, useEffect } from "react";
 import { baseSepolia, Chain, liskSepolia } from "viem/chains";
 import { useChainId, useDisconnect } from "wagmi";

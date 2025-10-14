@@ -34,7 +34,7 @@ export function Providers(props: { children: ReactNode }) {
               clientId={process.env.NEXT_PUBLIC_PRIVY_CLIENT_ID ?? ""}
               config={{
                 // Create embedded wallets for users who don't have a wallet
-                defaultChain: liskSepolia,
+                defaultChain: baseSepolia,
                 supportedChains: [baseSepolia, liskSepolia],
                 embeddedWallets: {
                   ethereum: {
@@ -48,7 +48,7 @@ export function Providers(props: { children: ReactNode }) {
                     "base_account",
                     "detected_ethereum_wallets",
                   ],
-                  theme: "dark",
+                  theme: "light",
                   showWalletLoginFirst: true,
                   walletChainType: "ethereum-only",
                 },
