@@ -13,7 +13,7 @@ import {
   getContracts,
 } from "@/constants/abi";
 import toast from "react-hot-toast";
-import { config } from "@/app/lib/connector/xellar";
+import { config } from "@/app/lib/wagmi";
 import { formatTokenAmount } from "@/lib/calculations";
 
 export const useClaimManager = () => {

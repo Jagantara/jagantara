@@ -7,7 +7,7 @@ import {
 import { useState } from "react";
 import { waitForTransactionReceipt } from "@wagmi/core";
 import toast from "react-hot-toast";
-import { config } from "@/app/lib/connector/xellar";
+import { config } from "@/app/lib/wagmi";
 import {
   CONTRACTS,
   ERC20_ABI,

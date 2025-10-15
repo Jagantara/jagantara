@@ -6,7 +6,7 @@ import {
 } from "wagmi";
 import { readContract, waitForTransactionReceipt } from "@wagmi/core";
 import { useState } from "react";
-import { config } from "@/app/lib/connector/xellar";
+import { config } from "@/app/lib/wagmi";
 import { DAO_GOVERNANCE_ABI, CONTRACTS, getContracts } from "@/constants/abi";
 import toast from "react-hot-toast";
 

@@ -13,7 +13,7 @@ import {
   getContracts,
   JAGA_STAKE_ABI,
 } from "@/constants/abi";
-import { config } from "@/app/lib/connector/xellar";
+import { config } from "@/app/lib/wagmi";
 import { parseTokenAmount } from "@/lib/calculations";
 
 export const useStake = () => {

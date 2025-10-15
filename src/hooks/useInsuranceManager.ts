@@ -11,7 +11,7 @@ import {
   INSURANCE_MANAGER_ABI,
 } from "@/constants/abi";
 import { readContract, waitForTransactionReceipt } from "@wagmi/core";
-import { config } from "@/app/lib/connector/xellar";
+import { config } from "@/app/lib/wagmi";
 
 import { useState } from "react";
 import toast from "react-hot-toast";
@@ -22,6 +22,7 @@ export const useInsuranceManager = () => {
   const [isPaying, setIsPaying] = useState(false);
   const chainId = useChainId();
   const contracts = getContracts(chainId);
+
   // 🧠 READ: isActive status
   const {
     data: isActive,
@@ -69,7 +70,7 @@ export const useInsuranceManager = () => {
     try {
       // 1. Ask contract how much premium is required
       const premiumPerMonth = await readContract(config, {
-        address: contracts.INSURANCE_MANAGER,
+        address: contracts.INSURANCE_MANAGER as `0x${string}`,
         abi: INSURANCE_MANAGER_ABI,
         functionName: "getPriceFromAmountTier",
         args: [BigInt(amountToCover), BigInt(tier)],
@@ -80,7 +81,7 @@ export const useInsuranceManager = () => {
 
       // 2. Approve USDC
       const approveHash = await writeContractAsync({
-        address: contracts.USDC,
+        address: contracts.USDC as `0x${string}`,
         abi: ERC20_ABI,
         functionName: "approve",
         args: [contracts.INSURANCE_MANAGER, totalPremium],

@@ -9,8 +9,10 @@ import DepositInterface from "./DepositInterface";
 import VaultStats from "./VaultStats";
 import TransactionHistory from "./TransactionHistory";
 import EarnInterface from "./EarnInterface";
+import { usePrivy } from "@privy-io/react-auth";
 export default function StakingDetail() {
   const { isConnected } = useAccount();
+  const { authenticated, ready } = usePrivy();
   const [activeTab, setActiveTab] = useState<
     "deposit" | "earn" | "analytics" | "history"
   >("deposit");

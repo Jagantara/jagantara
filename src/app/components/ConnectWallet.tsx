@@ -1,5 +1,6 @@
 "use client";
 import { usePrivy, useWallets } from "@privy-io/react-auth";
+import { useSetActiveWallet } from "@privy-io/wagmi";
 import { ChevronDown, User, Wallet } from "lucide-react";
 import { useState, useEffect } from "react";
 import { baseSepolia, Chain, liskSepolia } from "viem/chains";
@@ -15,28 +16,25 @@ const CHAIN_LOGOS: Record<number, string> = {
 export default function ConnectWallet() {
   const { login, logout, ready, authenticated } = usePrivy();
   const { wallets } = useWallets();
-  const chainId = useChainId();
+  const { setActiveWallet } = useSetActiveWallet();
   const { disconnect } = useDisconnect();
+  const chainId = useChainId();
+  const [currentChain, setCurrentChain] = useState<Chain>(baseSepolia);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
   const wallet = wallets[0];
   const address = wallet?.address;
   const shortAddr = address
     ? `${address.slice(0, 6)}...${address.slice(-4)}`
     : "";
 
-  const [currentChain, setCurrentChain] = useState<Chain>(baseSepolia);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
-  const handleLogout = async () => {
-    await logout();
-    await disconnect();
-  };
-  // Detect the connected chain
+  // Track which chain you're on
   useEffect(() => {
     const matched = SUPPORTED_CHAINS.find((c) => c.id === chainId);
     if (matched) setCurrentChain(matched);
   }, [chainId]);
 
-  const switchChain = async (chain: any) => {
+  const switchChain = async (chain: Chain) => {
     try {
       if (wallet?.switchChain) {
         await wallet.switchChain(chain.id);
@@ -48,6 +46,15 @@ export default function ConnectWallet() {
       console.error("Failed to switch chain:", err);
     }
     setIsDropdownOpen(false);
+  };
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      await disconnect();
+    } catch (err) {
+      console.error("Failed to disconnect:", err);
+    }
   };
 
   if (!ready) {
@@ -64,30 +71,25 @@ export default function ConnectWallet() {
       <div className="relative">
         <button
           onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-          className="flex cursor-pointer items-center gap-1 md:gap-2 px-3 py-2 rounded-xl bg- text-sm font-mediumtext-[var(--text)]"
+          className="flex cursor-pointer items-center gap-1 md:gap-2 px-3 py-2 rounded-xl bg-gray-800 text-sm font-medium text-[var(--text)]"
         >
-          {/* Network Logo — always visible */}
           <img
             src={CHAIN_LOGOS[currentChain.id]}
             alt={currentChain.name}
             className="w-5 h-5 rounded-full"
           />
-
-          {/* Network Name — hidden on mobile */}
-          <span className="hidden sm:inline md:text-md text-sm ">
+          <span className="hidden sm:inline md:text-md text-sm">
             {currentChain.name}
           </span>
-
-          {/* Dropdown Icon — hidden on very small screens for minimalism */}
           <ChevronDown
-            className={`hidden sm:block w-3 h-3 transition-transform  ${
+            className={`hidden sm:block w-3 h-3 transition-transform ${
               isDropdownOpen ? "rotate-180" : ""
             }`}
           />
         </button>
 
         {isDropdownOpen && (
-          <div className="absolute top-full mt-2 w-full text-white bg-gray-800 rounded-xl border border-gray-700 shadow-md z-50">
+          <div className="absolute top-full mt-2 w-full min-w-[160px] text-white bg-gray-800 rounded-xl border border-gray-700 shadow-md z-50">
             {SUPPORTED_CHAINS.map((chain) => (
               <button
                 key={chain.id}
@@ -101,7 +103,7 @@ export default function ConnectWallet() {
                   alt={chain.name}
                   className="w-4 h-4 rounded-full"
                 />
-                <span className="hidden sm:inline md:text-md text-sm text-white">
+                <span className="md:text-md text-sm text-white">
                   {chain.name}
                 </span>
               </button>
@@ -127,19 +129,19 @@ export default function ConnectWallet() {
         </button>
       ) : (
         <button
-          className="group relative overflow-hidden bg-[var(--gradient-primary)]  px-3 py-2 rounded-lg font-medium text-sm transition-all duration-300 hover:scale-105 hover:shadow-md active:scale-95 cursor-pointer glow-blue"
+          className="group relative overflow-hidden px-3 py-2 rounded-lg font-medium text-sm transition-all duration-300 hover:scale-105 hover:shadow-md active:scale-95 cursor-pointer glow-blue"
           onClick={handleLogout}
           style={{ background: "var(--gradient-accent-soft)" }}
         >
           <div className="relative flex items-center gap-2">
             <div className="flex items-center gap-1">
               <div
-                className="w-6 h-6 bg-[var(--accent)] rounded-full flex items-center justify-center"
+                className="w-6 h-6 rounded-full flex items-center justify-center"
                 style={{ background: "var(--accent)" }}
               >
-                <User className="w-3 h-3 " />
+                <User className="w-3 h-3" />
               </div>
-              <span className="text-xs font-mono ">{shortAddr}</span>
+              <span className="text-xs font-mono">{shortAddr}</span>
               <ChevronDown className="w-3 h-3 group-hover:rotate-180 transition-transform" />
             </div>
           </div>
