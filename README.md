@@ -66,6 +66,35 @@ Jagantara solves all of this in one integrated, AI-powered platform that makes D
 | **Wallets**    | Wagmi, Xellar                           |
 
 ---
+Jagantara Contract on Base Sepolia:
+
+- Mock USDC
+  https://sepolia.basescan.org/token/0x37c95286a8b3b88755846de0e16c9b93caa0c073#code
+
+- Mock IDRX
+  https://sepolia.basescan.org/address/0x411F6a4452717Ce71576C8AD88550741656DA392#code
+
+- JagaToken
+  https://sepolia.basescan.org/address/0x685669079efea9ec17e22d52712ad153a47a22b0#code
+
+- Insurance Manager
+  https://sepolia.basescan.org/address/0x39e3a4ef7bf4f8d19f1b4a8254543147c1381da9#code
+
+- Jaga Stake
+  https://sepolia.basescan.org/address/0x8ebebf610bfa0b55b58b45b9ce61a2ccf5c68c9d#code
+
+- Mock Morpho Vault
+  https://sepolia.basescan.org/address/0xcd0e4070212936be838b5696ee636cd611a61e2b#code
+
+- Claim Manager
+  https://sepolia.basescan.org/address/0x023496f9f3d8c1301ec71b8912eaddfdf7f767ba#code
+
+- DAO Governance
+  https://sepolia.basescan.org/address/0x01b970195f1cceb1e289d33f4659a57043ffda3f#code
+
+- Morpho Re-invest
+  https://sepolia.basescan.org/address/0xc80b0fe072a26a967060974f7911c0e6ce41badc#code
+
 Jagantara Contract on Lisk Sepolia:
 
 - USDC 
