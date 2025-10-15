@@ -212,7 +212,7 @@ export default function TransactionHistory() {
                             activity.type === "Reward"
                               ? "bg-green-500"
                               : activity.type === "Stake"
-                                ? "bg-blue-500"
+                                ? "bg-green-500"
                                 : "bg-red-500"
                           }`}
                         />
@@ -229,7 +229,7 @@ export default function TransactionHistory() {
                             activity.type === "Reward"
                               ? "text-green-600"
                               : activity.type === "Stake"
-                                ? "text-blue-600"
+                                ? "text-green-600"
                                 : "text-red-600"
                           }`}
                         >

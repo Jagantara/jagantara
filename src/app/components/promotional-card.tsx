@@ -20,7 +20,7 @@ export default function PromotionalCards() {
           {/* Icon */}
           <div className="relative flex gap-2 items-center">
             <Image
-              src={"/eth_logo2.png"} // Replace with your actual logo file
+              src={"/eth_logo2.png"}
               alt="ETH"
               width={30}
               height={30}

@@ -71,7 +71,7 @@ export default function ConnectWallet() {
       <div className="relative">
         <button
           onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-          className="flex cursor-pointer items-center gap-1 md:gap-2 px-3 py-2 rounded-xl bg-gray-800 text-sm font-medium text-[var(--text)]"
+          className="flex cursor-pointer items-center gap-1 md:gap-2 px-3 py-2 rounded-xl bg-gray-800 text-sm font-medium text-white"
         >
           <img
             src={CHAIN_LOGOS[currentChain.id]}
