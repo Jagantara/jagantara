@@ -23,7 +23,10 @@ export default function RootLayout({
         {/* ✅ Client logic isolated in this component */}
         <TransitionClient />
         <Providers>
-          <AppShell>{children}</AppShell>
+          <AppShell>
+            {children}
+            <Analytics />
+          </AppShell>
           <Toaster position="top-center" />
         </Providers>
       </body>
