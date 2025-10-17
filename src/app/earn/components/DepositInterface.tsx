@@ -64,7 +64,7 @@ export default function DepositInterface() {
         {/* Token Input */}
         <div className="space-y-3 sm:space-y-4 mb-6">
           <div className="relative">
-            <div className="p-3 sm:p-4 rounded-xl border bg-[var(--secondary)] border-slate-400">
+            <div className="p-3 sm:p-4 rounded-xl border bg-[var(--secondary)] border-slate-500">
               <div className="flex justify-between items-center mb-2">
                 <span className="text-xs sm:text-sm opacity-70">USDC</span>
                 <span className="text-xs sm:text-sm truncate ml-2 opacity-70">
@@ -89,7 +89,7 @@ export default function DepositInterface() {
                   value={amountIn}
                   onChange={(e) => setAmountIn(e.target.value)}
                   placeholder="0.0"
-                  className="flex-1 bg-transparent text-md md:text-2xl font-bold outline-none input-primary min-w-0 border px-2 py-1 rounded-md border-slate-400 appearance-none [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                  className="flex-1 bg-transparent text-md md:text-2xl font-bold outline-none input-primary min-w-0  py-1 rounded-md  appearance-none [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                 />
 
                 <div className="flex items-center md:gap-2 flex-shrink-0">
@@ -141,7 +141,7 @@ export default function DepositInterface() {
                     </button>
 
                     {showDropdown && (
-                      <div className="absolute right-0 mt-2 w-24 bg-[var(--secondary)] border border-slate-600 rounded-xl shadow-lg z-50">
+                      <div className="absolute right-0 mt-2 w-24 bg-[var(--secondary)] border border-slate-500 rounded-xl shadow-lg z-50">
                         {(["USDC", "IDRX"] as const).map((token) => (
                           <button
                             key={token}
@@ -180,7 +180,7 @@ export default function DepositInterface() {
 
         {/* Token Output */}
         <div className="relative mt-5">
-          <div className="p-3 sm:p-4 rounded-xl border border-slate-400 bg-[var(--secondary)]">
+          <div className="p-3 sm:p-4 rounded-xl border border-slate-500 bg-[var(--secondary)]">
             <div className="flex justify-between items-center mb-2">
               <span className="text-xs sm:text-sm opacity-70">JAGA</span>
               <span className="text-xs sm:text-sm truncate ml-2 opacity-70">
@@ -225,7 +225,7 @@ export default function DepositInterface() {
         </div>
         {/* Info */}
         <div className="relative mt-5">
-          <div className="p-3 sm:p-4 rounded-xl border border-slate-400 bg-[var(--secondary)]">
+          <div className="p-3 sm:p-4 rounded-xl border border-slate-500 bg-[var(--secondary)]">
             <div className="flex justify-between md:text-md text-sm">
               <p className="opacity-70 font-light">Active From</p>
               <p className="font-medium">{getActiveFrom(timeLeft!)}</p>

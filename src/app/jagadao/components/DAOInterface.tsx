@@ -313,14 +313,14 @@ export default function DAOInterface() {
                             <div className="space-y-3">
                               <div className="flex justify-between text-sm">
                                 <span>
-                                  ✅ For:{" "}
+                                  Approve:{" "}
                                   {formatBigInt(
                                     BigInt(proposal.votesFor),
                                     6
                                   ).toLocaleString()}
                                 </span>
                                 <span>
-                                  ❌ Against:{" "}
+                                  Against:{" "}
                                   {formatBigInt(
                                     BigInt(proposal.votesAgainst),
                                     6

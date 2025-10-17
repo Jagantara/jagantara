@@ -245,21 +245,21 @@ export default function PremiumsPage() {
                     value={coverAddress}
                     onChange={(e) => setCoverAddress(e.target.value)}
                     placeholder="0x441a78s..."
-                    className="w-full px-3 py-2 text-sm rounded-md bg-[var(--secondary)] border border-[var(--text)]"
+                    className="w-full px-3 py-2 text-sm rounded-md bg-[var(--secondary)] border border-slate-400"
                   />
                 </div>
 
                 {/* Value Cap Input */}
                 <div>
                   <Label className="text-sm font-medium mb-2">
-                    Asset Value Cap (USDC)
+                    Asset Value Cap
                   </Label>
                   <input
                     type="number"
                     value={assetValue}
                     onChange={(e) => setAssetValue(e.target.value)}
                     placeholder="Enter amount"
-                    className="w-full px-3 py-2 text-sm rounded-md bg-[var(--secondary)] border border-[var(--text)]  appearance-none [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                    className="w-full px-3 py-2 text-sm rounded-md bg-[var(--secondary)] border border-slate-400 appearance-none [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                   />
                 </div>
 
@@ -298,14 +298,14 @@ export default function PremiumsPage() {
 
                 {/* Price Summary */}
                 {!currentTier?.custom && (
-                  <div className="space-y-3 pt-2 border-t">
+                  <div className="space-y-3">
                     <div className="flex justify-between items-center text-sm">
                       <span>Monthly Premium</span>
                       <span>${monthlyRate.toFixed(2)}</span>
                     </div>
                     <div className="flex justify-between items-center text-md md:text-lg font-bold pt-2 border-t">
                       <span>Total Premium</span>
-                      <span>${totalPrice} USDC</span>
+                      <span>{totalPrice} USDC</span>
                     </div>
                   </div>
                 )}

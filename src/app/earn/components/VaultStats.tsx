@@ -28,7 +28,7 @@ export default function VaultStats() {
     color: string;
     isLoading?: boolean;
   }) => (
-    <div className="glass rounded-xl p-6 card-hover border border-white/10 shadow-lg bg-[var(--secondary)] backdrop-blur-sm">
+    <div className="glass rounded-xl p-6 card-hover  shadow-lg bg-[var(--secondary)] backdrop-blur-sm">
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center space-x-3">
           <div
@@ -160,7 +160,7 @@ export default function VaultStats() {
           </div>
         </div>
       </div>
-      <div className="glass rounded-xl p-4 sm:p-6 border border-white/10 bg-[var(--secondary)] mt-5">
+      <div className="glass rounded-xl p-4 sm:p-6  bg-[var(--secondary)] mt-5">
         <div className="grid grid-cols-2 sm:flex sm:items-center sm:justify-between gap-4 sm:gap-6">
           {/* Morpho Vault (Left Top) */}
           <div className="flex items-center gap-3 col-span-1">
@@ -228,7 +228,7 @@ export default function VaultStats() {
 
       {/* Additional Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-5">
-        <div className="glass rounded-xl p-6 border border-white/10 bg-[var(--secondary)]">
+        <div className="glass rounded-xl p-6  bg-[var(--secondary)]">
           <div className="text-center flex flex-col justify-center items-center">
             <div className="mb-1 flex justify-center">
               <Image
@@ -244,7 +244,7 @@ export default function VaultStats() {
           </div>
         </div>
 
-        <div className="glass rounded-xl p-6 border border-white/10 bg-[var(--secondary)]">
+        <div className="glass rounded-xl p-6  bg-[var(--secondary)]">
           <div className="text-center">
             <div className="text-3xl mb-2">🏛️</div>
             <div className="font-semibold mb-1">Governance</div>
@@ -253,7 +253,7 @@ export default function VaultStats() {
           </div>
         </div>
 
-        <div className="glass rounded-xl p-6 border border-white/10 bg-[var(--secondary)]">
+        <div className="glass rounded-xl p-6  bg-[var(--secondary)]">
           <div className="text-center flex flex-col justify-center items-center">
             <div className="text-3xl mb-2">
               <Image
