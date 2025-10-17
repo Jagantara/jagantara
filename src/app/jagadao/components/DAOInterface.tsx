@@ -60,6 +60,10 @@ interface Proposal {
   category: string;
   canExecute: boolean;
 }
+const EXPLORER_URLS: Record<number, string> = {
+  84532: "https://sepolia.basescan.org/address/", // baseSepolia.id
+  4202: "https://sepolia-blockscout.lisk.com/address/", // liskSepolia.id
+};
 
 export default function DAOInterface() {
   const [selectedProposal, setSelectedProposal] = useState<string | null>(null);
@@ -369,12 +373,15 @@ export default function DAOInterface() {
                                   )}
                                   <Button
                                     className="bg-[var(--third)] hover:bg-[var(--third)]/50 cursor-pointer hidden md:flex"
-                                    onClick={() =>
+                                    onClick={() => {
+                                      const explorerBase =
+                                        EXPLORER_URLS[chainId] ??
+                                        "https://sepolia-blockscout.lisk.com/address/";
                                       window.open(
-                                        `https://sepolia-blockscout.lisk.com/address/${proposal.coveredAddress}`,
+                                        `${explorerBase}${proposal.coveredAddress}`,
                                         "_blank"
-                                      )
-                                    }
+                                      );
+                                    }}
                                   >
                                     <ExternalLink className="h-4 w-4" />
                                     View on Explorer
@@ -514,12 +521,15 @@ export default function DAOInterface() {
                                   </div>
                                   <Button
                                     className="bg-[var(--third)] hover:bg-[var(--third)]/50 cursor-pointer"
-                                    onClick={() =>
+                                    onClick={() => {
+                                      const explorerBase =
+                                        EXPLORER_URLS[chainId] ??
+                                        "https://sepolia-blockscout.lisk.com/address/";
                                       window.open(
-                                        `https://sepolia-blockscout.lisk.com/address/${proposal.coveredAddress}`,
+                                        `${explorerBase}${proposal.coveredAddress}`,
                                         "_blank"
-                                      )
-                                    }
+                                      );
+                                    }}
                                   >
                                     <ExternalLink className="h-4 w-4" />
                                     View on Explorer
@@ -658,12 +668,15 @@ export default function DAOInterface() {
                             <div className="flex justify-between text-xs gap-5">
                               <Button
                                 className="bg-[var(--third)] hover:bg-[var(--third)]/50 cursor-pointer"
-                                onClick={() =>
+                                onClick={() => {
+                                  const explorerBase =
+                                    EXPLORER_URLS[chainId] ??
+                                    "https://sepolia-blockscout.lisk.com/address/";
                                   window.open(
-                                    `https://sepolia-blockscout.lisk.com/address/${proposal.coveredAddress}`,
+                                    `${explorerBase}${proposal.coveredAddress}`,
                                     "_blank"
-                                  )
-                                }
+                                  );
+                                }}
                               >
                                 <ExternalLink className="h-4 w-4" />
                                 View on Explorer
