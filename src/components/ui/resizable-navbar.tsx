@@ -130,6 +130,8 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
           onClick={onItemClick}
           className="relative px-4 py-2 "
           key={`link-${idx}`}
+          target={item.name === "Docs" ? "_blank" : "_self"}
+          rel={item.name === "Docs" ? "noopener noreferrer" : undefined}
           href={item.link}
         >
           {hovered === idx && (

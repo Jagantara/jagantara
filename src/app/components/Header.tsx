@@ -34,7 +34,8 @@ export default function Header() {
     },
     {
       name: "Docs",
-      link: "#contact",
+      link: "https://jagantara.gitbook.io/jagantara-docs/",
+      target: "_blank",
     },
   ];
 
@@ -140,6 +141,8 @@ export default function Header() {
                   key={`mobile-link-${idx}`}
                   href={item.link}
                   onClick={() => setIsMobileMenuOpen(false)}
+                  target={item.name === "Docs" ? "_blank" : "_self"}
+                  rel={item.name === "Docs" ? "noopener noreferrer" : undefined}
                   className="relative text-neutral-600 dark:text-neutral-300"
                 >
                   <span className="block">{item.name}</span>
