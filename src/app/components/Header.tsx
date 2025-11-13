@@ -18,6 +18,7 @@ import { ArrowUpRight, Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
 import AnimatedContent from "@/components/animated-content";
+import { RainbowButton } from "./rainbow-button";
 export default function Header() {
   const navItems = [
     {
@@ -78,7 +79,15 @@ export default function Header() {
                 )}
                 <span className="sr-only">Toggle theme</span>
               </Button>
-
+              <RainbowButton
+                className="cursor-pointer font-semibold"
+                onClick={() => {
+                  const el = document.querySelector("#waitlist");
+                  if (el) el.scrollIntoView({ behavior: "smooth" });
+                }}
+              >
+                Join Waitlist ↓
+              </RainbowButton>
               <Button
                 size="lg"
                 style={{
@@ -113,13 +122,21 @@ export default function Header() {
                   )}
                   <span className="sr-only">Toggle theme</span>
                 </Button>
-
+                <RainbowButton
+                  className="cursor-pointer font-semibold p-2"
+                  onClick={() => {
+                    const el = document.querySelector("#waitlist");
+                    if (el) el.scrollIntoView({ behavior: "smooth" });
+                  }}
+                >
+                  Join Waitlist
+                </RainbowButton>
                 <button
                   style={{
                     background: "var(--gradient-primary)",
                     color: "white",
                   }}
-                  className="group hover:opacity-90 cursor-pointer glow-blue relative overflow-hidden p-2.5 rounded-xl text-sm font-medium"
+                  className="group hover:opacity-90 cursor-pointer glow-blue relative overflow-hidden py-2.5 px-2 rounded-xl text-sm font-medium"
                   onClick={() => window.open("/earn", "_blank")} // 👈 open in new tab
                 >
                   Launch App

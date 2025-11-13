@@ -252,7 +252,7 @@ export const NavbarLogo = () => {
       className="relative z-20 flex items-center px-2 py-1 text-sm font-bold"
     >
       <Image src="/jagantara_icon.png" alt="logo" width={50} height={50} />
-      <span className="font-bold text-md md:text-lg cursor-pointer">
+      <span className="font-bold text-md md:text-lg cursor-pointer hidden md:flex">
         Jagantara
       </span>
     </button>

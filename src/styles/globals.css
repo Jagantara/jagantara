@@ -338,3 +338,15 @@ body {
     transform: scale(0.7) translateY(10px);
   }
 }
+@keyframes rainbow {
+  0% {
+    background-position: 0%;
+  }
+  100% {
+    background-position: 200%;
+  }
+}
+
+.animate-rainbow {
+  animation: rainbow var(--speed, 3s) infinite linear;
+}

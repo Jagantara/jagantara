@@ -1,7 +1,13 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link"; // Use Next.js Link for internal navigation
-
+import { FaTelegramPlane } from "react-icons/fa";
+import {
+  FaDiscord,
+  FaInstagram,
+  FaLinkedin,
+  FaXTwitter,
+} from "react-icons/fa6";
 // A reusable component for footer links to keep the code clean
 type FooterLinkProps = {
   href: string;
@@ -57,36 +63,58 @@ export default function Footer() {
     <footer className="w-full mt-5 bg-[image:var(--gradient-secondary)] text-text h-fit">
       <div className=" mx-auto px-10 md:px-20 py-10 flex flex-col md:flex-row justify-between">
         {/* Logo Section */}
-        <div className="mb-12">
-          {/* Ensure your icon is optimized for both light and dark themes */}
+       
+    
+        {/* Left: Logo & Nav */}
+        <div className="flex flex-col md:flex-row items-center gap-4 md:gap-10 mb-4 md:mb-0">
           <Image
             src="/jagantara_icon.png"
             width={70}
             height={70}
             alt="Jagantara Icon"
           />
+          <nav className="flex flex-col md:flex-row gap-2 md:gap-10 text-slate-500 transition-colors duration-100 ease-in text-sm md:text-base">
+            <button className="hover:text-[var(--text)] cursor-pointer">
+              Docs
+            </button>
+            <button className="hover:text-[var(--text)] cursor-pointer">
+              Policies
+            </button>
+            <button className="hover:text-[var(--text)] cursor-pointer">
+              Terms and Conditions
+            </button>
+            <button className="hover:text-[var(--text)] cursor-pointer">
+              Support Center
+            </button>
+          </nav>
         </div>
 
-        {/* Links Section - Responsive Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-28">
-          {Object.entries(footerSections).map(([title, links]) => (
-            <div key={title}>
-              <h3 className="font-bold text-base mb-4">{title}</h3>
-              <ul className="space-y-6 text-sm md:text-md">
-                {links.map((link) => (
-                  <FooterLink key={link.name} href={link.href}>
-                    {link.name}
-                  </FooterLink>
-                ))}
-              </ul>
-            </div>
-          ))}
+        {/* Right: Socials & Copyright */}
+        <div className="flex flex-col md:flex-row items-center gap-4 md:gap-10">
+          <div className="flex gap-3">
+            <a href="https://x.com/Jagantara_ofc" target="_blank">
+              <FaXTwitter size={18} />
+            </a>
+            <a href="https://discord.gg/fNkrb6FB55" target="_blank">
+              <FaDiscord size={18} />
+            </a>
+            <a
+              href="https://www.linkedin.com/company/jaganusantara"
+              target="_blank"
+            >
+              <FaLinkedin size={18} />
+            </a>
+            <a href="https://www.instagram.com/jagantara.xyz" target="_blank">
+              <FaInstagram size={18} />
+            </a>
+            <a href="https://t.me/+QjYXOLJ3diNmM2I1" target="_blank">
+              <FaTelegramPlane size={18} />
+            </a>
+          </div>
+          <p className="text-slate-500 text-xs md:text-sm text-center md:text-right">
+            © 2025 Jagantara. All Rights Reserved.
+          </p>
         </div>
-      </div>
-      <div className=" mx-auto px-10 md:px-20 py-10 flex justify-between mt-20">
-        <p className="text-slate-500 md:text-md text-sm">
-          © 2025 Jagantara. All Rights Reserved.
-        </p>
       </div>
     </footer>
   );

@@ -16,6 +16,7 @@ import GradientText from "@/components/gradient-text";
 import HoverMenuEarn from "./components/hover-menu-earn";
 import HoverMenuCoverage from "./components/hover-menu-coverage";
 import PromotionalCards from "./components/promotional-card";
+import JoinWaitlist from "./components/JoinWaitlist";
 
 function App() {
   const { formattedVaultBalance } = useClaimManager();
@@ -75,7 +76,7 @@ function App() {
                   </div>
 
                   <p
-                    className="max-w-[500px] md:text-xl font-light"
+                    className="max-w-[700px] md:text-xl font-light"
                     style={{
                       color: "var(--text)",
                       opacity: 0.8,
@@ -114,7 +115,7 @@ function App() {
                       }}
                       onClick={() => window.open("/coverage", "_blank")} // 👈 open in new tab
                     >
-                      Get Coverage
+                      Read Whitepaper
                       <ArrowUpRight className="ml-2 h-4 w-4 arrow-animate-out transition-all duration-300 group-hover:arrow-out" />
                       <ArrowUpRight className="h-4 w-4 absolute right-3 top-1/2 -translate-y-1/2 opacity-0 arrow-animate-in transition-all duration-300 group-hover:arrow-in" />
                     </Button>
@@ -216,8 +217,10 @@ function App() {
             </div>
           </div>
         </section>
+        <section className="scroll-mt-32" id="waitlist">
+          <JoinWaitlist />
+        </section>
         <InfiniteLogoLoop />
-
         <section
           className="md:mx-10 lg:mx-20 my-40 scroll-mt-32 "
           id="features"
@@ -245,15 +248,12 @@ function App() {
 
           <PromotionalCards />
         </section>
-
         <section className=" md:mx-6 lg:mx-20  mt-80">
           <HoverMenuEarn />
         </section>
-
         <section className="md:mx-6 lg:mx-20 mt-40 pb-40">
           <HoverMenuCoverage />
         </section>
-
         <section className="scroll-mt-32" id="pricing">
           <div className="text-center  ">
             <h2 className=" font-bold tracking-tight md:text-5xl mb-4 space-y-1">
@@ -279,7 +279,6 @@ function App() {
           </div>
           <PricingCard />
         </section>
-
         <section
           id="FAQ"
           className="scroll-mt-28 w-full md:mx-6 flex flex-col justify-center items-center pt-10 mb-20"
